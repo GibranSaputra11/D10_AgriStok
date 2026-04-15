@@ -45,6 +45,7 @@
             this.btnAddOut.TabIndex = 9;
             this.btnAddOut.Text = "Tambah Transaksi Keluar";
             this.btnAddOut.UseVisualStyleBackColor = true;
+            this.btnAddOut.Click += new System.EventHandler(this.btnAddOut_Click);
             // 
             // label2
             // 

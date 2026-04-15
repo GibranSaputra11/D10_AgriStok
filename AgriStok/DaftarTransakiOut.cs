@@ -105,6 +105,14 @@ namespace AgriStok
             }
         }
 
+        private void btnAddOut_Click(object sender, EventArgs e)
+        {
+            TransaksiOut transaksiOut = new TransaksiOut();
+
+            transaksiOut.ShowDialog();
+
+            LoadMasterData();
+        }
 
     }
 }
