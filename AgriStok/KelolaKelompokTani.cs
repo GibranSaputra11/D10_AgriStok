@@ -24,7 +24,93 @@ namespace AgriStok
 
         private void KelolaKelompokTani_Load(object sender, EventArgs e)
         {
+            dataGridViewKelompok.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewKelompok.MultiSelect = false;
+            dataGridViewKelompok.ReadOnly = true;
+            dataGridViewKelompok.AllowUserToAddRows = false;
+            dataGridViewKelompok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            txtKelompokID.ReadOnly = true;
+
+            LoadDataGrid();
+            ClearForm();
+        }
+
+        private string GenerateID()
+        {
+            string newID = "KL-001"; 
+
+            using (SqlConnection localConn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    localConn.Open();
+                    string query = "SELECT TOP 1 Id_Kelompok FROM KelompokTani ORDER BY Id_Kelompok DESC";
+                    SqlCommand cmd = new SqlCommand(query, localConn);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string lastID = result.ToString(); 
+                        int number = int.Parse(lastID.Split('-')[1]);
+                        number++;
+                        newID = "KL-" + number.ToString("D3"); 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal generate ID Kelompok Tani: " + ex.Message);
+                }
+            }
+            return newID;
+        }
+
+        private void ClearForm()
+        {
+            txtKelompokID.Text = GenerateID();
+            txtNamaKelompok.Clear();
+            txtAlamatKelompok.Clear();
+            txtTlpKelompok.Clear();
+            txtNamaKelompok.Focus();
+        }
+
+        private void LoadDataGrid()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = "SELECT Id_Kelompok, Nama_Kelompok, Alamat_Kelompok, NoTlp_Kelompok FROM KelompokTani";
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dataGridViewKelompok.DataSource = dt;
+
+                    dataGridViewKelompok.Columns["Id_Kelompok"].HeaderText = "ID Kelompok";
+                    dataGridViewKelompok.Columns["Nama_Kelompok"].HeaderText = "Nama Kelompok Tani";
+                    dataGridViewKelompok.Columns["Alamat_Kelompok"].HeaderText = "Alamat";
+                    dataGridViewKelompok.Columns["NoTlp_Kelompok"].HeaderText = "No. Telepon";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal Menampilkan Data: " + ex.Message);
+                }
+            }
+        }
+
+        private void dataGridViewKelompok_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridViewKelompok.Rows[e.RowIndex];
+
+                txtKelompokID.Text = row.Cells["Id_Kelompok"].Value.ToString();
+                txtNamaKelompok.Text = row.Cells["Nama_Kelompok"].Value.ToString();
+                txtAlamatKelompok.Text = row.Cells["Alamat_Kelompok"].Value.ToString();
+                txtTlpKelompok.Text = row.Cells["NoTlp_Kelompok"].Value.ToString();
+            }
         }
     }
 }

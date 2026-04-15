@@ -32,7 +32,7 @@
             this.txtAlamatKelompok = new System.Windows.Forms.TextBox();
             this.btnDeleteKelompok = new System.Windows.Forms.Button();
             this.btnUpdateKelompok = new System.Windows.Forms.Button();
-            this.dataGridViewSupplier = new System.Windows.Forms.DataGridView();
+            this.dataGridViewKelompok = new System.Windows.Forms.DataGridView();
             this.btnAddKelompok = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@
             this.txtNamaKelompok = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtKelompokID = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKelompok)).BeginInit();
             this.SuspendLayout();
             // 
             // txtTlpKelompok
@@ -76,13 +76,14 @@
             this.btnUpdateKelompok.Text = "Update Kelompok Tani";
             this.btnUpdateKelompok.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewSupplier
+            // dataGridViewKelompok
             // 
-            this.dataGridViewSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSupplier.Location = new System.Drawing.Point(129, 243);
-            this.dataGridViewSupplier.Name = "dataGridViewSupplier";
-            this.dataGridViewSupplier.Size = new System.Drawing.Size(502, 180);
-            this.dataGridViewSupplier.TabIndex = 34;
+            this.dataGridViewKelompok.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewKelompok.Location = new System.Drawing.Point(129, 243);
+            this.dataGridViewKelompok.Name = "dataGridViewKelompok";
+            this.dataGridViewKelompok.Size = new System.Drawing.Size(502, 180);
+            this.dataGridViewKelompok.TabIndex = 34;
+            this.dataGridViewKelompok.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKelompok_CellContentClick);
             // 
             // btnAddKelompok
             // 
@@ -153,7 +154,7 @@
             this.Controls.Add(this.txtAlamatKelompok);
             this.Controls.Add(this.btnDeleteKelompok);
             this.Controls.Add(this.btnUpdateKelompok);
-            this.Controls.Add(this.dataGridViewSupplier);
+            this.Controls.Add(this.dataGridViewKelompok);
             this.Controls.Add(this.btnAddKelompok);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -164,7 +165,7 @@
             this.Name = "KelolaKelompokTani";
             this.Text = "KelolaKelompokTani";
             this.Load += new System.EventHandler(this.KelolaKelompokTani_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKelompok)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,7 +177,7 @@
         private System.Windows.Forms.TextBox txtAlamatKelompok;
         private System.Windows.Forms.Button btnDeleteKelompok;
         private System.Windows.Forms.Button btnUpdateKelompok;
-        private System.Windows.Forms.DataGridView dataGridViewSupplier;
+        private System.Windows.Forms.DataGridView dataGridViewKelompok;
         private System.Windows.Forms.Button btnAddKelompok;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
