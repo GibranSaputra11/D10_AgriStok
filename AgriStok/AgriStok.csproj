@@ -58,11 +58,11 @@
     <Compile Include="AddSatuan.Designer.cs">
       <DependentUpon>AddSatuan.cs</DependentUpon>
     </Compile>
-    <Compile Include="DaftarTransakiOut.cs">
+    <Compile Include="DaftarTransaksiOut.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DaftarTransakiOut.Designer.cs">
-      <DependentUpon>DaftarTransakiOut.cs</DependentUpon>
+    <Compile Include="DaftarTransaksiOut.Designer.cs">
+      <DependentUpon>DaftarTransaksiOut.cs</DependentUpon>
     </Compile>
     <Compile Include="DaftarTransaksiIn.cs">
       <SubType>Form</SubType>
@@ -70,11 +70,11 @@
     <Compile Include="DaftarTransaksiIn.Designer.cs">
       <DependentUpon>DaftarTransaksiIn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Dashboard.Designer.cs">
+      <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="KelolaBarang.cs">
       <SubType>Form</SubType>
@@ -114,14 +114,14 @@
     <EmbeddedResource Include="AddSatuan.resx">
       <DependentUpon>AddSatuan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DaftarTransakiOut.resx">
-      <DependentUpon>DaftarTransakiOut.cs</DependentUpon>
+    <EmbeddedResource Include="DaftarTransaksiOut.resx">
+      <DependentUpon>DaftarTransaksiOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DaftarTransaksiIn.resx">
       <DependentUpon>DaftarTransaksiIn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Dashboard.resx">
+      <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KelolaBarang.resx">
       <DependentUpon>KelolaBarang.cs</DependentUpon>

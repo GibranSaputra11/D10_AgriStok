@@ -1,6 +1,6 @@
 ﻿namespace AgriStok
 {
-    partial class DaftarTransakiOut
+    partial class DaftarTransaksiOut
     {
         /// <summary>
         /// Required designer variable.

@@ -13,39 +13,32 @@ namespace AgriStok
 {
     public partial class Dashboard : Form
     {
-        private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
         public Dashboard()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
-
         }
 
-        private void ConnectDatabase()
-        {
-            try
-            {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-                MessageBox.Show("Koneksi berhasil!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Koneksi Gagal" + ex.Message);
-            }
-        }
-
+        
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            ConnectDatabase();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MessageBox.Show("Koneksi berhasil!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Koneksi Gagal!\n\nDetail: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void btnBarang_Click(object sender, EventArgs e)
@@ -74,7 +67,7 @@ namespace AgriStok
 
         private void btnOut_Click(object sender, EventArgs e)
         {
-            DaftarTransakiOut daftarTransakiOut = new DaftarTransakiOut();
+            DaftarTransaksiOut daftarTransakiOut = new DaftarTransaksiOut();
             daftarTransakiOut.ShowDialog();
         }
     }

@@ -11,11 +11,11 @@ using System.Data.SqlClient;
 
 namespace AgriStok
 {
-    public partial class DaftarTransakiOut : Form
+    public partial class DaftarTransaksiOut : Form
     {
         private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
-        public DaftarTransakiOut()
+        public DaftarTransaksiOut()
         {
             InitializeComponent();
         }
