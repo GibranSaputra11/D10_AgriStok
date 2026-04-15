@@ -22,6 +22,16 @@ namespace AgriStok
 
         private void DaftarTransakiOut_Load(object sender, EventArgs e)
         {
+            dgvMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvMaster.AllowUserToAddRows = false;
+            dgvMaster.ReadOnly = true;
+            dgvMaster.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetail.AllowUserToAddRows = false;
+            dgvDetail.ReadOnly = true;
+            dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             LoadMasterData();
         }
 
@@ -94,5 +104,7 @@ namespace AgriStok
                 LoadDetailData(idTransaksi);
             }
         }
+
+
     }
 }
