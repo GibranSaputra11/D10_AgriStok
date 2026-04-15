@@ -54,6 +54,7 @@
             this.btnSupplier.TabIndex = 1;
             this.btnSupplier.Text = "Kelola Supplier";
             this.btnSupplier.UseVisualStyleBackColor = true;
+            this.btnSupplier.Click += new System.EventHandler(this.btnSupplier_Click);
             // 
             // btnTani
             // 

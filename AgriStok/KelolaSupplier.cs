@@ -24,7 +24,36 @@ namespace AgriStok
 
         private void KelolaSupplier_Load(object sender, EventArgs e)
         {
+            txtSupplierID.ReadOnly = true;
+        }
 
+        private string GenerateID()
+        {
+            string newID = "SP-001";
+
+            using (SqlConnection localConn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    localConn.Open();
+                    string query = "SELECT TOP 1 Id_Supplier FROM Supplier ORDER BY Id_Supplier DESC";
+                    SqlCommand cmd = new SqlCommand(query, localConn);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string lastID = result.ToString(); 
+                        int number = int.Parse(lastID.Split('-')[1]);
+                        number++;
+                        newID = "SP-" + number.ToString("D3"); 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal generate ID Supplier: " + ex.Message);
+                }
+            }
+            return newID;
         }
     }
 }

@@ -27,5 +27,11 @@ namespace AgriStok
             KelolaBarang kelolaBarang = new KelolaBarang();
             kelolaBarang.ShowDialog();
         }
+
+        private void btnSupplier_Click(object sender, EventArgs e)
+        {
+            KelolaSupplier kelolaSupplier = new KelolaSupplier();
+            kelolaSupplier.ShowDialog();
+        }
     }
 }
