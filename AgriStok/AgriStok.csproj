@@ -108,6 +108,9 @@
     <EmbeddedResource Include="TransaksiIn.resx">
       <DependentUpon>TransaksiIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TransaksiOut.resx">
+      <DependentUpon>TransaksiOut.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
