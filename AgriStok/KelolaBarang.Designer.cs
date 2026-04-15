@@ -33,7 +33,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textNamaBarang = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.cmdSatuan = new System.Windows.Forms.ComboBox();
+            this.cmbSatuan = new System.Windows.Forms.ComboBox();
             this.cmbKategori = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -80,13 +80,13 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Satuan";
             // 
-            // cmdSatuan
+            // cmbSatuan
             // 
-            this.cmdSatuan.FormattingEnabled = true;
-            this.cmdSatuan.Location = new System.Drawing.Point(153, 157);
-            this.cmdSatuan.Name = "cmdSatuan";
-            this.cmdSatuan.Size = new System.Drawing.Size(115, 21);
-            this.cmdSatuan.TabIndex = 6;
+            this.cmbSatuan.FormattingEnabled = true;
+            this.cmbSatuan.Location = new System.Drawing.Point(153, 157);
+            this.cmbSatuan.Name = "cmbSatuan";
+            this.cmbSatuan.Size = new System.Drawing.Size(115, 21);
+            this.cmbSatuan.TabIndex = 6;
             // 
             // cmbKategori
             // 
@@ -112,7 +112,7 @@
             this.ClientSize = new System.Drawing.Size(353, 298);
             this.Controls.Add(this.cmbKategori);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.cmdSatuan);
+            this.Controls.Add(this.cmbSatuan);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textNamaBarang);
@@ -133,7 +133,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textNamaBarang;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmdSatuan;
+        private System.Windows.Forms.ComboBox cmbSatuan;
         private System.Windows.Forms.ComboBox cmbKategori;
         private System.Windows.Forms.Label label4;
     }
