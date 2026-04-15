@@ -66,6 +66,7 @@
             this.btnDeleteKelompok.TabIndex = 36;
             this.btnDeleteKelompok.Text = "Delete Kelompok Tani";
             this.btnDeleteKelompok.UseVisualStyleBackColor = true;
+            this.btnDeleteKelompok.Click += new System.EventHandler(this.btnDeleteKelompok_Click);
             // 
             // btnUpdateKelompok
             // 

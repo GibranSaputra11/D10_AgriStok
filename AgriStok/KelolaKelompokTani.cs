@@ -177,5 +177,36 @@ namespace AgriStok
                 catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
             }
         }
+
+        private void btnDeleteKelompok_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
+
+            DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Kelompok Tani ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM KelompokTani WHERE Id_Kelompok = @Id";
+                        SqlCommand cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+
+                        if (cmd.ExecuteNonQuery() > 0)
+                        {
+                            MessageBox.Show("Data berhasil dihapus!");
+                            ClearForm();
+                            LoadDataGrid();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Data tidak bisa dihapus karena Kelompok Tani ini memiliki riwayat transaksi keluar.\n\nDetail: " + ex.Message);
+                    }
+                }
+            }
+        }
     }
 }
