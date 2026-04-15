@@ -32,19 +32,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtIDTransaksi = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpTanggal = new System.Windows.Forms.DateTimePicker();
             this.cmbSupplier = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbBarang = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtStokSekarang = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.numJumlah = new System.Windows.Forms.NumericUpDown();
             this.dgvKeranjang = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.TextBox();
             this.btnTambah = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnSimpan = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numJumlah)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).BeginInit();
             this.SuspendLayout();
@@ -83,12 +83,12 @@
             this.txtIDTransaksi.Size = new System.Drawing.Size(104, 20);
             this.txtIDTransaksi.TabIndex = 3;
             // 
-            // dateTimePicker1
+            // dtpTanggal
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(150, 82);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(198, 20);
-            this.dateTimePicker1.TabIndex = 4;
+            this.dtpTanggal.Location = new System.Drawing.Point(150, 82);
+            this.dtpTanggal.Name = "dtpTanggal";
+            this.dtpTanggal.Size = new System.Drawing.Size(198, 20);
+            this.dtpTanggal.TabIndex = 4;
             // 
             // cmbSupplier
             // 
@@ -124,12 +124,12 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Stok Saat Ini";
             // 
-            // textBox2
+            // txtStokSekarang
             // 
-            this.textBox2.Location = new System.Drawing.Point(150, 234);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(104, 20);
-            this.textBox2.TabIndex = 9;
+            this.txtStokSekarang.Location = new System.Drawing.Point(150, 234);
+            this.txtStokSekarang.Name = "txtStokSekarang";
+            this.txtStokSekarang.Size = new System.Drawing.Size(104, 20);
+            this.txtStokSekarang.TabIndex = 9;
             // 
             // label6
             // 
@@ -181,33 +181,34 @@
             this.btnTambah.UseVisualStyleBackColor = true;
             this.btnTambah.Click += new System.EventHandler(this.btnTambah_Click);
             // 
-            // button2
+            // btnSimpan
             // 
-            this.button2.Location = new System.Drawing.Point(603, 387);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(149, 24);
-            this.button2.TabIndex = 17;
-            this.button2.Text = "Tambah ke Keranjang";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSimpan.Location = new System.Drawing.Point(603, 387);
+            this.btnSimpan.Name = "btnSimpan";
+            this.btnSimpan.Size = new System.Drawing.Size(149, 24);
+            this.btnSimpan.TabIndex = 17;
+            this.btnSimpan.Text = "Tambah ke Keranjang";
+            this.btnSimpan.UseVisualStyleBackColor = true;
+            this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
             // 
             // TransaksiIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 450);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnSimpan);
             this.Controls.Add(this.btnTambah);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dgvKeranjang);
             this.Controls.Add(this.numJumlah);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtStokSekarang);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cmbBarang);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbSupplier);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpTanggal);
             this.Controls.Add(this.txtIDTransaksi);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -228,18 +229,18 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtIDTransaksi;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpTanggal;
         private System.Windows.Forms.ComboBox cmbSupplier;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cmbBarang;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtStokSekarang;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numJumlah;
         private System.Windows.Forms.DataGridView dgvKeranjang;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox lblTotal;
         private System.Windows.Forms.Button btnTambah;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSimpan;
     }
 }

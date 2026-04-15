@@ -27,6 +27,7 @@ namespace AgriStok
             LoadBarang();
             txtIDTransaksi.Text = GenerateID();
             txtIDTransaksi.ReadOnly = true;
+            txtStokSekarang.Text = GenerateID();
             numJumlah.Minimum = 1;
         }
 
@@ -116,6 +117,63 @@ namespace AgriStok
                 total += Convert.ToInt32(row.Cells["Jumlah"].Value);
             }
             lblTotal.Text = total.ToString();
+        }
+
+        private void btnSimpan_Click(object sender, EventArgs e)
+        {
+            if (cmbSupplier.SelectedValue == null || dgvKeranjang.Rows.Count == 0)
+            {
+                MessageBox.Show("Lengkapi data supplier dan keranjang!");
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction transaction = conn.BeginTransaction();
+
+                try
+                {
+                    string queryMaster = "INSERT INTO Transaksi_In (Id_In, Id_Supplier, Tgl_In, Total_Barang_In) VALUES (@Id, @IdSup, @Tgl, @Total)";
+                    SqlCommand cmdMaster = new SqlCommand(queryMaster, conn, transaction);
+                    cmdMaster.Parameters.AddWithValue("@Id", txtIDTransaksi.Text);
+                    cmdMaster.Parameters.AddWithValue("@IdSup", cmbSupplier.SelectedValue.ToString());
+                    cmdMaster.Parameters.AddWithValue("@Tgl", dtpTanggal.Value);
+                    cmdMaster.Parameters.AddWithValue("@Total", int.Parse(lblTotal.Text));
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (DataGridViewRow row in dgvKeranjang.Rows)
+                    {
+                        string idBarang = row.Cells["Id_Barang"].Value.ToString();
+                        int qty = (int)row.Cells["Jumlah"].Value;
+
+                        string queryDetail = "INSERT INTO Detail_In (Id_In, Id_Barang, Subtotal_In) VALUES (@Id, @IdB, @Qty)";
+                        SqlCommand cmdDetail = new SqlCommand(queryDetail, conn, transaction);
+                        cmdDetail.Parameters.AddWithValue("@Id", txtIDTransaksi.Text);
+                        cmdDetail.Parameters.AddWithValue("@IdB", idBarang);
+                        cmdDetail.Parameters.AddWithValue("@Qty", qty);
+                        cmdDetail.ExecuteNonQuery();
+
+                        string queryStok = "UPDATE Barang SET Stok_Barang = Stok_Barang + @Qty WHERE Id_Barang = @IdB";
+                        SqlCommand cmdStok = new SqlCommand(queryStok, conn, transaction);
+                        cmdStok.Parameters.AddWithValue("@Qty", qty);
+                        cmdStok.Parameters.AddWithValue("@IdB", idBarang);
+                        cmdStok.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                    MessageBox.Show("Transaksi Berhasil Disimpan!");
+
+                    dgvKeranjang.Rows.Clear();
+                    txtIDTransaksi.Text = GenerateID();
+                    lblTotal.Text = "0";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show("Transaksi Gagal: " + ex.Message);
+                }
+            }
         }
     }
 }
