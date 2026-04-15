@@ -94,5 +94,38 @@ namespace AgriStok
                 }
             }
         }
+
+        private void btnAddSupplier_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNamaSupplier.Text))
+            {
+                MessageBox.Show("Nama Supplier harus diisi!");
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"INSERT INTO Supplier (Id_Supplier, Nama_Supplier, Alamat_Supplier, NoTlp_Supplier) 
+                                     VALUES (@Id, @Nama, @Alamat, @NoTlp)";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
+                    cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
+                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
+                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Data Supplier berhasil ditambahkan!");
+                        ClearForm();
+                        LoadDataGrid();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            }
+        }
     }
 }

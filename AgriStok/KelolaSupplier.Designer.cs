@@ -77,6 +77,7 @@
             this.btnAddSupplier.TabIndex = 21;
             this.btnAddSupplier.Text = "Add Supplier";
             this.btnAddSupplier.UseVisualStyleBackColor = true;
+            this.btnAddSupplier.Click += new System.EventHandler(this.btnAddSupplier_Click);
             // 
             // label4
             // 
