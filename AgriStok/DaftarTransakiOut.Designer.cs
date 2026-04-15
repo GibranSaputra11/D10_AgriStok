@@ -71,6 +71,7 @@
             this.dgvMaster.Name = "dgvMaster";
             this.dgvMaster.Size = new System.Drawing.Size(342, 347);
             this.dgvMaster.TabIndex = 6;
+            this.dgvMaster.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMaster_CellContentClick);
             // 
             // label1
             // 

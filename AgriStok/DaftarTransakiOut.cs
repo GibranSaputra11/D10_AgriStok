@@ -82,5 +82,17 @@ namespace AgriStok
                 }
             }
         }
+
+        private void dgvMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvMaster.Rows[e.RowIndex];
+
+                string idTransaksi = row.Cells["ID Transaksi"].Value.ToString();
+
+                LoadDetailData(idTransaksi);
+            }
+        }
     }
 }
