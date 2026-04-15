@@ -38,6 +38,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnSaveBarang = new System.Windows.Forms.Button();
             this.dataGridViewBarang = new System.Windows.Forms.DataGridView();
+            this.btnUpdateBarang = new System.Windows.Forms.Button();
+            this.btnDeleteBarang = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,7 +112,7 @@
             // 
             // btnSaveBarang
             // 
-            this.btnSaveBarang.Location = new System.Drawing.Point(338, 90);
+            this.btnSaveBarang.Location = new System.Drawing.Point(338, 78);
             this.btnSaveBarang.Name = "btnSaveBarang";
             this.btnSaveBarang.Size = new System.Drawing.Size(96, 23);
             this.btnSaveBarang.TabIndex = 9;
@@ -127,11 +129,33 @@
             this.dataGridViewBarang.TabIndex = 10;
             this.dataGridViewBarang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewBarang_CellContentClick);
             // 
+            // btnUpdateBarang
+            // 
+            this.btnUpdateBarang.Location = new System.Drawing.Point(338, 121);
+            this.btnUpdateBarang.Name = "btnUpdateBarang";
+            this.btnUpdateBarang.Size = new System.Drawing.Size(96, 23);
+            this.btnUpdateBarang.TabIndex = 11;
+            this.btnUpdateBarang.Text = "Update Barang";
+            this.btnUpdateBarang.UseVisualStyleBackColor = true;
+            this.btnUpdateBarang.Click += new System.EventHandler(this.btnUpdateBarang_Click);
+            // 
+            // btnDeleteBarang
+            // 
+            this.btnDeleteBarang.Location = new System.Drawing.Point(338, 170);
+            this.btnDeleteBarang.Name = "btnDeleteBarang";
+            this.btnDeleteBarang.Size = new System.Drawing.Size(96, 23);
+            this.btnDeleteBarang.TabIndex = 12;
+            this.btnDeleteBarang.Text = "Delete Barang";
+            this.btnDeleteBarang.UseVisualStyleBackColor = true;
+            this.btnDeleteBarang.Click += new System.EventHandler(this.btnDeleteBarang_Click);
+            // 
             // KelolaBarang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 453);
+            this.Controls.Add(this.btnDeleteBarang);
+            this.Controls.Add(this.btnUpdateBarang);
             this.Controls.Add(this.dataGridViewBarang);
             this.Controls.Add(this.btnSaveBarang);
             this.Controls.Add(this.cmbKategori);
@@ -163,5 +187,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSaveBarang;
         private System.Windows.Forms.DataGridView dataGridViewBarang;
+        private System.Windows.Forms.Button btnUpdateBarang;
+        private System.Windows.Forms.Button btnDeleteBarang;
     }
 }

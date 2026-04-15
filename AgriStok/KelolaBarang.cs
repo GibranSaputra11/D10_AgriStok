@@ -196,5 +196,56 @@ namespace AgriStok
                 cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
             }
         }
+
+        private void btnUpdateBarang_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
+
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                string query = @"UPDATE Barang SET Nama_Barang = @Nama, Id_Satuan = @IdSatuan, Id_Kategori = @IdKategori WHERE Id_Barang = @Id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
+                cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
+
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Data Barang berhasil diupdate!");
+                    ClearForm(); 
+                    LoadDataGrid();
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            finally { conn.Close(); }
+        }
+
+        private void btnDeleteBarang_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
+
+            DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Barang ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                try
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+                    string query = "DELETE FROM Barang WHERE Id_Barang = @Id";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Data berhasil dihapus!");
+                        ClearForm(); 
+                        LoadDataGrid();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Data gagal dihapus: " + ex.Message); }
+                finally { conn.Close(); }
+            }
+        }
     }
 }
