@@ -173,5 +173,65 @@ namespace AgriStok
             }
             lblTotal.Text = total.ToString();
         }
+
+        private void btnSimpan_Click(object sender, EventArgs e)
+        {
+            if (cmbKelompok.SelectedValue == null || dgvKeranjang.Rows.Count == 0)
+            {
+                MessageBox.Show("Lengkapi data Kelompok Tani dan pastikan keranjang tidak kosong!");
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction transaction = conn.BeginTransaction();
+
+                try
+                {
+                    string queryMaster = "INSERT INTO Transaksi_Out (Id_Out, Id_Kelompok, Tgl_Out, Total_Barang_Out) VALUES (@Id, @IdKel, @Tgl, @Total)";
+                    SqlCommand cmdMaster = new SqlCommand(queryMaster, conn, transaction);
+                    cmdMaster.Parameters.AddWithValue("@Id", txtIDTransaksi.Text);
+                    cmdMaster.Parameters.AddWithValue("@IdKel", cmbKelompok.SelectedValue.ToString());
+                    cmdMaster.Parameters.AddWithValue("@Tgl", dtpTanggal.Value);
+                    cmdMaster.Parameters.AddWithValue("@Total", int.Parse(lblTotal.Text));
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (DataGridViewRow row in dgvKeranjang.Rows)
+                    {
+                        string idBarang = row.Cells["Id_Barang"].Value.ToString();
+                        int qty = (int)row.Cells["Jumlah"].Value;
+
+                        string queryDetail = "INSERT INTO Detail_Out (Id_Out, Id_Barang, Subtotal_Out) VALUES (@Id, @IdB, @Qty)";
+                        SqlCommand cmdDetail = new SqlCommand(queryDetail, conn, transaction);
+                        cmdDetail.Parameters.AddWithValue("@Id", txtIDTransaksi.Text);
+                        cmdDetail.Parameters.AddWithValue("@IdB", idBarang);
+                        cmdDetail.Parameters.AddWithValue("@Qty", qty);
+                        cmdDetail.ExecuteNonQuery();
+
+                        string queryStok = "UPDATE Barang SET Stok_Barang = Stok_Barang - @Qty WHERE Id_Barang = @IdB";
+                        SqlCommand cmdStok = new SqlCommand(queryStok, conn, transaction);
+                        cmdStok.Parameters.AddWithValue("@Qty", qty);
+                        cmdStok.Parameters.AddWithValue("@IdB", idBarang);
+                        cmdStok.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                    MessageBox.Show("Transaksi Barang Keluar Berhasil Disimpan!");
+
+                    dgvKeranjang.Rows.Clear();
+                    txtIDTransaksi.Text = GenerateID();
+                    lblTotal.Text = "0";
+                    txtStokSekarang.Clear();
+                    cmbBarang.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show("Transaksi Gagal: " + ex.Message);
+                }
+            }
+        }
     }
 }
+
