@@ -39,13 +39,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numJumlah = new System.Windows.Forms.NumericUpDown();
             this.dgvKeranjang = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lblTotal = new System.Windows.Forms.TextBox();
             this.btnTambah = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numJumlah)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,12 +140,12 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Jumlah Masuk";
             // 
-            // numericUpDown1
+            // numJumlah
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(150, 285);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(104, 20);
-            this.numericUpDown1.TabIndex = 12;
+            this.numJumlah.Location = new System.Drawing.Point(150, 285);
+            this.numJumlah.Name = "numJumlah";
+            this.numJumlah.Size = new System.Drawing.Size(104, 20);
+            this.numJumlah.TabIndex = 12;
             // 
             // dgvKeranjang
             // 
@@ -164,12 +164,12 @@
             this.label7.TabIndex = 14;
             this.label7.Text = "Total Semua Barang";
             // 
-            // textBox3
+            // lblTotal
             // 
-            this.textBox3.Location = new System.Drawing.Point(505, 387);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(77, 20);
-            this.textBox3.TabIndex = 15;
+            this.lblTotal.Location = new System.Drawing.Point(505, 387);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(77, 20);
+            this.lblTotal.TabIndex = 15;
             // 
             // btnTambah
             // 
@@ -197,10 +197,10 @@
             this.ClientSize = new System.Drawing.Size(849, 450);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnTambah);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dgvKeranjang);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.numJumlah);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label5);
@@ -215,7 +215,7 @@
             this.Name = "TransaksiIn";
             this.Text = "TransaksiIn";
             this.Load += new System.EventHandler(this.TransaksiIn_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numJumlah)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -235,10 +235,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numJumlah;
         private System.Windows.Forms.DataGridView dgvKeranjang;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox lblTotal;
         private System.Windows.Forms.Button btnTambah;
         private System.Windows.Forms.Button button2;
     }

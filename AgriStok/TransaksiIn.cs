@@ -26,6 +26,8 @@ namespace AgriStok
             LoadSupplier();
             LoadBarang();
             txtIDTransaksi.Text = GenerateID();
+            txtIDTransaksi.ReadOnly = true;
+            numJumlah.Minimum = 1;
         }
 
         private void SetupDataGridView()
