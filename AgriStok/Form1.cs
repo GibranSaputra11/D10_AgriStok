@@ -48,8 +48,8 @@ namespace AgriStok
 
         private void btnOut_Click(object sender, EventArgs e)
         {
-            TransaksiOut transaksiOut = new TransaksiOut();
-            transaksiOut.ShowDialog();
+            DaftarTransakiOut daftarTransakiOut = new DaftarTransakiOut();
+            daftarTransakiOut.ShowDialog();
         }
     }
 }
