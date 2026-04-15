@@ -247,5 +247,13 @@ namespace AgriStok
                 finally { conn.Close(); }
             }
         }
+
+        private void btnAddSatuan_Click(object sender, EventArgs e)
+        {
+            AddSatuan addSatuan = new AddSatuan();
+            addSatuan.ShowDialog();
+        }
+
+
     }
 }

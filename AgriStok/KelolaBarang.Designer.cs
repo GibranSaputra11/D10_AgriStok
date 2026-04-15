@@ -40,6 +40,8 @@
             this.dataGridViewBarang = new System.Windows.Forms.DataGridView();
             this.btnUpdateBarang = new System.Windows.Forms.Button();
             this.btnDeleteBarang = new System.Windows.Forms.Button();
+            this.btnAddSatuan = new System.Windows.Forms.Button();
+            this.addKategori = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,7 +114,7 @@
             // 
             // btnSaveBarang
             // 
-            this.btnSaveBarang.Location = new System.Drawing.Point(368, 78);
+            this.btnSaveBarang.Location = new System.Drawing.Point(134, 445);
             this.btnSaveBarang.Name = "btnSaveBarang";
             this.btnSaveBarang.Size = new System.Drawing.Size(96, 23);
             this.btnSaveBarang.TabIndex = 9;
@@ -131,7 +133,7 @@
             // 
             // btnUpdateBarang
             // 
-            this.btnUpdateBarang.Location = new System.Drawing.Point(368, 126);
+            this.btnUpdateBarang.Location = new System.Drawing.Point(257, 445);
             this.btnUpdateBarang.Name = "btnUpdateBarang";
             this.btnUpdateBarang.Size = new System.Drawing.Size(96, 23);
             this.btnUpdateBarang.TabIndex = 11;
@@ -141,7 +143,7 @@
             // 
             // btnDeleteBarang
             // 
-            this.btnDeleteBarang.Location = new System.Drawing.Point(368, 171);
+            this.btnDeleteBarang.Location = new System.Drawing.Point(375, 445);
             this.btnDeleteBarang.Name = "btnDeleteBarang";
             this.btnDeleteBarang.Size = new System.Drawing.Size(96, 23);
             this.btnDeleteBarang.TabIndex = 12;
@@ -149,11 +151,32 @@
             this.btnDeleteBarang.UseVisualStyleBackColor = true;
             this.btnDeleteBarang.Click += new System.EventHandler(this.btnDeleteBarang_Click);
             // 
+            // btnAddSatuan
+            // 
+            this.btnAddSatuan.Location = new System.Drawing.Point(277, 158);
+            this.btnAddSatuan.Name = "btnAddSatuan";
+            this.btnAddSatuan.Size = new System.Drawing.Size(96, 23);
+            this.btnAddSatuan.TabIndex = 13;
+            this.btnAddSatuan.Text = "Add Satuan";
+            this.btnAddSatuan.UseVisualStyleBackColor = true;
+            this.btnAddSatuan.Click += new System.EventHandler(this.btnAddSatuan_Click);
+            // 
+            // addKategori
+            // 
+            this.addKategori.Location = new System.Drawing.Point(278, 195);
+            this.addKategori.Name = "addKategori";
+            this.addKategori.Size = new System.Drawing.Size(96, 23);
+            this.addKategori.TabIndex = 14;
+            this.addKategori.Text = "Add Kategori";
+            this.addKategori.UseVisualStyleBackColor = true;
+            // 
             // KelolaBarang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 453);
+            this.ClientSize = new System.Drawing.Size(614, 489);
+            this.Controls.Add(this.addKategori);
+            this.Controls.Add(this.btnAddSatuan);
             this.Controls.Add(this.btnDeleteBarang);
             this.Controls.Add(this.btnUpdateBarang);
             this.Controls.Add(this.dataGridViewBarang);
@@ -189,5 +212,7 @@
         private System.Windows.Forms.DataGridView dataGridViewBarang;
         private System.Windows.Forms.Button btnUpdateBarang;
         private System.Windows.Forms.Button btnDeleteBarang;
+        private System.Windows.Forms.Button btnAddSatuan;
+        private System.Windows.Forms.Button addKategori;
     }
 }
