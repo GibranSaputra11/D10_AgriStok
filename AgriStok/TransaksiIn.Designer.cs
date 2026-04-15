@@ -114,6 +114,7 @@
             this.cmbBarang.Name = "cmbBarang";
             this.cmbBarang.Size = new System.Drawing.Size(123, 21);
             this.cmbBarang.TabIndex = 7;
+            this.cmbBarang.SelectedIndexChanged += new System.EventHandler(this.cmbBarang_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -187,7 +188,7 @@
             this.btnSimpan.Name = "btnSimpan";
             this.btnSimpan.Size = new System.Drawing.Size(149, 24);
             this.btnSimpan.TabIndex = 17;
-            this.btnSimpan.Text = "Tambah ke Keranjang";
+            this.btnSimpan.Text = "Simpan Transaksi";
             this.btnSimpan.UseVisualStyleBackColor = true;
             this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
             // 
