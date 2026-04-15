@@ -25,6 +25,8 @@ namespace AgriStok
         private void KelolaSupplier_Load(object sender, EventArgs e)
         {
             txtSupplierID.ReadOnly = true;
+
+            LoadDataGrid();
             ClearForm();
         }
 
@@ -64,6 +66,33 @@ namespace AgriStok
             txtAlamatSupplier.Clear();
             txtTlpSupplier.Clear();
             txtNamaSupplier.Focus();
+        }
+
+        private void LoadDataGrid()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                   
+                    string query = "SELECT Id_Supplier, Nama_Supplier, Alamat_Supplier, NoTlp_Supplier FROM Supplier";
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dataGridViewSupplier.DataSource = dt;
+
+                    dataGridViewSupplier.Columns["Id_Supplier"].HeaderText = "ID Supplier";
+                    dataGridViewSupplier.Columns["Nama_Supplier"].HeaderText = "Nama Supplier";
+                    dataGridViewSupplier.Columns["Alamat_Supplier"].HeaderText = "Alamat";
+                    dataGridViewSupplier.Columns["NoTlp_Supplier"].HeaderText = "No. Telepon";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal Menampilkan Data: " + ex.Message);
+                }
+            }
         }
     }
 }

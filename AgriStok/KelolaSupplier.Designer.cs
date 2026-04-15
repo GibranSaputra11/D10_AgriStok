@@ -30,7 +30,7 @@
         {
             this.btnDeleteSupplier = new System.Windows.Forms.Button();
             this.btnUpdateSupplier = new System.Windows.Forms.Button();
-            this.dataGridViewBarang = new System.Windows.Forms.DataGridView();
+            this.dataGridViewSupplier = new System.Windows.Forms.DataGridView();
             this.btnAddSupplier = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@
             this.txtSupplierID = new System.Windows.Forms.TextBox();
             this.txtAlamatSupplier = new System.Windows.Forms.TextBox();
             this.txtTlpSupplier = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDeleteSupplier
@@ -61,13 +61,13 @@
             this.btnUpdateSupplier.Text = "Update Supplier";
             this.btnUpdateSupplier.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewBarang
+            // dataGridViewSupplier
             // 
-            this.dataGridViewBarang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewBarang.Location = new System.Drawing.Point(61, 246);
-            this.dataGridViewBarang.Name = "dataGridViewBarang";
-            this.dataGridViewBarang.Size = new System.Drawing.Size(502, 180);
-            this.dataGridViewBarang.TabIndex = 22;
+            this.dataGridViewSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSupplier.Location = new System.Drawing.Point(61, 246);
+            this.dataGridViewSupplier.Name = "dataGridViewSupplier";
+            this.dataGridViewSupplier.Size = new System.Drawing.Size(502, 180);
+            this.dataGridViewSupplier.TabIndex = 22;
             // 
             // btnAddSupplier
             // 
@@ -153,7 +153,7 @@
             this.Controls.Add(this.txtAlamatSupplier);
             this.Controls.Add(this.btnDeleteSupplier);
             this.Controls.Add(this.btnUpdateSupplier);
-            this.Controls.Add(this.dataGridViewBarang);
+            this.Controls.Add(this.dataGridViewSupplier);
             this.Controls.Add(this.btnAddSupplier);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -164,7 +164,7 @@
             this.Name = "KelolaSupplier";
             this.Text = "KelolaSupplier";
             this.Load += new System.EventHandler(this.KelolaSupplier_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,7 +174,7 @@
 
         private System.Windows.Forms.Button btnDeleteSupplier;
         private System.Windows.Forms.Button btnUpdateSupplier;
-        private System.Windows.Forms.DataGridView dataGridViewBarang;
+        private System.Windows.Forms.DataGridView dataGridViewSupplier;
         private System.Windows.Forms.Button btnAddSupplier;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
