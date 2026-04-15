@@ -23,7 +23,19 @@ namespace AgriStok
 
         private void TransaksiOut_Load(object sender, EventArgs e)
         {
+            SetupDataGridView();
 
+
+        }
+
+        private void SetupDataGridView()
+        {
+            dgvKeranjang.Columns.Clear();
+            dgvKeranjang.Columns.Add("Id_Barang", "ID Barang");
+            dgvKeranjang.Columns.Add("Nama_Barang", "Nama Barang");
+            dgvKeranjang.Columns.Add("Jumlah", "Jumlah Keluar");
+            dgvKeranjang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKeranjang.AllowUserToAddRows = false;
         }
     }
 }
