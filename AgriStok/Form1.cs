@@ -7,19 +7,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace AgriStok
 {
     public partial class Dashboard : Form
     {
+        private SqlConnection conn;
+        private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+
         public Dashboard()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void ConnectDatabase()
+        {
+            try
+            {
+                if (conn.State == ConnectionState.Closed)
+                {
+                    conn.Open();
+                }
+                MessageBox.Show("Koneksi berhasil!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Koneksi Gagal" + ex.Message);
+            }
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            ConnectDatabase();
         }
 
         private void btnBarang_Click(object sender, EventArgs e)

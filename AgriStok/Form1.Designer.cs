@@ -35,6 +35,7 @@
             this.btnIn = new System.Windows.Forms.Button();
             this.btnOut = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnKoneksiDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,11 +99,22 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // btnKoneksiDB
+            // 
+            this.btnKoneksiDB.Location = new System.Drawing.Point(372, 457);
+            this.btnKoneksiDB.Name = "btnKoneksiDB";
+            this.btnKoneksiDB.Size = new System.Drawing.Size(124, 19);
+            this.btnKoneksiDB.TabIndex = 6;
+            this.btnKoneksiDB.Text = "Koneksi Database";
+            this.btnKoneksiDB.UseVisualStyleBackColor = true;
+            this.btnKoneksiDB.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 501);
+            this.Controls.Add(this.btnKoneksiDB);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnOut);
             this.Controls.Add(this.btnIn);
@@ -126,6 +138,7 @@
         private System.Windows.Forms.Button btnIn;
         private System.Windows.Forms.Button btnOut;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnKoneksiDB;
     }
 }
 
