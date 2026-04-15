@@ -20,6 +20,7 @@ namespace AgriStok
         {
             InitializeComponent();
             LoadComboBoxKategori();
+            LoadComboBoxSatuan();
         }
 
         private void KelolaBarang_Load(object sender, EventArgs e)
@@ -47,6 +48,30 @@ namespace AgriStok
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error load Kategori: " + ex.Message);
+                }
+            }
+        }
+
+        private void LoadComboBoxSatuan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    string query = "SELECT Id_Satuan, Nama_Satuan FROM Satuan";
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    cmbSatuan.DataSource = dt;
+                    cmbSatuan.DisplayMember = "Nama_Satuan"; 
+                    cmbSatuan.ValueMember = "Id_Satuan";     
+
+                    cmbSatuan.SelectedIndex = -1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error load Satuan: " + ex.Message);
                 }
             }
         }
