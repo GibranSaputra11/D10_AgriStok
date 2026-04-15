@@ -78,6 +78,9 @@
     <EmbeddedResource Include="KelolaBarang.resx">
       <DependentUpon>KelolaBarang.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="KelolaKelompokTani.resx">
+      <DependentUpon>KelolaKelompokTani.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KelolaSupplier.resx">
       <DependentUpon>KelolaSupplier.cs</DependentUpon>
     </EmbeddedResource>
