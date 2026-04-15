@@ -53,5 +53,34 @@ namespace AgriStok
                 }
             }
         }
+
+        private void LoadDetailData(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"SELECT b.Id_Barang AS [ID Barang], 
+                                            b.Nama_Barang AS [Nama Barang], 
+                                            d.Subtotal_Out AS [Jumlah Keluar]
+                                     FROM Detail_Out d
+                                     INNER JOIN Barang b ON d.Id_Barang = b.Id_Barang
+                                     WHERE d.Id_Out = @Id";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", idTransaksi);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvDetail.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memuat detail barang: " + ex.Message);
+                }
+            }
+        }
     }
 }
