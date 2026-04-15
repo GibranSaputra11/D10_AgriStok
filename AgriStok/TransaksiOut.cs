@@ -125,5 +125,43 @@ namespace AgriStok
                 txtStokSekarang.Clear();
             }
         }
+
+        private void btnTambah_Click(object sender, EventArgs e)
+        {
+            if (cmbBarang.SelectedValue == null || string.IsNullOrEmpty(txtStokSekarang.Text)) return;
+
+            string idBarang = cmbBarang.SelectedValue.ToString();
+            string namaBarang = cmbBarang.Text;
+            int jumlah = (int)numJumlah.Value;
+            int stokTersedia = int.Parse(txtStokSekarang.Text);
+
+            int totalDiminta = jumlah;
+            foreach (DataGridViewRow row in dgvKeranjang.Rows)
+            {
+                if (row.Cells["Id_Barang"].Value.ToString() == idBarang)
+                {
+                    totalDiminta += (int)row.Cells["Jumlah"].Value;
+                }
+            }
+
+            if (totalDiminta > stokTersedia)
+            {
+                MessageBox.Show($"Stok tidak mencukupi! Sisa stok {namaBarang} di gudang hanya {stokTersedia}.", "Peringatan Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; 
+            }
+
+            foreach (DataGridViewRow row in dgvKeranjang.Rows)
+            {
+                if (row.Cells["Id_Barang"].Value.ToString() == idBarang)
+                {
+                    row.Cells["Jumlah"].Value = (int)row.Cells["Jumlah"].Value + jumlah;
+                    HitungTotal();
+                    return;
+                }
+            }
+
+            dgvKeranjang.Rows.Add(idBarang, namaBarang, jumlah);
+            HitungTotal();
+        }
     }
 }

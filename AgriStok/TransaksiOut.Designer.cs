@@ -66,6 +66,7 @@
             this.btnTambah.TabIndex = 33;
             this.btnTambah.Text = "Tambah ke Keranjang";
             this.btnTambah.UseVisualStyleBackColor = true;
+            this.btnTambah.Click += new System.EventHandler(this.btnTambah_Click);
             // 
             // lblTotal
             // 
