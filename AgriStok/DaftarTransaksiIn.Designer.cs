@@ -32,6 +32,7 @@
             this.dgvMaster = new System.Windows.Forms.DataGridView();
             this.dgvDetail = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnAddIn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             this.SuspendLayout();
@@ -73,11 +74,22 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Detail Transaksi In :";
             // 
+            // btnAddIn
+            // 
+            this.btnAddIn.Location = new System.Drawing.Point(428, 380);
+            this.btnAddIn.Name = "btnAddIn";
+            this.btnAddIn.Size = new System.Drawing.Size(145, 26);
+            this.btnAddIn.TabIndex = 4;
+            this.btnAddIn.Text = "Tambah Transaksi Masuk";
+            this.btnAddIn.UseVisualStyleBackColor = true;
+            this.btnAddIn.Click += new System.EventHandler(this.btnAddIn_Click);
+            // 
             // DaftarTransaksiIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAddIn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvDetail);
             this.Controls.Add(this.dgvMaster);
@@ -98,5 +110,6 @@
         private System.Windows.Forms.DataGridView dgvMaster;
         private System.Windows.Forms.DataGridView dgvDetail;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnAddIn;
     }
 }

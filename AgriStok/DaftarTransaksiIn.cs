@@ -104,5 +104,11 @@ namespace AgriStok
                 LoadDetailData(idTransaksi);
             }
         }
+
+        private void btnAddIn_Click(object sender, EventArgs e)
+        {
+            TransaksiIn transaksiIn = new TransaksiIn();
+            transaksiIn.ShowDialog();
+        }
     }
 }

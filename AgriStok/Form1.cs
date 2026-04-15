@@ -42,8 +42,8 @@ namespace AgriStok
 
         private void btnIn_Click(object sender, EventArgs e)
         {
-            TransaksiIn transaksiIn = new TransaksiIn();
-            transaksiIn.ShowDialog();
+            DaftarTransaksiIn daftarTransaksiIn = new DaftarTransaksiIn();
+            daftarTransaksiIn.ShowDialog();
         }
 
         private void btnOut_Click(object sender, EventArgs e)
