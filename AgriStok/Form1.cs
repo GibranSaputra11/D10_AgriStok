@@ -33,5 +33,11 @@ namespace AgriStok
             KelolaSupplier kelolaSupplier = new KelolaSupplier();
             kelolaSupplier.ShowDialog();
         }
+
+        private void btnTani_Click(object sender, EventArgs e)
+        {
+            KelolaKelompokTani kelolaKelompokTani = new KelolaKelompokTani();
+            kelolaKelompokTani.ShowDialog();
+        }
     }
 }

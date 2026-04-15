@@ -64,6 +64,7 @@
             this.btnTani.TabIndex = 2;
             this.btnTani.Text = "Kelola Kelompok Tani";
             this.btnTani.UseVisualStyleBackColor = true;
+            this.btnTani.Click += new System.EventHandler(this.btnTani_Click);
             // 
             // btnIn
             // 
