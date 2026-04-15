@@ -38,11 +38,11 @@ namespace AgriStok
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
-                    cmbSatuan.DataSource = dt;
-                    cmbSatuan.DisplayMember = "Nama_Kategori";
-                    cmbSatuan.ValueMember = "Id_Kategori";
+                    cmbKategori.DataSource = dt;
+                    cmbKategori.DisplayMember = "Nama_Kategori";
+                    cmbKategori.ValueMember = "Id_Kategori";
 
-                    cmbSatuan.SelectedIndex = -1;
+                    cmbKategori.SelectedIndex = -1;
                 }
                 catch (Exception ex)
                 {
@@ -50,5 +50,7 @@ namespace AgriStok
                 }
             }
         }
+
+
     }
 }

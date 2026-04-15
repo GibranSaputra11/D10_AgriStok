@@ -36,6 +36,7 @@
             this.cmbSatuan = new System.Windows.Forms.ComboBox();
             this.cmbKategori = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnSaveBarang = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtBarangID
@@ -105,11 +106,21 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Kategori";
             // 
+            // btnSaveBarang
+            // 
+            this.btnSaveBarang.Location = new System.Drawing.Point(125, 245);
+            this.btnSaveBarang.Name = "btnSaveBarang";
+            this.btnSaveBarang.Size = new System.Drawing.Size(96, 23);
+            this.btnSaveBarang.TabIndex = 9;
+            this.btnSaveBarang.Text = "Simpan Barang";
+            this.btnSaveBarang.UseVisualStyleBackColor = true;
+            // 
             // KelolaBarang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(353, 298);
+            this.Controls.Add(this.btnSaveBarang);
             this.Controls.Add(this.cmbKategori);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbSatuan);
@@ -136,5 +147,6 @@
         private System.Windows.Forms.ComboBox cmbSatuan;
         private System.Windows.Forms.ComboBox cmbKategori;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnSaveBarang;
     }
 }
