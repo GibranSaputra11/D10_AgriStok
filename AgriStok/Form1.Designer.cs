@@ -1,0 +1,112 @@
+﻿namespace AgriStok
+{
+    partial class Dashboard
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
+            this.btnBarang = new System.Windows.Forms.Button();
+            this.btnSupplier = new System.Windows.Forms.Button();
+            this.btnTani = new System.Windows.Forms.Button();
+            this.btnIn = new System.Windows.Forms.Button();
+            this.btnOut = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // btnBarang
+            // 
+            this.btnBarang.Location = new System.Drawing.Point(163, 296);
+            this.btnBarang.Name = "btnBarang";
+            this.btnBarang.Size = new System.Drawing.Size(164, 40);
+            this.btnBarang.TabIndex = 0;
+            this.btnBarang.Text = "Kelola Barang";
+            this.btnBarang.UseVisualStyleBackColor = true;
+            this.btnBarang.Click += new System.EventHandler(this.btnBarang_Click);
+            // 
+            // btnSupplier
+            // 
+            this.btnSupplier.Location = new System.Drawing.Point(353, 296);
+            this.btnSupplier.Name = "btnSupplier";
+            this.btnSupplier.Size = new System.Drawing.Size(164, 40);
+            this.btnSupplier.TabIndex = 1;
+            this.btnSupplier.Text = "Kelola Supplier";
+            this.btnSupplier.UseVisualStyleBackColor = true;
+            // 
+            // btnTani
+            // 
+            this.btnTani.Location = new System.Drawing.Point(550, 296);
+            this.btnTani.Name = "btnTani";
+            this.btnTani.Size = new System.Drawing.Size(164, 40);
+            this.btnTani.TabIndex = 2;
+            this.btnTani.Text = "Kelola Kelompok Tani";
+            this.btnTani.UseVisualStyleBackColor = true;
+            // 
+            // btnIn
+            // 
+            this.btnIn.Location = new System.Drawing.Point(266, 367);
+            this.btnIn.Name = "btnIn";
+            this.btnIn.Size = new System.Drawing.Size(164, 40);
+            this.btnIn.TabIndex = 3;
+            this.btnIn.Text = "Transaksi Masuk";
+            this.btnIn.UseVisualStyleBackColor = true;
+            // 
+            // btnOut
+            // 
+            this.btnOut.Location = new System.Drawing.Point(451, 367);
+            this.btnOut.Name = "btnOut";
+            this.btnOut.Size = new System.Drawing.Size(164, 40);
+            this.btnOut.TabIndex = 4;
+            this.btnOut.Text = "Transaksi Keluar";
+            this.btnOut.UseVisualStyleBackColor = true;
+            // 
+            // Dashboard
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(904, 501);
+            this.Controls.Add(this.btnOut);
+            this.Controls.Add(this.btnIn);
+            this.Controls.Add(this.btnTani);
+            this.Controls.Add(this.btnSupplier);
+            this.Controls.Add(this.btnBarang);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Dashboard";
+            this.Text = "Dashboard";
+            this.Load += new System.EventHandler(this.Dashboard_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button btnBarang;
+        private System.Windows.Forms.Button btnSupplier;
+        private System.Windows.Forms.Button btnTani;
+        private System.Windows.Forms.Button btnIn;
+        private System.Windows.Forms.Button btnOut;
+    }
+}
+
