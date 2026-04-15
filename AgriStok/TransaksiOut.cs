@@ -24,6 +24,8 @@ namespace AgriStok
         private void TransaksiOut_Load(object sender, EventArgs e)
         {
             SetupDataGridView();
+            LoadKelompokTani();
+            LoadBarang();
 
 
         }
@@ -36,6 +38,34 @@ namespace AgriStok
             dgvKeranjang.Columns.Add("Jumlah", "Jumlah Keluar");
             dgvKeranjang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvKeranjang.AllowUserToAddRows = false;
+        }
+
+        private void LoadKelompokTani()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Kelompok, Nama_Kelompok FROM KelompokTani", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                cmbKelompok.DataSource = dt;
+                cmbKelompok.DisplayMember = "Nama_Kelompok";
+                cmbKelompok.ValueMember = "Id_Kelompok";
+                cmbKelompok.SelectedIndex = -1;
+            }
+        }
+
+        private void LoadBarang()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Barang, Nama_Barang FROM Barang", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                cmbBarang.DataSource = dt;
+                cmbBarang.DisplayMember = "Nama_Barang";
+                cmbBarang.ValueMember = "Id_Barang";
+                cmbBarang.SelectedIndex = -1;
+            }
         }
     }
 }
