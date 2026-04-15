@@ -24,6 +24,12 @@ namespace AgriStok
 
         private void KelolaSupplier_Load(object sender, EventArgs e)
         {
+            dataGridViewSupplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewSupplier.MultiSelect = false;
+            dataGridViewSupplier.ReadOnly = true;
+            dataGridViewSupplier.AllowUserToAddRows = false;
+            dataGridViewSupplier.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtSupplierID.ReadOnly = true;
 
             LoadDataGrid();
