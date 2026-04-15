@@ -25,6 +25,7 @@ namespace AgriStok
 
         private void KelolaBarang_Load(object sender, EventArgs e)
         {
+            txtBarangID.ReadOnly = true;
             LoadComboBoxKategori();
             LoadComboBoxSatuan();
         }
@@ -75,6 +76,35 @@ namespace AgriStok
                     MessageBox.Show("Error load Satuan: " + ex.Message);
                 }
             }
+        }
+
+        private string GenerateID()
+        {
+            string newID = "BR-001";
+
+            using (SqlConnection localConn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    localConn.Open();
+                    string query = "SELECT TOP 1 Id_Barang FROM Barang ORDER BY Id_Barang DESC";
+                    SqlCommand cmd = new SqlCommand(query, localConn);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string lastID = result.ToString(); 
+                        int number = int.Parse(lastID.Split('-')[1]);
+                        number++;
+                        newID = "BR-" + number.ToString("D3"); 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal generate ID: " + ex.Message);
+                }
+            }
+            return newID;
         }
 
 

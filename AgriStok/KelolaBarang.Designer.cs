@@ -37,6 +37,8 @@
             this.cmbKategori = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSaveBarang = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBarangID
@@ -108,18 +110,27 @@
             // 
             // btnSaveBarang
             // 
-            this.btnSaveBarang.Location = new System.Drawing.Point(125, 245);
+            this.btnSaveBarang.Location = new System.Drawing.Point(338, 90);
             this.btnSaveBarang.Name = "btnSaveBarang";
             this.btnSaveBarang.Size = new System.Drawing.Size(96, 23);
             this.btnSaveBarang.TabIndex = 9;
             this.btnSaveBarang.Text = "Simpan Barang";
             this.btnSaveBarang.UseVisualStyleBackColor = true;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(63, 245);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(425, 180);
+            this.dataGridView1.TabIndex = 10;
+            // 
             // KelolaBarang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 298);
+            this.ClientSize = new System.Drawing.Size(747, 453);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnSaveBarang);
             this.Controls.Add(this.cmbKategori);
             this.Controls.Add(this.label4);
@@ -132,6 +143,7 @@
             this.Name = "KelolaBarang";
             this.Text = "KelolaBarang";
             this.Load += new System.EventHandler(this.KelolaBarang_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,5 +160,6 @@
         private System.Windows.Forms.ComboBox cmbKategori;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSaveBarang;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
