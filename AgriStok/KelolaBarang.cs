@@ -25,7 +25,14 @@ namespace AgriStok
 
         private void KelolaBarang_Load(object sender, EventArgs e)
         {
+            dataGridViewBarang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewBarang.MultiSelect = false;
+            dataGridViewBarang.ReadOnly = true;
+            dataGridViewBarang.AllowUserToAddRows = false;
+            dataGridViewBarang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtBarangID.ReadOnly = true;
+
             LoadComboBoxKategori();
             LoadComboBoxSatuan();
             LoadDataGrid();
@@ -175,6 +182,19 @@ namespace AgriStok
                 dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void dataGridViewBarang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridViewBarang.Rows[e.RowIndex];
+
+                txtBarangID.Text = row.Cells["Id_Barang"].Value.ToString();
+                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value.ToString();
+                cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
+                cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
+            }
         }
     }
 }
