@@ -51,6 +51,7 @@
             this.btnDeleteSupplier.TabIndex = 24;
             this.btnDeleteSupplier.Text = "Delete Supplier";
             this.btnDeleteSupplier.UseVisualStyleBackColor = true;
+            this.btnDeleteSupplier.Click += new System.EventHandler(this.btnDeleteSupplier_Click);
             // 
             // btnUpdateSupplier
             // 

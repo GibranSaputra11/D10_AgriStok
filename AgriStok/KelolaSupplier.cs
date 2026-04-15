@@ -178,5 +178,36 @@ namespace AgriStok
                 catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
             }
         }
+
+        private void btnDeleteSupplier_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
+
+            DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Supplier ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM Supplier WHERE Id_Supplier = @Id";
+                        SqlCommand cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
+
+                        if (cmd.ExecuteNonQuery() > 0)
+                        {
+                            MessageBox.Show("Data berhasil dihapus!");
+                            ClearForm();
+                            LoadDataGrid();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Data tidak bisa dihapus karena Supplier ini memiliki riwayat transaksi masuk.\n\nDetail: " + ex.Message);
+                    }
+                }
+            }
+        }
     }
 }
