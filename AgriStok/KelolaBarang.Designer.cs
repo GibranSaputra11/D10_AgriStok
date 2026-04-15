@@ -31,7 +31,7 @@
             this.txtBarangID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textNamaBarang = new System.Windows.Forms.TextBox();
+            this.txtNamaBarang = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbSatuan = new System.Windows.Forms.ComboBox();
             this.cmbKategori = new System.Windows.Forms.ComboBox();
@@ -66,13 +66,13 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Nama Barang";
             // 
-            // textNamaBarang
+            // txtNamaBarang
             // 
-            this.textNamaBarang.Location = new System.Drawing.Point(153, 97);
-            this.textNamaBarang.Multiline = true;
-            this.textNamaBarang.Name = "textNamaBarang";
-            this.textNamaBarang.Size = new System.Drawing.Size(115, 40);
-            this.textNamaBarang.TabIndex = 2;
+            this.txtNamaBarang.Location = new System.Drawing.Point(153, 97);
+            this.txtNamaBarang.Multiline = true;
+            this.txtNamaBarang.Name = "txtNamaBarang";
+            this.txtNamaBarang.Size = new System.Drawing.Size(115, 40);
+            this.txtNamaBarang.TabIndex = 2;
             // 
             // label3
             // 
@@ -116,6 +116,7 @@
             this.btnSaveBarang.TabIndex = 9;
             this.btnSaveBarang.Text = "Simpan Barang";
             this.btnSaveBarang.UseVisualStyleBackColor = true;
+            this.btnSaveBarang.Click += new System.EventHandler(this.btnSaveBarang_Click);
             // 
             // dataGridView1
             // 
@@ -137,7 +138,7 @@
             this.Controls.Add(this.cmbSatuan);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textNamaBarang);
+            this.Controls.Add(this.txtNamaBarang);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBarangID);
             this.Name = "KelolaBarang";
@@ -154,7 +155,7 @@
         private System.Windows.Forms.TextBox txtBarangID;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textNamaBarang;
+        private System.Windows.Forms.TextBox txtNamaBarang;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbSatuan;
         private System.Windows.Forms.ComboBox cmbKategori;

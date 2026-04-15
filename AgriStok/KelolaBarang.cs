@@ -107,6 +107,49 @@ namespace AgriStok
             return newID;
         }
 
+        private void btnSaveBarang_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNamaBarang.Text) || cmbSatuan.SelectedValue == null || cmbKategori.SelectedValue == null)
+            {
+                MessageBox.Show("Harap isi semua data dengan lengkap!");
+                return;
+            }
+
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                string query = @"INSERT INTO Barang (Id_Barang, Nama_Barang, Id_Satuan, Id_Kategori, Stok_Barang) 
+                                 VALUES (@Id, @Nama, @IdSatuan, @IdKategori, 0)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
+                cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
+
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Data Barang berhasil ditambahkan!");
+                    ClearForm();
+                    LoadDataGrid();
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            finally { conn.Close(); }
+        }
+
+        private void ClearForm()
+        {
+            txtBarangID.Text = GenerateID();
+
+            txtNamaBarang.Clear();
+            cmbSatuan.SelectedIndex = -1;
+            cmbKategori.SelectedIndex = -1;
+
+            txtNamaBarang.Focus();
+        }
+
 
     }
 }
