@@ -109,6 +109,8 @@ namespace AgriStok
         {
             TransaksiIn transaksiIn = new TransaksiIn();
             transaksiIn.ShowDialog();
+
+            LoadMasterData();
         }
     }
 }
