@@ -157,7 +157,7 @@
             this.btnAddSatuan.Name = "btnAddSatuan";
             this.btnAddSatuan.Size = new System.Drawing.Size(96, 23);
             this.btnAddSatuan.TabIndex = 13;
-            this.btnAddSatuan.Text = "Add Satuan";
+            this.btnAddSatuan.Text = "Kelola Satuan";
             this.btnAddSatuan.UseVisualStyleBackColor = true;
             this.btnAddSatuan.Click += new System.EventHandler(this.btnAddSatuan_Click);
             // 
@@ -167,7 +167,7 @@
             this.addKategori.Name = "addKategori";
             this.addKategori.Size = new System.Drawing.Size(96, 23);
             this.addKategori.TabIndex = 14;
-            this.addKategori.Text = "Add Kategori";
+            this.addKategori.Text = "Kelola Kategori";
             this.addKategori.UseVisualStyleBackColor = true;
             this.addKategori.Click += new System.EventHandler(this.addKategori_Click);
             // 
