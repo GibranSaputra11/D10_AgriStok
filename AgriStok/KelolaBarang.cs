@@ -28,6 +28,9 @@ namespace AgriStok
             txtBarangID.ReadOnly = true;
             LoadComboBoxKategori();
             LoadComboBoxSatuan();
+            LoadDataGrid();
+
+            ClearForm();
         }
 
         private void LoadComboBoxKategori()
@@ -150,6 +153,28 @@ namespace AgriStok
             txtNamaBarang.Focus();
         }
 
+        private void LoadDataGrid()
+        {
+            try
+            {
+                string query = @"SELECT 
+                                    b.Id_Barang, b.Nama_Barang, 
+                                    b.Id_Satuan, s.Nama_Satuan, 
+                                    b.Id_Kategori, k.Nama_Kategori, 
+                                    b.Stok_Barang 
+                                 FROM Barang b
+                                 INNER JOIN Satuan s ON b.Id_Satuan = s.Id_Satuan
+                                 INNER JOIN Kategori k ON b.Id_Kategori = k.Id_Kategori";
 
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                dataGridViewBarang.DataSource = dt;
+                dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
+                dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
+            }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
     }
 }
