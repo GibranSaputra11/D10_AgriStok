@@ -120,6 +120,7 @@
             this.Controls.Add(this.txtBarangID);
             this.Name = "KelolaBarang";
             this.Text = "KelolaBarang";
+            this.Load += new System.EventHandler(this.KelolaBarang_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
