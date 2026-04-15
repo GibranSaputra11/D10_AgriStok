@@ -38,7 +38,7 @@
             this.txtNamaSupplier = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSupplierID = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtAlamatSupplier = new System.Windows.Forms.TextBox();
             this.txtTlpSupplier = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).BeginInit();
             this.SuspendLayout();
@@ -83,9 +83,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(58, 189);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 19;
-            this.label4.Text = "No WA";
+            this.label4.Text = "No Tlp";
             // 
             // label3
             // 
@@ -129,13 +129,13 @@
             this.txtSupplierID.Size = new System.Drawing.Size(115, 20);
             this.txtSupplierID.TabIndex = 13;
             // 
-            // textBox1
+            // txtAlamatSupplier
             // 
-            this.textBox1.Location = new System.Drawing.Point(151, 128);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(115, 40);
-            this.textBox1.TabIndex = 25;
+            this.txtAlamatSupplier.Location = new System.Drawing.Point(151, 128);
+            this.txtAlamatSupplier.Multiline = true;
+            this.txtAlamatSupplier.Name = "txtAlamatSupplier";
+            this.txtAlamatSupplier.Size = new System.Drawing.Size(115, 40);
+            this.txtAlamatSupplier.TabIndex = 25;
             // 
             // txtTlpSupplier
             // 
@@ -150,7 +150,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(599, 450);
             this.Controls.Add(this.txtTlpSupplier);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtAlamatSupplier);
             this.Controls.Add(this.btnDeleteSupplier);
             this.Controls.Add(this.btnUpdateSupplier);
             this.Controls.Add(this.dataGridViewBarang);
@@ -182,7 +182,7 @@
         private System.Windows.Forms.TextBox txtNamaSupplier;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSupplierID;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtAlamatSupplier;
         private System.Windows.Forms.TextBox txtTlpSupplier;
     }
 }

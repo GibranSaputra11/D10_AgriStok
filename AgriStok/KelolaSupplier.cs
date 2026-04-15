@@ -25,6 +25,7 @@ namespace AgriStok
         private void KelolaSupplier_Load(object sender, EventArgs e)
         {
             txtSupplierID.ReadOnly = true;
+            ClearForm();
         }
 
         private string GenerateID()
@@ -54,6 +55,15 @@ namespace AgriStok
                 }
             }
             return newID;
+        }
+
+        private void ClearForm()
+        {
+            txtSupplierID.Text = GenerateID();
+            txtNamaSupplier.Clear();
+            txtAlamatSupplier.Clear();
+            txtTlpSupplier.Clear();
+            txtNamaSupplier.Focus();
         }
     }
 }
