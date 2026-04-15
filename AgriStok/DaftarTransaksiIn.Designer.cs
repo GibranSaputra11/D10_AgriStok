@@ -76,7 +76,7 @@
             // 
             // btnAddIn
             // 
-            this.btnAddIn.Location = new System.Drawing.Point(428, 380);
+            this.btnAddIn.Location = new System.Drawing.Point(428, 344);
             this.btnAddIn.Name = "btnAddIn";
             this.btnAddIn.Size = new System.Drawing.Size(145, 26);
             this.btnAddIn.TabIndex = 4;

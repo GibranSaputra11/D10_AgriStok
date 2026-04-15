@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DaftarTransakiOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DaftarTransakiOut.Designer.cs">
+      <DependentUpon>DaftarTransakiOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="DaftarTransaksiIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="TransaksiOut.Designer.cs">
       <DependentUpon>TransaksiOut.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DaftarTransakiOut.resx">
+      <DependentUpon>DaftarTransakiOut.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DaftarTransaksiIn.resx">
       <DependentUpon>DaftarTransaksiIn.cs</DependentUpon>
     </EmbeddedResource>
