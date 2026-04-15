@@ -68,6 +68,7 @@
             this.dataGridViewSupplier.Name = "dataGridViewSupplier";
             this.dataGridViewSupplier.Size = new System.Drawing.Size(502, 180);
             this.dataGridViewSupplier.TabIndex = 22;
+            this.dataGridViewSupplier.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSupplier_CellContentClick);
             // 
             // btnAddSupplier
             // 

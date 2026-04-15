@@ -133,5 +133,18 @@ namespace AgriStok
                 catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
             }
         }
+
+        private void dataGridViewSupplier_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridViewSupplier.Rows[e.RowIndex];
+
+                txtSupplierID.Text = row.Cells["Id_Supplier"].Value.ToString();
+                txtNamaSupplier.Text = row.Cells["Nama_Supplier"].Value.ToString();
+                txtAlamatSupplier.Text = row.Cells["Alamat_Supplier"].Value.ToString();
+                txtTlpSupplier.Text = row.Cells["NoTlp_Supplier"].Value.ToString();
+            }
+        }
     }
 }
