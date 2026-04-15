@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtIDTransaksi = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.cmbSupplier = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -76,12 +76,12 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Supplier";
             // 
-            // textBox1
+            // txtIDTransaksi
             // 
-            this.textBox1.Location = new System.Drawing.Point(150, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(104, 20);
-            this.textBox1.TabIndex = 3;
+            this.txtIDTransaksi.Location = new System.Drawing.Point(150, 43);
+            this.txtIDTransaksi.Name = "txtIDTransaksi";
+            this.txtIDTransaksi.Size = new System.Drawing.Size(104, 20);
+            this.txtIDTransaksi.TabIndex = 3;
             // 
             // dateTimePicker1
             // 
@@ -207,7 +207,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbSupplier);
             this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtIDTransaksi);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -226,7 +226,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtIDTransaksi;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.ComboBox cmbSupplier;
         private System.Windows.Forms.Label label4;

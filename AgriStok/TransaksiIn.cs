@@ -24,6 +24,7 @@ namespace AgriStok
         {
             LoadSupplier();
             LoadBarang();
+            txtIDTransaksi.Text = GenerateID();
         }
 
         private void LoadSupplier()
@@ -53,5 +54,25 @@ namespace AgriStok
                 cmbBarang.SelectedIndex = -1;
             }
         }
+
+        private string GenerateID()
+        {
+            string newID = "TR-001";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT TOP 1 Id_In FROM Transaksi_In ORDER BY Id_In DESC";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    int number = int.Parse(result.ToString().Split('-')[1]);
+                    newID = "TR-" + (number + 1).ToString("D3");
+                }
+            }
+            return newID;
+        }
+
+
     }
 }
