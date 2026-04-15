@@ -39,5 +39,11 @@ namespace AgriStok
             KelolaKelompokTani kelolaKelompokTani = new KelolaKelompokTani();
             kelolaKelompokTani.ShowDialog();
         }
+
+        private void btnIn_Click(object sender, EventArgs e)
+        {
+            TransaksiIn transaksiIn = new TransaksiIn();
+            transaksiIn.ShowDialog();
+        }
     }
 }
