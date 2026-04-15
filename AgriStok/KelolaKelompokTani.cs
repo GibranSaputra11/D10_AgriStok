@@ -145,5 +145,37 @@ namespace AgriStok
                 catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
             }
         }
+
+        private void btnUpdateKelompok_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"UPDATE KelompokTani 
+                                     SET Nama_Kelompok = @Nama, 
+                                         Alamat_Kelompok = @Alamat, 
+                                         NoTlp_Kelompok = @NoTlp 
+                                     WHERE Id_Kelompok = @Id";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+                    cmd.Parameters.AddWithValue("@Nama", txtNamaKelompok.Text);
+                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatKelompok.Text);
+                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpKelompok.Text);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Data Kelompok Tani berhasil diupdate!");
+                        ClearForm();
+                        LoadDataGrid();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            }
+        }
     }
 }

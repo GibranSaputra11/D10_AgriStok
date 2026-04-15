@@ -75,6 +75,7 @@
             this.btnUpdateKelompok.TabIndex = 35;
             this.btnUpdateKelompok.Text = "Update Kelompok Tani";
             this.btnUpdateKelompok.UseVisualStyleBackColor = true;
+            this.btnUpdateKelompok.Click += new System.EventHandler(this.btnUpdateKelompok_Click);
             // 
             // dataGridViewKelompok
             // 
