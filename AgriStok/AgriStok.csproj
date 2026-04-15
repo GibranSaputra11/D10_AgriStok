@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddKategori.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddKategori.Designer.cs">
+      <DependentUpon>AddKategori.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddSatuan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     <Compile Include="TransaksiOut.Designer.cs">
       <DependentUpon>TransaksiOut.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddKategori.resx">
+      <DependentUpon>AddKategori.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddSatuan.resx">
       <DependentUpon>AddSatuan.cs</DependentUpon>
     </EmbeddedResource>

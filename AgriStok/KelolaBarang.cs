@@ -254,6 +254,10 @@ namespace AgriStok
             addSatuan.ShowDialog();
         }
 
-
+        private void addKategori_Click(object sender, EventArgs e)
+        {
+            AddKategori addKategori = new AddKategori();
+            addKategori.ShowDialog();
+        }
     }
 }

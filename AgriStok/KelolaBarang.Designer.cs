@@ -169,6 +169,7 @@
             this.addKategori.TabIndex = 14;
             this.addKategori.Text = "Add Kategori";
             this.addKategori.UseVisualStyleBackColor = true;
+            this.addKategori.Click += new System.EventHandler(this.addKategori_Click);
             // 
             // KelolaBarang
             // 
