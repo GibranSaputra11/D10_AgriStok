@@ -45,5 +45,11 @@ namespace AgriStok
             TransaksiIn transaksiIn = new TransaksiIn();
             transaksiIn.ShowDialog();
         }
+
+        private void btnOut_Click(object sender, EventArgs e)
+        {
+            TransaksiOut transaksiOut = new TransaksiOut();
+            transaksiOut.ShowDialog();
+        }
     }
 }

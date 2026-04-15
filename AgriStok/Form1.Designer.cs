@@ -84,6 +84,7 @@
             this.btnOut.TabIndex = 4;
             this.btnOut.Text = "Transaksi Keluar";
             this.btnOut.UseVisualStyleBackColor = true;
+            this.btnOut.Click += new System.EventHandler(this.btnOut_Click);
             // 
             // Dashboard
             // 
