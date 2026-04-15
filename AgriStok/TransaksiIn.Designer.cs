@@ -40,13 +40,13 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvKeranjang = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.btnTambah = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -147,13 +147,13 @@
             this.numericUpDown1.Size = new System.Drawing.Size(104, 20);
             this.numericUpDown1.TabIndex = 12;
             // 
-            // dataGridView1
+            // dgvKeranjang
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(398, 37);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(424, 333);
-            this.dataGridView1.TabIndex = 13;
+            this.dgvKeranjang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvKeranjang.Location = new System.Drawing.Point(398, 37);
+            this.dgvKeranjang.Name = "dgvKeranjang";
+            this.dgvKeranjang.Size = new System.Drawing.Size(424, 333);
+            this.dgvKeranjang.TabIndex = 13;
             // 
             // label7
             // 
@@ -199,7 +199,7 @@
             this.Controls.Add(this.btnTambah);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvKeranjang);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox2);
@@ -216,7 +216,7 @@
             this.Text = "TransaksiIn";
             this.Load += new System.EventHandler(this.TransaksiIn_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,7 +236,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvKeranjang;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button btnTambah;
