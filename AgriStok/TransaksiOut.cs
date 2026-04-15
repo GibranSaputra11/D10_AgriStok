@@ -72,7 +72,7 @@ namespace AgriStok
 
         private string GenerateID()
         {
-            string newID = "TRO-001";
+            string newID = "TR-001";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -82,7 +82,7 @@ namespace AgriStok
                 if (result != null)
                 {
                     int number = int.Parse(result.ToString().Split('-')[1]);
-                    newID = "TRO-" + (number + 1).ToString("D3");
+                    newID = "TR-" + (number + 1).ToString("D3");
                 }
             }
             return newID;
