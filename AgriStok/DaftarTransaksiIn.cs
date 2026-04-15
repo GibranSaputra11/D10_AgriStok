@@ -27,8 +27,12 @@ namespace AgriStok
             dgvMaster.ReadOnly = true;
             dgvMaster.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            LoadMasterData();
+            dgvDetail.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetail.AllowUserToAddRows = false;
+            dgvDetail.ReadOnly = true;
+            dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            LoadMasterData();
         }
 
         private void LoadMasterData()
@@ -56,6 +60,35 @@ namespace AgriStok
                 catch (Exception ex)
                 {
                     MessageBox.Show("Gagal memuat data Transaksi Masuk: " + ex.Message);
+                }
+            }
+        }
+
+        private void LoadDetailData(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"SELECT b.Id_Barang AS [ID Barang], 
+                                            b.Nama_Barang AS [Nama Barang], 
+                                            d.Subtotal_In AS [Jumlah Masuk]
+                                     FROM Detail_In d
+                                     INNER JOIN Barang b ON d.Id_Barang = b.Id_Barang
+                                     WHERE d.Id_In = @Id";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", idTransaksi);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvDetail.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Gagal memuat detail barang: " + ex.Message);
                 }
             }
         }
