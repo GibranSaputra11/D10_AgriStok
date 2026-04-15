@@ -28,7 +28,7 @@ namespace AgriStok
             LoadBarang();
             txtIDTransaksi.Text = GenerateID();
             txtIDTransaksi.ReadOnly = true;
-
+            txtStokSekarang.ReadOnly = true;
 
         }
 
@@ -86,6 +86,44 @@ namespace AgriStok
                 }
             }
             return newID;
+        }
+
+        private void cmbBarang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbBarang.SelectedIndex != -1 && cmbBarang.SelectedValue != null)
+            {
+                if (cmbBarang.SelectedValue is string idBarang)
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            string query = "SELECT Stok_Barang FROM Barang WHERE Id_Barang = @Id";
+                            SqlCommand cmd = new SqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@Id", idBarang);
+
+                            object result = cmd.ExecuteScalar();
+                            if (result != null)
+                            {
+                                txtStokSekarang.Text = result.ToString();
+                            }
+                            else
+                            {
+                                txtStokSekarang.Text = "0";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Gagal memuat stok: " + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                txtStokSekarang.Clear();
+            }
         }
     }
 }

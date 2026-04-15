@@ -130,6 +130,7 @@
             this.cmbBarang.Name = "cmbBarang";
             this.cmbBarang.Size = new System.Drawing.Size(123, 21);
             this.cmbBarang.TabIndex = 25;
+            this.cmbBarang.SelectedIndexChanged += new System.EventHandler(this.cmbBarang_SelectedIndexChanged);
             // 
             // label4
             // 
