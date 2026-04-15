@@ -112,7 +112,7 @@
             // 
             // btnSaveBarang
             // 
-            this.btnSaveBarang.Location = new System.Drawing.Point(338, 78);
+            this.btnSaveBarang.Location = new System.Drawing.Point(368, 78);
             this.btnSaveBarang.Name = "btnSaveBarang";
             this.btnSaveBarang.Size = new System.Drawing.Size(96, 23);
             this.btnSaveBarang.TabIndex = 9;
@@ -125,13 +125,13 @@
             this.dataGridViewBarang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewBarang.Location = new System.Drawing.Point(63, 245);
             this.dataGridViewBarang.Name = "dataGridViewBarang";
-            this.dataGridViewBarang.Size = new System.Drawing.Size(425, 180);
+            this.dataGridViewBarang.Size = new System.Drawing.Size(502, 180);
             this.dataGridViewBarang.TabIndex = 10;
             this.dataGridViewBarang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewBarang_CellContentClick);
             // 
             // btnUpdateBarang
             // 
-            this.btnUpdateBarang.Location = new System.Drawing.Point(338, 121);
+            this.btnUpdateBarang.Location = new System.Drawing.Point(368, 126);
             this.btnUpdateBarang.Name = "btnUpdateBarang";
             this.btnUpdateBarang.Size = new System.Drawing.Size(96, 23);
             this.btnUpdateBarang.TabIndex = 11;
@@ -141,7 +141,7 @@
             // 
             // btnDeleteBarang
             // 
-            this.btnDeleteBarang.Location = new System.Drawing.Point(338, 170);
+            this.btnDeleteBarang.Location = new System.Drawing.Point(368, 171);
             this.btnDeleteBarang.Name = "btnDeleteBarang";
             this.btnDeleteBarang.Size = new System.Drawing.Size(96, 23);
             this.btnDeleteBarang.TabIndex = 12;
@@ -153,7 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 453);
+            this.ClientSize = new System.Drawing.Size(596, 453);
             this.Controls.Add(this.btnDeleteBarang);
             this.Controls.Add(this.btnUpdateBarang);
             this.Controls.Add(this.dataGridViewBarang);

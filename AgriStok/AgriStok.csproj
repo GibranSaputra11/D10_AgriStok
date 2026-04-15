@@ -58,6 +58,12 @@
     <Compile Include="KelolaBarang.Designer.cs">
       <DependentUpon>KelolaBarang.cs</DependentUpon>
     </Compile>
+    <Compile Include="KelolaSupplier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KelolaSupplier.Designer.cs">
+      <DependentUpon>KelolaSupplier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -65,6 +71,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KelolaBarang.resx">
       <DependentUpon>KelolaBarang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KelolaSupplier.resx">
+      <DependentUpon>KelolaSupplier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
