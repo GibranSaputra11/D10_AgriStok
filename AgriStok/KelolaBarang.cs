@@ -14,18 +14,19 @@ namespace AgriStok
 {
     public partial class KelolaBarang : Form
     {
+        private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
         public KelolaBarang()
         {
             InitializeComponent();
-            LoadComboBoxKategori();
-            LoadComboBoxSatuan();
+            conn = new SqlConnection(connectionString);
         }
 
         private void KelolaBarang_Load(object sender, EventArgs e)
         {
-
+            LoadComboBoxKategori();
+            LoadComboBoxSatuan();
         }
 
         private void LoadComboBoxKategori()
