@@ -163,5 +163,15 @@ namespace AgriStok
             dgvKeranjang.Rows.Add(idBarang, namaBarang, jumlah);
             HitungTotal();
         }
+
+        private void HitungTotal()
+        {
+            int total = 0;
+            foreach (DataGridViewRow row in dgvKeranjang.Rows)
+            {
+                total += Convert.ToInt32(row.Cells["Jumlah"].Value);
+            }
+            lblTotal.Text = total.ToString();
+        }
     }
 }
