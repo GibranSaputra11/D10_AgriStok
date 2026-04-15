@@ -43,7 +43,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnTambah = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -171,14 +171,15 @@
             this.textBox3.Size = new System.Drawing.Size(77, 20);
             this.textBox3.TabIndex = 15;
             // 
-            // button1
+            // btnTambah
             // 
-            this.button1.Location = new System.Drawing.Point(150, 329);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(174, 24);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Tambah ke Keranjang";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnTambah.Location = new System.Drawing.Point(150, 329);
+            this.btnTambah.Name = "btnTambah";
+            this.btnTambah.Size = new System.Drawing.Size(174, 24);
+            this.btnTambah.TabIndex = 16;
+            this.btnTambah.Text = "Tambah ke Keranjang";
+            this.btnTambah.UseVisualStyleBackColor = true;
+            this.btnTambah.Click += new System.EventHandler(this.btnTambah_Click);
             // 
             // button2
             // 
@@ -195,7 +196,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 450);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnTambah);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.dataGridView1);
@@ -238,7 +239,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnTambah;
         private System.Windows.Forms.Button button2;
     }
 }

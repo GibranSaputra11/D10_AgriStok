@@ -73,6 +73,26 @@ namespace AgriStok
             return newID;
         }
 
+        private void btnTambah_Click(object sender, EventArgs e)
+        {
+            if (cmbBarang.SelectedValue == null) return;
 
+            string idBarang = cmbBarang.SelectedValue.ToString();
+            string namaBarang = cmbBarang.Text;
+            int jumlah = (int)numJumlah.Value;
+
+            foreach (DataGridViewRow row in dgvKeranjang.Rows)
+            {
+                if (row.Cells["Id_Barang"].Value.ToString() == idBarang)
+                {
+                    row.Cells["Jumlah"].Value = (int)row.Cells["Jumlah"].Value + jumlah;
+                    HitungTotal();
+                    return;
+                }
+            }
+
+            dgvKeranjang.Rows.Add(idBarang, namaBarang, jumlah);
+            HitungTotal();
+        }
     }
 }
