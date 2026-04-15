@@ -93,6 +93,7 @@
             this.btnAddKelompok.TabIndex = 33;
             this.btnAddKelompok.Text = "Add Kelompok Tani";
             this.btnAddKelompok.UseVisualStyleBackColor = true;
+            this.btnAddKelompok.Click += new System.EventHandler(this.btnAddKelompok_Click);
             // 
             // label4
             // 

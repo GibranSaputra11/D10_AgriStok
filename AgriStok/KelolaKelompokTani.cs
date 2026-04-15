@@ -112,5 +112,38 @@ namespace AgriStok
                 txtTlpKelompok.Text = row.Cells["NoTlp_Kelompok"].Value.ToString();
             }
         }
+
+        private void btnAddKelompok_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNamaKelompok.Text))
+            {
+                MessageBox.Show("Nama Kelompok Tani harus diisi!");
+                return;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"INSERT INTO KelompokTani (Id_Kelompok, Nama_Kelompok, Alamat_Kelompok, NoTlp_Kelompok) 
+                                     VALUES (@Id, @Nama, @Alamat, @NoTlp)";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+                    cmd.Parameters.AddWithValue("@Nama", txtNamaKelompok.Text);
+                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatKelompok.Text);
+                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpKelompok.Text);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Data Kelompok Tani berhasil ditambahkan!");
+                        ClearForm();
+                        LoadDataGrid();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            }
+        }
     }
 }
