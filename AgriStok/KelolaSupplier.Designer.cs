@@ -60,6 +60,7 @@
             this.btnUpdateSupplier.TabIndex = 23;
             this.btnUpdateSupplier.Text = "Update Supplier";
             this.btnUpdateSupplier.UseVisualStyleBackColor = true;
+            this.btnUpdateSupplier.Click += new System.EventHandler(this.btnUpdateSupplier_Click);
             // 
             // dataGridViewSupplier
             // 
@@ -83,7 +84,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(58, 189);
+            this.label4.Location = new System.Drawing.Point(58, 202);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 19;
@@ -112,7 +113,7 @@
             this.txtNamaSupplier.Location = new System.Drawing.Point(151, 74);
             this.txtNamaSupplier.Multiline = true;
             this.txtNamaSupplier.Name = "txtNamaSupplier";
-            this.txtNamaSupplier.Size = new System.Drawing.Size(115, 40);
+            this.txtNamaSupplier.Size = new System.Drawing.Size(173, 40);
             this.txtNamaSupplier.TabIndex = 15;
             // 
             // label1
@@ -136,12 +137,12 @@
             this.txtAlamatSupplier.Location = new System.Drawing.Point(151, 128);
             this.txtAlamatSupplier.Multiline = true;
             this.txtAlamatSupplier.Name = "txtAlamatSupplier";
-            this.txtAlamatSupplier.Size = new System.Drawing.Size(115, 40);
+            this.txtAlamatSupplier.Size = new System.Drawing.Size(173, 55);
             this.txtAlamatSupplier.TabIndex = 25;
             // 
             // txtTlpSupplier
             // 
-            this.txtTlpSupplier.Location = new System.Drawing.Point(151, 189);
+            this.txtTlpSupplier.Location = new System.Drawing.Point(151, 202);
             this.txtTlpSupplier.Name = "txtTlpSupplier";
             this.txtTlpSupplier.Size = new System.Drawing.Size(115, 20);
             this.txtTlpSupplier.TabIndex = 26;

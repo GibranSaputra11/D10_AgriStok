@@ -146,5 +146,37 @@ namespace AgriStok
                 txtTlpSupplier.Text = row.Cells["NoTlp_Supplier"].Value.ToString();
             }
         }
+
+        private void btnUpdateSupplier_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"UPDATE Supplier 
+                                     SET Nama_Supplier = @Nama, 
+                                         Alamat_Supplier = @Alamat, 
+                                         NoTlp_Supplier = @NoTlp 
+                                     WHERE Id_Supplier = @Id";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
+                    cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
+                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
+                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Data Supplier berhasil diupdate!");
+                        ClearForm();
+                        LoadDataGrid();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            }
+        }
     }
 }
