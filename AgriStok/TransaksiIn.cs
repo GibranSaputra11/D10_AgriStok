@@ -30,6 +30,7 @@ namespace AgriStok
             txtIDTransaksi.Text = GenerateID();
             txtIDTransaksi.ReadOnly = true;
             txtStokSekarang.ReadOnly = true;
+            lblTotal.ReadOnly = true;
             numJumlah.Minimum = 1;
         }
 
