@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace AgriStok
 {
@@ -103,9 +104,31 @@ namespace AgriStok
 
         private void btnAddSupplier_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNamaSupplier.Text))
+            string nama = txtNamaSupplier.Text.Trim();
+            string noTelp = txtTlpSupplier.Text.Trim();
+            string alamat = txtAlamatSupplier.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(nama) || nama.Length < 3)
             {
-                MessageBox.Show("Nama Supplier harus diisi!");
+                MessageBox.Show("Nama tidak boleh kosong atau terlalu pendek!\nMasukkan minimal 3 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; 
+            }
+            
+            if (!Regex.IsMatch(nama, @"^[a-zA-Z0-9\s\.,]+$"))
+            {
+                MessageBox.Show("Nama mengandung simbol yang tidak diizinkan!\nHanya gunakan huruf, angka, spasi, titik (.), atau koma (,).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^[0-9]{10,13}$"))
+            {
+                MessageBox.Show("Nomor Telepon tidak valid!\nPastikan hanya berisi angka dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(alamat) || alamat.Length < 5)
+            {
+                MessageBox.Show("Alamat harus diisi dengan jelas!\nMasukkan detail alamat minimal 5 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
