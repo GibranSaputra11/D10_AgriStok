@@ -33,6 +33,8 @@ namespace AgriStok
 
             txtBarangID.ReadOnly = true;
 
+            cmbSatuan.Enabled = false;
+
             LoadComboBoxKategori();
             LoadComboBoxSatuan();
             LoadDataGrid();
@@ -70,20 +72,38 @@ namespace AgriStok
             {
                 try
                 {
+                    conn.Open();
                     string query = "SELECT Id_Satuan, Nama_Satuan FROM Satuan";
+
+                    string kategoriTerpilih = cmbKategori.Text.ToLower();
+
+
+                    if (kategoriTerpilih.Contains("pupuk") || kategoriTerpilih.Contains("bibit") || kategoriTerpilih.Contains("benih"))
+                    {
+                        query += " WHERE Nama_Satuan IN ('Kg', 'Gram', 'Sak', 'Karung', 'Ton', 'Pack')";
+                    }
+                    else if (kategoriTerpilih.Contains("obat") || kategoriTerpilih.Contains("pestisida") || kategoriTerpilih.Contains("herbisida"))
+                    {
+                        query += " WHERE Nama_Satuan IN ('Liter', 'Botol', 'Mililiter', 'Pack')";
+                    }
+                    else if (kategoriTerpilih.Contains("alat") || kategoriTerpilih.Contains("kemasan"))
+                    {
+                        query += " WHERE Nama_Satuan IN ('Unit', 'Pcs', 'Box', 'Buah')";
+                    }
+
                     SqlDataAdapter da = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
                     cmbSatuan.DataSource = dt;
-                    cmbSatuan.DisplayMember = "Nama_Satuan"; 
-                    cmbSatuan.ValueMember = "Id_Satuan";     
+                    cmbSatuan.DisplayMember = "Nama_Satuan";
+                    cmbSatuan.ValueMember = "Id_Satuan";
 
                     cmbSatuan.SelectedIndex = -1;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error load Satuan: " + ex.Message);
+                    MessageBox.Show("Gagal memuat satuan: " + ex.Message);
                 }
             }
         }
@@ -258,6 +278,23 @@ namespace AgriStok
         {
             AddKategori addKategori = new AddKategori();
             addKategori.ShowDialog();
+        }
+
+        private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbKategori.SelectedIndex != -1)
+            {
+                string kategori = cmbKategori.Text.ToLower();
+
+                LoadComboBoxSatuan();
+
+                cmbSatuan.Enabled = true;
+            }
+            else
+            {
+                cmbSatuan.DataSource = null;
+                cmbSatuan.Enabled = false;
+            }
         }
     }
 }
