@@ -19,6 +19,8 @@ namespace AgriStok
         public TransaksiOut()
         {
             InitializeComponent();
+            dtpTanggal.MinDate = DateTime.Parse("2000-01-01");
+            dtpTanggal.MaxDate = DateTime.Now;
         }
 
         private void TransaksiOut_Load(object sender, EventArgs e)
