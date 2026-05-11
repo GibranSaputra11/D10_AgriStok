@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 
 namespace AgriStok
@@ -75,14 +76,51 @@ namespace AgriStok
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNamaKategori.Text))
+            string input = txtNamaKategori.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(input))
             {
                 MessageBox.Show("Nama Kategori tidak boleh kosong!");
                 return;
             }
 
+            if (input.Length < 2)
+            {
+                MessageBox.Show("Input terlalu pendek! Masukkan minimal 2 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Regex.IsMatch(input, @"^[a-zA-Z\s]+$"))
+            {
+                MessageBox.Show("Input tidak valid! Hanya boleh menggunakan huruf, tanpa simbol (@, #, dll) atau angka.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string[] kataTerlarang = {
+                    "hektar", "hek", "meter", "kilo", "kilogram", "kg", "liter", "ton", "gram",
+                    "kuintal", "lusin", "kodi", "pcs", "box", "sak", "karung", "botol", "ons",
+
+                    "baju", "celana", "sepatu", "elektronik", "laptop", "hp", "handphone",
+                    "meja", "kursi", "motor", "mobil", "kendaraan", "skincare", "kosmetik",
+                    "makanan", "minuman", "snack",
+
+                    "jam", "hari", "bulan", "tahun", "minggu", "detik", "km", "cm", "mil",
+
+                    "test", "testing", "coba", "admin", "user", "dummy", "asdf", "qwer"
+                };
+
+            if (kataTerlarang.Any(kata => input.ToLower().Contains(kata)))
+            {
+                MessageBox.Show("Input mengandung kata terlarang! Mohon masukkan kategori yang valid.",
+                                "Validasi Gagal",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                
                 try
                 {
                     conn.Open();
