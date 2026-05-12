@@ -122,9 +122,9 @@ namespace AgriStok
             if (string.IsNullOrWhiteSpace(nama) || nama.Length < 3)
             {
                 MessageBox.Show("Nama tidak boleh kosong atau terlalu pendek!\nMasukkan minimal 3 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; 
+                return;
             }
-            
+
             if (!Regex.IsMatch(nama, @"^[a-zA-Z0-9\s\.,]+$"))
             {
                 MessageBox.Show("Nama mengandung simbol yang tidak diizinkan!\nHanya gunakan huruf, angka, spasi, titik (.), atau koma (,).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -143,28 +143,28 @@ namespace AgriStok
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = @"INSERT INTO Supplier (Id_Supplier, Nama_Supplier, Alamat_Supplier, NoTlp_Supplier) 
-                                     VALUES (@Id, @Nama, @Alamat, @NoTlp)";
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
-                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
-                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+                SqlCommand cmd = new SqlCommand("sp_InsertSupplier", conn);
+                cmd.CommandType = CommandType.StoredProcedure; 
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        MessageBox.Show("Data Supplier berhasil ditambahkan!");
-                        ClearForm();
-                        LoadDataGrid();
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
+                cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+                cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
+
+                cmd.ExecuteNonQuery(); 
+
+                MessageBox.Show("Data Supplier berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            finally
+            {
+                conn.Close();
             }
         }
 
