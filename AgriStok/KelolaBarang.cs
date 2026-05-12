@@ -149,23 +149,21 @@ namespace AgriStok
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = @"INSERT INTO Barang (Id_Barang, Nama_Barang, Id_Satuan, Id_Kategori, Stok_Barang) 
-                                 VALUES (@Id, @Nama, @IdSatuan, @IdKategori, 0)";
+                SqlCommand cmd = new SqlCommand("sp_InsertBarang", conn);
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
                 cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
                 cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
                 cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
 
-                if (cmd.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Data Barang berhasil ditambahkan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Barang berhasil ditambahkan!");
+                ClearForm();
+                LoadDataGrid();
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             finally { conn.Close(); }
         }
 
