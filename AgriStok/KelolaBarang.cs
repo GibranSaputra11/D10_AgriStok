@@ -17,6 +17,8 @@ namespace AgriStok
         private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
+        private DataTable dtBarang = new DataTable();
+
         public KelolaBarang()
         {
             InitializeComponent();
@@ -36,10 +38,7 @@ namespace AgriStok
             cmbSatuan.Enabled = false;
 
             LoadComboBoxKategori();
-            LoadComboBoxSatuan();
             LoadDataGrid();
-
-            ClearForm();
         }
 
         private void LoadComboBoxKategori()
@@ -182,24 +181,36 @@ namespace AgriStok
         {
             try
             {
-                string query = @"SELECT 
-                                    b.Id_Barang, b.Nama_Barang, 
-                                    b.Id_Satuan, s.Nama_Satuan, 
-                                    b.Id_Kategori, k.Nama_Kategori, 
-                                    b.Stok_Barang 
-                                 FROM Barang b
-                                 INNER JOIN Satuan s ON b.Id_Satuan = s.Id_Satuan
-                                 INNER JOIN Kategori k ON b.Id_Kategori = k.Id_Kategori";
+                string query = "SELECT * FROM vw_KelolaBarang";
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
+                {
+                    dtBarang = new DataTable();
+                    da.Fill(dtBarang); 
 
-                dataGridViewBarang.DataSource = dt;
-                dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
-                dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
+                    bindingSourceBarang.DataSource = dtBarang;
+
+                    dataGridViewBarang.DataSource = bindingSourceBarang;
+                    bindingNavigatorBarang.BindingSource = bindingSourceBarang;
+
+                    BindControls();
+                }
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtBarangID.DataBindings.Clear();
+            txtNamaBarang.DataBindings.Clear();
+            cmbKategori.DataBindings.Clear();
+            cmbSatuan.DataBindings.Clear();
+
+            txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
+            txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
+
+            cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
+            cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
         }
 
         private void dataGridViewBarang_CellContentClick(object sender, DataGridViewCellEventArgs e)
