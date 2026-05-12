@@ -17,6 +17,8 @@ namespace AgriStok
         private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
+        private DataTable dtKelompok = new DataTable();
+
         public KelolaKelompokTani()
         {
             InitializeComponent();
@@ -68,6 +70,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceKelompok.AddNew();
             txtKelompokID.Text = GenerateID();
             txtNamaKelompok.Clear();
             txtAlamatKelompok.Clear();
@@ -77,28 +80,37 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = "SELECT Id_Kelompok, Nama_Kelompok, Alamat_Kelompok, NoTlp_Kelompok FROM KelompokTani";
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                string query = "SELECT * FROM vw_KelolaKelompokTani";
 
-                    dataGridViewKelompok.DataSource = dt;
-
-                    dataGridViewKelompok.Columns["Id_Kelompok"].HeaderText = "ID Kelompok";
-                    dataGridViewKelompok.Columns["Nama_Kelompok"].HeaderText = "Nama Kelompok Tani";
-                    dataGridViewKelompok.Columns["Alamat_Kelompok"].HeaderText = "Alamat";
-                    dataGridViewKelompok.Columns["NoTlp_Kelompok"].HeaderText = "No. Telepon";
-                }
-                catch (Exception ex)
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
                 {
-                    MessageBox.Show("Gagal Menampilkan Data: " + ex.Message);
+                    dtKelompok = new DataTable();
+                    da.Fill(dtKelompok);
+
+                    bindingSourceKelompok.DataSource = dtKelompok;
+
+                    dataGridViewKelompok.DataSource = bindingSourceKelompok;
+                    bindingNavigatorKelompok.BindingSource = bindingSourceKelompok;
+
+                    BindControls();
                 }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtKelompokID.DataBindings.Clear();
+            txtNamaKelompok.DataBindings.Clear();
+            txtTlpKelompok.DataBindings.Clear();
+            txtAlamatKelompok.DataBindings.Clear();
+
+            txtKelompokID.DataBindings.Add("Text", bindingSourceKelompok, "Id_Kelompok");
+            txtNamaKelompok.DataBindings.Add("Text", bindingSourceKelompok, "Nama_Kelompok");
+            txtTlpKelompok.DataBindings.Add("Text", bindingSourceKelompok, "NoTlp_Kelompok");
+            txtAlamatKelompok.DataBindings.Add("Text", bindingSourceKelompok, "Alamat_Kelompok");
         }
 
         private void dataGridViewKelompok_CellContentClick(object sender, DataGridViewCellEventArgs e)
