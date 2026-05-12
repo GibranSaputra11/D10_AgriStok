@@ -198,27 +198,22 @@ namespace AgriStok
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Kelompok Tani ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                try
                 {
-                    try
-                    {
-                        conn.Open();
-                        string query = "DELETE FROM KelompokTani WHERE Id_Kelompok = @Id";
-                        SqlCommand cmd = new SqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+                    if (conn.State == ConnectionState.Closed) conn.Open();
 
-                        if (cmd.ExecuteNonQuery() > 0)
-                        {
-                            MessageBox.Show("Data berhasil dihapus!");
-                            ClearForm();
-                            LoadDataGrid();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Data tidak bisa dihapus karena Kelompok Tani ini memiliki riwayat transaksi keluar.\n\nDetail: " + ex.Message);
-                    }
+                    SqlCommand cmd = new SqlCommand("sp_DeleteKelompokTani", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataGrid();
+                    ClearForm();
                 }
+                catch (Exception ex) { MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+                finally { conn.Close(); }
             }
         }
     }
