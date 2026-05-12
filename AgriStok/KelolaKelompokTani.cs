@@ -112,20 +112,7 @@ namespace AgriStok
             txtTlpKelompok.DataBindings.Add("Text", bindingSourceKelompok, "NoTlp_Kelompok");
             txtAlamatKelompok.DataBindings.Add("Text", bindingSourceKelompok, "Alamat_Kelompok");
         }
-
-        private void dataGridViewKelompok_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridViewKelompok.Rows[e.RowIndex];
-
-                txtKelompokID.Text = row.Cells["Id_Kelompok"].Value.ToString();
-                txtNamaKelompok.Text = row.Cells["Nama_Kelompok"].Value.ToString();
-                txtAlamatKelompok.Text = row.Cells["Alamat_Kelompok"].Value.ToString();
-                txtTlpKelompok.Text = row.Cells["NoTlp_Kelompok"].Value.ToString();
-            }
-        }
-
+               
         private void btnAddKelompok_Click(object sender, EventArgs e)
         {
             string nama = txtNamaKelompok.Text.Trim();

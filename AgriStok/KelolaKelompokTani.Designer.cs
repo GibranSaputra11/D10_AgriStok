@@ -103,7 +103,6 @@
             this.dataGridViewKelompok.Name = "dataGridViewKelompok";
             this.dataGridViewKelompok.Size = new System.Drawing.Size(502, 180);
             this.dataGridViewKelompok.TabIndex = 34;
-            this.dataGridViewKelompok.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewKelompok_CellContentClick);
             // 
             // btnAddKelompok
             // 
