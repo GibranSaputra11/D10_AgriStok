@@ -257,18 +257,23 @@ namespace AgriStok
                 try
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
-                    string query = "DELETE FROM Barang WHERE Id_Barang = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    SqlCommand cmd = new SqlCommand("sp_DeleteBarang", conn);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        MessageBox.Show("Data berhasil dihapus!");
-                        ClearForm(); 
-                        LoadDataGrid();
-                    }
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearForm();
+                    LoadDataGrid();
                 }
-                catch (Exception ex) { MessageBox.Show("Data gagal dihapus: " + ex.Message); }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 finally { conn.Close(); }
             }
         }
