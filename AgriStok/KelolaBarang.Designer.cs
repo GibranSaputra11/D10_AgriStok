@@ -148,7 +148,6 @@
             this.dataGridViewBarang.Name = "dataGridViewBarang";
             this.dataGridViewBarang.Size = new System.Drawing.Size(502, 180);
             this.dataGridViewBarang.TabIndex = 10;
-            this.dataGridViewBarang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewBarang_CellContentClick);
             // 
             // btnUpdateBarang
             // 

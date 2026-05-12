@@ -213,19 +213,7 @@ namespace AgriStok
             cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
         }
 
-        private void dataGridViewBarang_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridViewBarang.Rows[e.RowIndex];
-
-                txtBarangID.Text = row.Cells["Id_Barang"].Value.ToString();
-                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value.ToString();
-                cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
-                cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
-            }
-        }
-
+       
         private void btnUpdateBarang_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
