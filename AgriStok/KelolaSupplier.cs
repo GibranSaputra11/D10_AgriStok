@@ -17,6 +17,8 @@ namespace AgriStok
         private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
+        private DataTable dtSupplier = new DataTable();
+
         public KelolaSupplier()
         {
             InitializeComponent();
@@ -68,6 +70,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceSupplier.AddNew();
             txtSupplierID.Text = GenerateID();
             txtNamaSupplier.Clear();
             txtAlamatSupplier.Clear();
@@ -77,29 +80,37 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                   
-                    string query = "SELECT Id_Supplier, Nama_Supplier, Alamat_Supplier, NoTlp_Supplier FROM Supplier";
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                string query = "SELECT * FROM vw_KelolaSupplier";
 
-                    dataGridViewSupplier.DataSource = dt;
-
-                    dataGridViewSupplier.Columns["Id_Supplier"].HeaderText = "ID Supplier";
-                    dataGridViewSupplier.Columns["Nama_Supplier"].HeaderText = "Nama Supplier";
-                    dataGridViewSupplier.Columns["Alamat_Supplier"].HeaderText = "Alamat";
-                    dataGridViewSupplier.Columns["NoTlp_Supplier"].HeaderText = "No. Telepon";
-                }
-                catch (Exception ex)
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
                 {
-                    MessageBox.Show("Gagal Menampilkan Data: " + ex.Message);
+                    dtSupplier = new DataTable();
+                    da.Fill(dtSupplier);
+
+                    bindingSourceSupplier.DataSource = dtSupplier;
+
+                    dataGridViewSupplier.DataSource = bindingSourceSupplier;
+                    bindingNavigatorSupplier.BindingSource = bindingSourceSupplier;
+
+                    BindControls();
                 }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtSupplierID.DataBindings.Clear();
+            txtNamaSupplier.DataBindings.Clear();
+            txtTlpSupplier.DataBindings.Clear();
+            txtAlamatSupplier.DataBindings.Clear();
+
+            txtSupplierID.DataBindings.Add("Text", bindingSourceSupplier, "Id_Supplier");
+            txtNamaSupplier.DataBindings.Add("Text", bindingSourceSupplier, "Nama_Supplier");
+            txtTlpSupplier.DataBindings.Add("Text", bindingSourceSupplier, "NoTlp_Supplier");
+            txtAlamatSupplier.DataBindings.Add("Text", bindingSourceSupplier, "Alamat_Supplier");
         }
 
         private void btnAddSupplier_Click(object sender, EventArgs e)
@@ -157,19 +168,7 @@ namespace AgriStok
             }
         }
 
-        private void dataGridViewSupplier_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridViewSupplier.Rows[e.RowIndex];
-
-                txtSupplierID.Text = row.Cells["Id_Supplier"].Value.ToString();
-                txtNamaSupplier.Text = row.Cells["Nama_Supplier"].Value.ToString();
-                txtAlamatSupplier.Text = row.Cells["Alamat_Supplier"].Value.ToString();
-                txtTlpSupplier.Text = row.Cells["NoTlp_Supplier"].Value.ToString();
-            }
-        }
-
+        
         private void btnUpdateSupplier_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
