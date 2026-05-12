@@ -169,32 +169,26 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = @"UPDATE KelompokTani 
-                                     SET Nama_Kelompok = @Nama, 
-                                         Alamat_Kelompok = @Alamat, 
-                                         NoTlp_Kelompok = @NoTlp 
-                                     WHERE Id_Kelompok = @Id";
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaKelompok.Text);
-                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatKelompok.Text);
-                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpKelompok.Text);
+                SqlCommand cmd = new SqlCommand("sp_UpdateKelompokTani", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        MessageBox.Show("Data Kelompok Tani berhasil diupdate!");
-                        ClearForm();
-                        LoadDataGrid();
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaKelompok.Text);
+                cmd.Parameters.AddWithValue("@NoTlp", txtTlpKelompok.Text);
+                cmd.Parameters.AddWithValue("@Alamat", txtAlamatKelompok.Text);
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Data Kelompok Tani berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
             }
+            catch (Exception ex) { MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            finally { conn.Close(); }
         }
 
         private void btnDeleteKelompok_Click(object sender, EventArgs e)
