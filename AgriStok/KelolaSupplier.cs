@@ -173,32 +173,26 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = @"UPDATE Supplier 
-                                     SET Nama_Supplier = @Nama, 
-                                         Alamat_Supplier = @Alamat, 
-                                         NoTlp_Supplier = @NoTlp 
-                                     WHERE Id_Supplier = @Id";
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
-                    cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
-                    cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+                SqlCommand cmd = new SqlCommand("sp_UpdateSupplier", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        MessageBox.Show("Data Supplier berhasil diupdate!");
-                        ClearForm();
-                        LoadDataGrid();
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
+                cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
+                cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Data Supplier berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
             }
+            catch (Exception ex) { MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            finally { conn.Close(); }
         }
 
         private void btnDeleteSupplier_Click(object sender, EventArgs e)
