@@ -39,6 +39,8 @@ namespace AgriStok
 
             LoadComboBoxKategori();
             LoadDataGrid();
+
+            ClearForm();
         }
 
         private void LoadComboBoxKategori()
@@ -159,8 +161,8 @@ namespace AgriStok
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Data Barang berhasil ditambahkan!");
-                ClearForm();
                 LoadDataGrid();
+                ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             finally { conn.Close(); }
@@ -168,6 +170,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceBarang.AddNew();
             txtBarangID.Text = GenerateID();
 
             txtNamaBarang.Clear();
@@ -235,8 +238,8 @@ namespace AgriStok
 
                 MessageBox.Show("Data Barang berhasil diupdate!");
 
-                ClearForm();
                 LoadDataGrid();
+                ClearForm();
 
             }
             catch (Exception ex) 
@@ -266,8 +269,8 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
 
                     MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ClearForm();
                     LoadDataGrid();
+                    ClearForm();
                 }
                 catch (Exception ex) 
                 {
