@@ -222,21 +222,28 @@ namespace AgriStok
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                string query = @"UPDATE Barang SET Nama_Barang = @Nama, Id_Satuan = @IdSatuan, Id_Kategori = @IdKategori WHERE Id_Barang = @Id";
-                SqlCommand cmd = new SqlCommand(query, conn);
+
+                SqlCommand cmd = new SqlCommand("sp_UpdateBarang", conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
                 cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
                 cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
                 cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
 
-                if (cmd.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Data Barang berhasil diupdate!");
-                    ClearForm(); 
-                    LoadDataGrid();
-                }
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Data Barang berhasil diupdate!");
+
+                ClearForm();
+                LoadDataGrid();
+
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             finally { conn.Close(); }
         }
 
