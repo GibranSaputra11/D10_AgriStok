@@ -16,15 +16,25 @@ namespace AgriStok
 
     public partial class AddSatuan : Form
     {
+        private SqlConnection conn;
         private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+
+        private DataTable dtSatuan = new DataTable();
 
         public AddSatuan()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void AddSatuan_Load(object sender, EventArgs e)
         {
+            dgvSatuan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSatuan.MultiSelect = false;
+            dgvSatuan.ReadOnly = true;
+            dgvSatuan.AllowUserToAddRows = false;
+            dgvSatuan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtSatuanID.ReadOnly = true;
             LoadDataGrid();
             ClearForm();
@@ -54,6 +64,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceSatuan.AddNew();
             txtSatuanID.Text = GenerateID();
             txtNamaSatuan.Clear();
             txtNamaSatuan.Focus();
@@ -61,19 +72,44 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Satuan AS [ID], Nama_Satuan AS [Nama Satuan] FROM Satuan", conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgvSatuan.DataSource = dt;
+                string query = "SELECT * FROM vw_Satuan";
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
+                {
+                    dtSatuan = new DataTable();
+                    da.Fill(dtSatuan);
+
+                    bindingSourceSatuan.DataSource = dtSatuan;
+                    dgvSatuan.DataSource = bindingSourceSatuan;
+                    bindingNavigatorSatuan.BindingSource = bindingSourceSatuan;
+
+                    BindControls();
+                }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtSatuanID.DataBindings.Clear();
+            txtNamaSatuan.DataBindings.Clear();
+
+            txtSatuanID.DataBindings.Add("Text", bindingSourceSatuan, "Id_Satuan");
+            txtNamaSatuan.DataBindings.Add("Text", bindingSourceSatuan, "Nama_Satuan");
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
 
             string input = txtNamaSatuan.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(txtSatuanID.Text))
+            {
+                MessageBox.Show("ID Satuan tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSatuanID.Text = GenerateID();
+                return;
+            }
 
             if (string.IsNullOrWhiteSpace(txtNamaSatuan.Text)) return;
 
@@ -108,83 +144,94 @@ namespace AgriStok
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = "INSERT INTO Satuan (Id_Satuan, Nama_Satuan) VALUES (@Id, @Nama)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
-                    cmd.ExecuteNonQuery();
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_InsertSatuan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    MessageBox.Show("Data Satuan berhasil disimpan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Satuan berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Satuan SET Nama_Satuan = @Nama WHERE Id_Satuan = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
-                    cmd.ExecuteNonQuery();
+            if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
 
-                    MessageBox.Show("Data Satuan berhasil diupdate!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            if (txtSatuanID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_UpdateSatuan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Satuan berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
-
-
-        private void dgvSatuan_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvSatuan.Rows[e.RowIndex];
-                txtSatuanID.Text = row.Cells["ID"].Value.ToString();
-                txtNamaSatuan.Text = row.Cells["Nama Satuan"].Value.ToString();
-            }
-        }
-
+                      
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
 
+            if (txtSatuanID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Satuan ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                if (confirm == DialogResult.Yes)
                 {
                     try
                     {
-                        conn.Open();
-                        string query = "DELETE FROM Satuan WHERE Id_Satuan = @Id";
-                        SqlCommand cmd = new SqlCommand(query, conn);
+                        if (conn.State == ConnectionState.Closed) conn.Open();
+                        SqlCommand cmd = new SqlCommand("sp_DeleteSatuan", conn);
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                        cmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Data berhasil dihapus!");
-                        ClearForm();
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadDataGrid();
+                        ClearForm();
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Satuan tidak bisa dihapus karena sedang digunakan oleh data Barang di gudang!\n\nDetail: " + ex.Message, "Gagal Hapus", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    catch (Exception ex) { MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+                    finally { conn.Close(); }
                 }
             }
         }

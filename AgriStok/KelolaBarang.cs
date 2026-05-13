@@ -17,6 +17,8 @@ namespace AgriStok
         private SqlConnection conn;
         private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
 
+        private DataTable dtBarang = new DataTable();
+
         public KelolaBarang()
         {
             InitializeComponent();
@@ -36,7 +38,6 @@ namespace AgriStok
             cmbSatuan.Enabled = false;
 
             LoadComboBoxKategori();
-            LoadComboBoxSatuan();
             LoadDataGrid();
 
             ClearForm();
@@ -139,6 +140,13 @@ namespace AgriStok
 
         private void btnSaveBarang_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtBarangID.Text))
+            {
+                MessageBox.Show("ID Barang tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBarangID.Text = GenerateID();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNamaBarang.Text) || cmbSatuan.SelectedValue == null || cmbKategori.SelectedValue == null)
             {
                 MessageBox.Show("Harap isi semua data dengan lengkap!");
@@ -149,28 +157,27 @@ namespace AgriStok
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = @"INSERT INTO Barang (Id_Barang, Nama_Barang, Id_Satuan, Id_Kategori, Stok_Barang) 
-                                 VALUES (@Id, @Nama, @IdSatuan, @IdKategori, 0)";
+                SqlCommand cmd = new SqlCommand("sp_InsertBarang", conn);
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
                 cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
                 cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
                 cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
 
-                if (cmd.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Data Barang berhasil ditambahkan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Barang berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             finally { conn.Close(); }
         }
 
         private void ClearForm()
         {
+            bindingSourceBarang.AddNew();
             txtBarangID.Text = GenerateID();
 
             txtNamaBarang.Clear();
@@ -184,61 +191,74 @@ namespace AgriStok
         {
             try
             {
-                string query = @"SELECT 
-                                    b.Id_Barang, b.Nama_Barang, 
-                                    b.Id_Satuan, s.Nama_Satuan, 
-                                    b.Id_Kategori, k.Nama_Kategori, 
-                                    b.Stok_Barang 
-                                 FROM Barang b
-                                 INNER JOIN Satuan s ON b.Id_Satuan = s.Id_Satuan
-                                 INNER JOIN Kategori k ON b.Id_Kategori = k.Id_Kategori";
+                string query = "SELECT * FROM vw_KelolaBarang";
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
+                {
+                    dtBarang = new DataTable();
+                    da.Fill(dtBarang); 
 
-                dataGridViewBarang.DataSource = dt;
-                dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
-                dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
+                    bindingSourceBarang.DataSource = dtBarang;
+
+                    dataGridViewBarang.DataSource = bindingSourceBarang;
+                    bindingNavigatorBarang.BindingSource = bindingSourceBarang;
+
+                    BindControls();
+                }
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
         }
 
-        private void dataGridViewBarang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void BindControls()
         {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridViewBarang.Rows[e.RowIndex];
+            txtBarangID.DataBindings.Clear();
+            txtNamaBarang.DataBindings.Clear();
+            cmbKategori.DataBindings.Clear();
+            cmbSatuan.DataBindings.Clear();
 
-                txtBarangID.Text = row.Cells["Id_Barang"].Value.ToString();
-                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value.ToString();
-                cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
-                cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
-            }
+            txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
+            txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
+
+            cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
+            cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
         }
 
+       
         private void btnUpdateBarang_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
 
+            if (txtBarangID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                string query = @"UPDATE Barang SET Nama_Barang = @Nama, Id_Satuan = @IdSatuan, Id_Kategori = @IdKategori WHERE Id_Barang = @Id";
-                SqlCommand cmd = new SqlCommand(query, conn);
+
+                SqlCommand cmd = new SqlCommand("sp_UpdateBarang", conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
                 cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
                 cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
                 cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
 
-                if (cmd.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Data Barang berhasil diupdate!");
-                    ClearForm(); 
-                    LoadDataGrid();
-                }
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Data Barang berhasil diupdate!");
+
+                LoadDataGrid();
+                ClearForm();
+
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message); }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             finally { conn.Close(); }
         }
 
@@ -246,24 +266,35 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
 
+            if (txtBarangID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Barang ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
                 try
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
-                    string query = "DELETE FROM Barang WHERE Id_Barang = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    SqlCommand cmd = new SqlCommand("sp_DeleteBarang", conn);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
 
-                    if (cmd.ExecuteNonQuery() > 0)
-                    {
-                        MessageBox.Show("Data berhasil dihapus!");
-                        ClearForm(); 
-                        LoadDataGrid();
-                    }
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataGrid();
+                    ClearForm();
                 }
-                catch (Exception ex) { MessageBox.Show("Data gagal dihapus: " + ex.Message); }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 finally { conn.Close(); }
             }
         }

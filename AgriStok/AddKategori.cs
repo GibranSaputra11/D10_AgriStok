@@ -15,15 +15,25 @@ namespace AgriStok
 {
     public partial class AddKategori : Form
     {
+        private SqlConnection conn;
         private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+
+        private DataTable dtKategori = new DataTable();
 
         public AddKategori()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void AddKategori_Load(object sender, EventArgs e)
         {
+            dgvKategori.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvKategori.MultiSelect = false;
+            dgvKategori.ReadOnly = true;
+            dgvKategori.AllowUserToAddRows = false;
+            dgvKategori.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtKategoriID.ReadOnly = true;
 
             LoadDataGrid();
@@ -54,6 +64,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceKategori.AddNew();
             txtKategoriID.Text = GenerateID();
             txtNamaKategori.Clear();
             txtNamaKategori.Focus();
@@ -61,22 +72,43 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
+                string query = "SELECT * FROM vw_Kategori";
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
                 {
-                    SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Kategori AS [ID], Nama_Kategori AS [Nama Kategori] FROM Kategori", conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dgvKategori.DataSource = dt;
+                    dtKategori = new DataTable();
+                    da.Fill(dtKategori);
+
+                    bindingSourceKategori.DataSource = dtKategori;
+                    dgvKategori.DataSource = bindingSourceKategori;
+                    bindingNavigatorKategori.BindingSource = bindingSourceKategori;
+
+                    BindControls();
                 }
-                catch (Exception ex) { MessageBox.Show("Gagal load tabel: " + ex.Message); }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtKategoriID.DataBindings.Clear();
+            txtNamaKategori.DataBindings.Clear();
+
+            txtKategoriID.DataBindings.Add("Text", bindingSourceKategori, "Id_Kategori");
+            txtNamaKategori.DataBindings.Add("Text", bindingSourceKategori, "Nama_Kategori");
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
             string input = txtNamaKategori.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(txtKategoriID.Text))
+            {
+                MessageBox.Show("ID Kategori tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtKategoriID.Text = GenerateID();
+                return;
+            }
 
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -118,23 +150,27 @@ namespace AgriStok
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                
-                try
-                {
-                    conn.Open();
-                    string query = "INSERT INTO Kategori (Id_Kategori, Nama_Kategori) VALUES (@Id, @Nama)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-                    cmd.ExecuteNonQuery();
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    MessageBox.Show("Data Kategori berhasil disimpan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Kategori berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
@@ -142,22 +178,33 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (txtKategoriID.Text == GenerateID())
             {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Kategori SET Nama_Kategori = @Nama WHERE Id_Kategori = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-                    cmd.ExecuteNonQuery();
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                    MessageBox.Show("Data Kategori berhasil diupdate!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Kategori berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
@@ -165,39 +212,37 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
+            if (txtKategoriID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Kategori ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                try
                 {
-                    try
-                    {
-                        conn.Open();
-                        string query = "DELETE FROM Kategori WHERE Id_Kategori = @Id";
-                        SqlCommand cmd = new SqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                        cmd.ExecuteNonQuery();
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
 
-                        MessageBox.Show("Data berhasil dihapus!");
-                        ClearForm();
-                        LoadDataGrid();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Kategori tidak bisa dihapus karena sedang digunakan oleh data Barang di gudang!\n\nDetail: " + ex.Message, "Gagal Hapus", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataGrid();
+                    ClearForm();
+                }
+                catch (Exception ex) 
+                { 
+                    MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                }
+                finally 
+                { 
+                    conn.Close(); 
                 }
             }
         }
-
-        private void dgvKategori_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvKategori.Rows[e.RowIndex];
-                txtKategoriID.Text = row.Cells["ID"].Value.ToString();
-                txtNamaKategori.Text = row.Cells["Nama Kategori"].Value.ToString();
-            }
-        }
+            
     }
 }
