@@ -48,6 +48,9 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.lblItemCount = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMaster)).BeginInit();
@@ -59,7 +62,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(34, 30);
+            this.label1.Location = new System.Drawing.Point(34, 38);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(157, 17);
             this.label1.TabIndex = 0;
@@ -68,7 +71,7 @@
             // dgvMaster
             // 
             this.dgvMaster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaster.Location = new System.Drawing.Point(37, 59);
+            this.dgvMaster.Location = new System.Drawing.Point(37, 97);
             this.dgvMaster.Name = "dgvMaster";
             this.dgvMaster.Size = new System.Drawing.Size(342, 347);
             this.dgvMaster.TabIndex = 1;
@@ -76,7 +79,7 @@
             // dgvDetail
             // 
             this.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetail.Location = new System.Drawing.Point(428, 59);
+            this.dgvDetail.Location = new System.Drawing.Point(428, 97);
             this.dgvDetail.Name = "dgvDetail";
             this.dgvDetail.Size = new System.Drawing.Size(281, 266);
             this.dgvDetail.TabIndex = 2;
@@ -85,7 +88,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(425, 30);
+            this.label2.Location = new System.Drawing.Point(425, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(154, 17);
             this.label2.TabIndex = 3;
@@ -93,7 +96,7 @@
             // 
             // btnAddIn
             // 
-            this.btnAddIn.Location = new System.Drawing.Point(428, 344);
+            this.btnAddIn.Location = new System.Drawing.Point(428, 418);
             this.btnAddIn.Name = "btnAddIn";
             this.btnAddIn.Size = new System.Drawing.Size(145, 26);
             this.btnAddIn.TabIndex = 4;
@@ -215,11 +218,40 @@
             this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
+            // lblItemCount
+            // 
+            this.lblItemCount.AutoSize = true;
+            this.lblItemCount.Location = new System.Drawing.Point(425, 377);
+            this.lblItemCount.Name = "lblItemCount";
+            this.lblItemCount.Size = new System.Drawing.Size(35, 13);
+            this.lblItemCount.TabIndex = 6;
+            this.lblItemCount.Text = "label3";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(98, 71);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(186, 20);
+            this.txtSearch.TabIndex = 7;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(34, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Pencarian:";
+            // 
             // DaftarTransaksiIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 474);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.lblItemCount);
             this.Controls.Add(this.bindingNavigatorMaster);
             this.Controls.Add(this.btnAddIn);
             this.Controls.Add(this.label2);
@@ -260,5 +292,8 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Label lblItemCount;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Label label3;
     }
 }

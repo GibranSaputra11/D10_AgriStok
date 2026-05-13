@@ -33,7 +33,9 @@ namespace AgriStok
             dgvDetail.ReadOnly = true;
             dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            lblItemCount.Text = "Total Jenis Barang: 0";
             bindingSourceMaster.PositionChanged += BindingSourceMaster_PositionChanged;
+
 
             LoadMasterData();
         }
@@ -44,7 +46,9 @@ namespace AgriStok
             {
                 try
                 {
-                    string query = "SELECT * FROM vw_DaftarTransaksiIn ORDER BY [Tanggal Masuk] DESC";
+                    bindingSourceMaster.Filter = "";
+
+                    string query = "SELECT * FROM vw_DaftarTransaksiIn ORDER BY [Tanggal Masuk] DESC, [ID Transaksi] DESC";
 
                     SqlDataAdapter da = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
@@ -80,7 +84,8 @@ namespace AgriStok
                     da.Fill(dt);
 
                     dgvDetail.DataSource = dt;
-                                      
+
+                    lblItemCount.Text = $"Total Jenis Barang: {dt.Rows.Count}";
                 }
                 catch (Exception ex)
                 {
@@ -106,12 +111,22 @@ namespace AgriStok
             }
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bindingSourceMaster.Filter = string.Format("[ID Transaksi] LIKE '%{0}%' OR [Nama Supplier] LIKE '%{0}%'", txtSearch.Text);
+            }
+            catch (Exception ex) { bindingSourceMaster.Filter = ""; }
+        }
+
         private void btnAddIn_Click(object sender, EventArgs e)
         {
             TransaksiIn transaksiIn = new TransaksiIn();
             transaksiIn.ShowDialog();
 
             LoadMasterData();
+            txtSearch.Clear();
         }
     }
 }
