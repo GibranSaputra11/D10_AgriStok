@@ -171,22 +171,33 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (txtKategoriID.Text == GenerateID())
             {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Kategori SET Nama_Kategori = @Nama WHERE Id_Kategori = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-                    cmd.ExecuteNonQuery();
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                    MessageBox.Show("Data Kategori berhasil diupdate!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Kategori berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
