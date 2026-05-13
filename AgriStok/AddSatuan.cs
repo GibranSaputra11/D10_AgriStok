@@ -200,27 +200,31 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
 
+            if (txtSatuanID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Satuan ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                if (confirm == DialogResult.Yes)
                 {
                     try
                     {
-                        conn.Open();
-                        string query = "DELETE FROM Satuan WHERE Id_Satuan = @Id";
-                        SqlCommand cmd = new SqlCommand(query, conn);
+                        if (conn.State == ConnectionState.Closed) conn.Open();
+                        SqlCommand cmd = new SqlCommand("sp_DeleteSatuan", conn);
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                        cmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Data berhasil dihapus!");
-                        ClearForm();
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadDataGrid();
+                        ClearForm();
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Satuan tidak bisa dihapus karena sedang digunakan oleh data Barang di gudang!\n\nDetail: " + ex.Message, "Gagal Hapus", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    catch (Exception ex) { MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+                    finally { conn.Close(); }
                 }
             }
         }
