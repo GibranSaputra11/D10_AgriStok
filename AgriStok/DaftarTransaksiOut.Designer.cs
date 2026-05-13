@@ -48,6 +48,9 @@
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.lblItemCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMaster)).BeginInit();
@@ -57,7 +60,7 @@
             // 
             // btnAddOut
             // 
-            this.btnAddOut.Location = new System.Drawing.Point(457, 351);
+            this.btnAddOut.Location = new System.Drawing.Point(457, 414);
             this.btnAddOut.Name = "btnAddOut";
             this.btnAddOut.Size = new System.Drawing.Size(145, 26);
             this.btnAddOut.TabIndex = 9;
@@ -78,7 +81,7 @@
             // dgvDetail
             // 
             this.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetail.Location = new System.Drawing.Point(457, 66);
+            this.dgvDetail.Location = new System.Drawing.Point(457, 93);
             this.dgvDetail.Name = "dgvDetail";
             this.dgvDetail.Size = new System.Drawing.Size(281, 266);
             this.dgvDetail.TabIndex = 7;
@@ -86,7 +89,7 @@
             // dgvMaster
             // 
             this.dgvMaster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaster.Location = new System.Drawing.Point(66, 66);
+            this.dgvMaster.Location = new System.Drawing.Point(66, 93);
             this.dgvMaster.Name = "dgvMaster";
             this.dgvMaster.Size = new System.Drawing.Size(342, 347);
             this.dgvMaster.TabIndex = 6;
@@ -215,11 +218,40 @@
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(62, 68);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 16);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Pencarian:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(139, 65);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(186, 22);
+            this.txtSearch.TabIndex = 11;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // lblItemCount
+            // 
+            this.lblItemCount.AutoSize = true;
+            this.lblItemCount.Location = new System.Drawing.Point(454, 378);
+            this.lblItemCount.Name = "lblItemCount";
+            this.lblItemCount.Size = new System.Drawing.Size(44, 16);
+            this.lblItemCount.TabIndex = 13;
+            this.lblItemCount.Text = "label3";
+            // 
             // DaftarTransaksiOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 500);
+            this.Controls.Add(this.lblItemCount);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.bindingNavigatorMaster);
             this.Controls.Add(this.btnAddOut);
             this.Controls.Add(this.label2);
@@ -260,5 +292,8 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Label lblItemCount;
     }
 }

@@ -34,6 +34,8 @@ namespace AgriStok
 
             bindingSourceMaster.PositionChanged += BindingSourceMaster_PositionChanged;
 
+            lblItemCount.Text = "Total Jenis Barang: 0";
+
             LoadMasterData();
         }
 
@@ -81,6 +83,8 @@ namespace AgriStok
                     da.Fill(dt);
 
                     dgvDetail.DataSource = dt;
+
+                    lblItemCount.Text = $"Total Jenis Barang: {dt.Rows.Count}";
                 }
                 catch (Exception ex) { MessageBox.Show("Gagal memuat detail barang: " + ex.Message); }
             }
@@ -101,11 +105,25 @@ namespace AgriStok
             }
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                bindingSourceMaster.Filter = string.Format("[ID Transaksi] LIKE '%{0}%' OR [Nama Kelompok] LIKE '%{0}%'", txtSearch.Text);
+            }
+            catch (Exception)
+            {
+                bindingSourceMaster.Filter = "";
+            }
+        }
+
         private void btnAddOut_Click(object sender, EventArgs e)
         {
             TransaksiOut transaksiOut = new TransaksiOut();
 
             transaksiOut.ShowDialog();
+
+            txtSearch.Clear();
 
             LoadMasterData();
         }
