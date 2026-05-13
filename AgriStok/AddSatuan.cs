@@ -16,15 +16,25 @@ namespace AgriStok
 
     public partial class AddSatuan : Form
     {
+        private SqlConnection conn;
         private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+
+        private DataTable dtSatuan = new DataTable();
 
         public AddSatuan()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void AddSatuan_Load(object sender, EventArgs e)
         {
+            dgvSatuan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSatuan.MultiSelect = false;
+            dgvSatuan.ReadOnly = true;
+            dgvSatuan.AllowUserToAddRows = false;
+            dgvSatuan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtSatuanID.ReadOnly = true;
             LoadDataGrid();
             ClearForm();
@@ -54,6 +64,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceSatuan.AddNew();
             txtSatuanID.Text = GenerateID();
             txtNamaSatuan.Clear();
             txtNamaSatuan.Focus();
@@ -61,13 +72,31 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Satuan AS [ID], Nama_Satuan AS [Nama Satuan] FROM Satuan", conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgvSatuan.DataSource = dt;
+                string query = "SELECT * FROM vw_Satuan";
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
+                {
+                    dtSatuan = new DataTable();
+                    da.Fill(dtSatuan);
+
+                    bindingSourceSatuan.DataSource = dtSatuan;
+                    dgvSatuan.DataSource = bindingSourceSatuan;
+                    bindingNavigatorSatuan.BindingSource = bindingSourceSatuan;
+
+                    BindControls();
+                }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtSatuanID.DataBindings.Clear();
+            txtNamaSatuan.DataBindings.Clear();
+
+            txtSatuanID.DataBindings.Add("Text", bindingSourceSatuan, "Id_Satuan");
+            txtNamaSatuan.DataBindings.Add("Text", bindingSourceSatuan, "Nama_Satuan");
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
