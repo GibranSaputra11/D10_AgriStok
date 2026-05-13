@@ -140,6 +140,13 @@ namespace AgriStok
 
         private void btnSaveBarang_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtBarangID.Text))
+            {
+                MessageBox.Show("ID Barang tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBarangID.Text = GenerateID();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNamaBarang.Text) || cmbSatuan.SelectedValue == null || cmbKategori.SelectedValue == null)
             {
                 MessageBox.Show("Harap isi semua data dengan lengkap!");

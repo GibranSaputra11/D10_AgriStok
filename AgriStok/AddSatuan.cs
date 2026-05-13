@@ -104,6 +104,13 @@ namespace AgriStok
 
             string input = txtNamaSatuan.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(txtSatuanID.Text))
+            {
+                MessageBox.Show("ID Satuan tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSatuanID.Text = GenerateID();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNamaSatuan.Text)) return;
 
             if (input.Length < 2)

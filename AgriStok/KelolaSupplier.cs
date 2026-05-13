@@ -119,6 +119,13 @@ namespace AgriStok
             string noTelp = txtTlpSupplier.Text.Trim();
             string alamat = txtAlamatSupplier.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(txtSupplierID.Text))
+            {
+                MessageBox.Show("ID Supplier tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSupplierID.Text = GenerateID(); 
+                return; 
+            }
+
             if (string.IsNullOrWhiteSpace(nama) || nama.Length < 3)
             {
                 MessageBox.Show("Nama tidak boleh kosong atau terlalu pendek!\nMasukkan minimal 3 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);

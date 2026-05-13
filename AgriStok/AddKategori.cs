@@ -103,6 +103,13 @@ namespace AgriStok
         {
             string input = txtNamaKategori.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(txtKategoriID.Text))
+            {
+                MessageBox.Show("ID Kategori tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtKategoriID.Text = GenerateID();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(input))
             {
                 MessageBox.Show("Nama Kategori tidak boleh kosong!");
