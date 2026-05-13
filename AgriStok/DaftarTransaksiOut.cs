@@ -32,6 +32,8 @@ namespace AgriStok
             dgvDetail.ReadOnly = true;
             dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            bindingSourceMaster.PositionChanged += BindingSourceMaster_PositionChanged;
+
             LoadMasterData();
         }
 
@@ -41,26 +43,25 @@ namespace AgriStok
             {
                 try
                 {
-                    conn.Open();
-                    string query = @"SELECT t.Id_Out AS [ID Transaksi], 
-                                            k.Nama_Kelompok AS [Nama Kelompok Tani], 
-                                            t.Tgl_Out AS [Tanggal Keluar], 
-                                            t.Total_Barang_Out AS [Total Item]
-                                     FROM Transaksi_Out t
-                                     INNER JOIN KelompokTani k ON t.Id_Kelompok = k.Id_Kelompok
-                                     ORDER BY t.Tgl_Out DESC";
+                    bindingSourceMaster.Filter = "";
+
+                    string query = "SELECT * FROM vw_DaftarTransaksiOut ORDER BY [Tanggal Keluar] DESC, [ID Transaksi] DESC";
 
                     SqlDataAdapter da = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dgvMaster.DataSource = dt;
 
-                    dgvDetail.DataSource = null;
+                    bindingSourceMaster.DataSource = dt;
+                    dgvMaster.DataSource = bindingSourceMaster;
+
+                    if (bindingNavigatorMaster != null)
+                    {
+                        bindingNavigatorMaster.BindingSource = bindingSourceMaster;
+                    }
+
+                    BindingSourceMaster_PositionChanged(null, null);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal memuat data Transaksi Keluar: " + ex.Message);
-                }
+                catch (Exception ex) { MessageBox.Show("Gagal memuat data Master: " + ex.Message); }
             }
         }
 
@@ -70,13 +71,7 @@ namespace AgriStok
             {
                 try
                 {
-                    conn.Open();
-                    string query = @"SELECT b.Id_Barang AS [ID Barang], 
-                                            b.Nama_Barang AS [Nama Barang], 
-                                            d.Subtotal_Out AS [Jumlah Keluar]
-                                     FROM Detail_Out d
-                                     INNER JOIN Barang b ON d.Id_Barang = b.Id_Barang
-                                     WHERE d.Id_Out = @Id";
+                    string query = "SELECT [ID Barang], [Nama Barang], [Jumlah Keluar] FROM vw_DetailTransaksiOut WHERE [ID Transaksi] = @Id";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@Id", idTransaksi);
@@ -84,24 +79,25 @@ namespace AgriStok
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
+
                     dgvDetail.DataSource = dt;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal memuat detail barang: " + ex.Message);
-                }
+                catch (Exception ex) { MessageBox.Show("Gagal memuat detail barang: " + ex.Message); }
             }
         }
 
-        private void dgvMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void BindingSourceMaster_PositionChanged(object sender, EventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (bindingSourceMaster.Current != null)
             {
-                DataGridViewRow row = dgvMaster.Rows[e.RowIndex];
-
-                string idTransaksi = row.Cells["ID Transaksi"].Value.ToString();
+                DataRowView currentRow = (DataRowView)bindingSourceMaster.Current;
+                string idTransaksi = currentRow["ID Transaksi"].ToString();
 
                 LoadDetailData(idTransaksi);
+            }
+            else
+            {
+                dgvDetail.DataSource = null;
             }
         }
 
