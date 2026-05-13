@@ -169,6 +169,12 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
 
+            if (txtKelompokID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
@@ -194,6 +200,12 @@ namespace AgriStok
         private void btnDeleteKelompok_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
+
+            if (txtKelompokID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             DialogResult confirm = MessageBox.Show("Yakin ingin menghapus Kelompok Tani ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
