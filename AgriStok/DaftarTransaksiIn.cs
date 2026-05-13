@@ -117,7 +117,7 @@ namespace AgriStok
             {
                 bindingSourceMaster.Filter = string.Format("[ID Transaksi] LIKE '%{0}%' OR [Nama Supplier] LIKE '%{0}%'", txtSearch.Text);
             }
-            catch (Exception ex) { bindingSourceMaster.Filter = ""; }
+            catch (Exception) { bindingSourceMaster.Filter = ""; }
         }
 
         private void btnAddIn_Click(object sender, EventArgs e)
