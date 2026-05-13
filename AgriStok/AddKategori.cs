@@ -143,23 +143,27 @@ namespace AgriStok
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                
-                try
-                {
-                    conn.Open();
-                    string query = "INSERT INTO Kategori (Id_Kategori, Nama_Kategori) VALUES (@Id, @Nama)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-                    cmd.ExecuteNonQuery();
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    MessageBox.Show("Data Kategori berhasil disimpan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Kategori berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
@@ -214,15 +218,6 @@ namespace AgriStok
                 }
             }
         }
-
-        private void dgvKategori_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvKategori.Rows[e.RowIndex];
-                txtKategoriID.Text = row.Cells["ID"].Value.ToString();
-                txtNamaKategori.Text = row.Cells["Nama Kategori"].Value.ToString();
-            }
-        }
+            
     }
 }
