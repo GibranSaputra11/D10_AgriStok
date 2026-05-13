@@ -235,5 +235,85 @@ namespace AgriStok
                 finally { conn.Close(); }
             }
         }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                            IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL DROP TABLE dbo.Supplier_Backup;
+                            SELECT * INTO dbo.Supplier_Backup FROM dbo.Supplier;";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Backup data Supplier berhasil diamankan!", "Sistem Backup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal Backup: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnTestCelah_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "UPDATE Supplier SET Nama_Supplier = 'HACKED_BY_GIBRAN' WHERE Nama_Supplier = '" + txtNamaSupplier.Text + "'";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        int result = cmd.ExecuteNonQuery();
+                        MessageBox.Show(result + " baris supplier berhasil di-hack!", "Simulasi Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        LoadDataGrid();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Eksekusi: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRestore_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                        IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL
+                        BEGIN
+                            UPDATE s 
+                            SET s.Nama_Supplier = b.Nama_Supplier
+                            FROM dbo.Supplier s
+                            INNER JOIN dbo.Supplier_Backup b ON s.Id_Supplier = b.Id_Supplier;
+                        END";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Data berhasil di-restore ke kondisi awal!", "Recovery Instan", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                LoadDataGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Reset gagal: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
