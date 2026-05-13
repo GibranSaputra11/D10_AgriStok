@@ -108,7 +108,6 @@
             this.dgvSatuan.Name = "dgvSatuan";
             this.dgvSatuan.Size = new System.Drawing.Size(269, 189);
             this.dgvSatuan.TabIndex = 5;
-            this.dgvSatuan.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSatuan_CellClick);
             // 
             // label1
             // 

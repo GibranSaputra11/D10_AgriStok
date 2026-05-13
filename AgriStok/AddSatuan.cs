@@ -163,37 +163,39 @@ namespace AgriStok
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "UPDATE Satuan SET Nama_Satuan = @Nama WHERE Id_Satuan = @Id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
-                    cmd.ExecuteNonQuery();
+            if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
 
-                    MessageBox.Show("Data Satuan berhasil diupdate!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            if (txtSatuanID.Text == GenerateID())
+            {
+                MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_UpdateSatuan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Satuan berhasil diupdate!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
-
-
-        private void dgvSatuan_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvSatuan.Rows[e.RowIndex];
-                txtSatuanID.Text = row.Cells["ID"].Value.ToString();
-                txtNamaSatuan.Text = row.Cells["Nama Satuan"].Value.ToString();
-            }
-        }
-
+                      
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
