@@ -15,15 +15,25 @@ namespace AgriStok
 {
     public partial class AddKategori : Form
     {
+        private SqlConnection conn;
         private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+
+        private DataTable dtKategori = new DataTable();
 
         public AddKategori()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void AddKategori_Load(object sender, EventArgs e)
         {
+            dgvKategori.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvKategori.MultiSelect = false;
+            dgvKategori.ReadOnly = true;
+            dgvKategori.AllowUserToAddRows = false;
+            dgvKategori.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             txtKategoriID.ReadOnly = true;
 
             LoadDataGrid();
@@ -54,6 +64,7 @@ namespace AgriStok
 
         private void ClearForm()
         {
+            bindingSourceKategori.AddNew();
             txtKategoriID.Text = GenerateID();
             txtNamaKategori.Clear();
             txtNamaKategori.Focus();
@@ -61,17 +72,31 @@ namespace AgriStok
 
         private void LoadDataGrid()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
+                string query = "SELECT * FROM vw_Kategori";
+                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
                 {
-                    SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Kategori AS [ID], Nama_Kategori AS [Nama Kategori] FROM Kategori", conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dgvKategori.DataSource = dt;
+                    dtKategori = new DataTable();
+                    da.Fill(dtKategori);
+
+                    bindingSourceKategori.DataSource = dtKategori;
+                    dgvKategori.DataSource = bindingSourceKategori;
+                    bindingNavigatorKategori.BindingSource = bindingSourceKategori;
+
+                    BindControls();
                 }
-                catch (Exception ex) { MessageBox.Show("Gagal load tabel: " + ex.Message); }
             }
+            catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void BindControls()
+        {
+            txtKategoriID.DataBindings.Clear();
+            txtNamaKategori.DataBindings.Clear();
+
+            txtKategoriID.DataBindings.Add("Text", bindingSourceKategori, "Id_Kategori");
+            txtNamaKategori.DataBindings.Add("Text", bindingSourceKategori, "Nama_Kategori");
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
