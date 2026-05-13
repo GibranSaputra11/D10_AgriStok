@@ -137,22 +137,27 @@ namespace AgriStok
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = "INSERT INTO Satuan (Id_Satuan, Nama_Satuan) VALUES (@Id, @Nama)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
-                    cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
-                    cmd.ExecuteNonQuery();
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_InsertSatuan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    MessageBox.Show("Data Satuan berhasil disimpan!");
-                    ClearForm();
-                    LoadDataGrid();
-                }
-                catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+                cmd.Parameters.AddWithValue("@Id", txtSatuanID.Text);
+                cmd.Parameters.AddWithValue("@Nama", txtNamaSatuan.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Satuan berhasil ditambahkan!");
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally 
+            { 
+                conn.Close(); 
             }
         }
 
