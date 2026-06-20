@@ -186,11 +186,28 @@ namespace AgriStok
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("sp_DeleteBarang", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", id);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DeleteBarang", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Delete Barang [" + id + "]: " + ex.Message);
+
+                    throw ex;
+                }
             }
         }
         #endregion
