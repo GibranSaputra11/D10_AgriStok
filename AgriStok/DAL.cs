@@ -46,6 +46,25 @@ namespace AgriStok
             return localIP;
         }
 
+        public void InsertLogError(string pesan)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_InsertLogError", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Pesan", pesan);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                }
+            }
+        }
+
         #region Form Barang
         public string GenerateIdBarang()
         {
