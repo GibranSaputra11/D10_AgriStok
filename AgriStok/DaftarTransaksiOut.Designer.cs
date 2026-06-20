@@ -51,6 +51,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblItemCount = new System.Windows.Forms.Label();
+            this.btnEditOut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMaster)).BeginInit();
@@ -223,7 +224,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(62, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 16);
+            this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 12;
             this.label3.Text = "Pencarian:";
             // 
@@ -231,7 +232,7 @@
             // 
             this.txtSearch.Location = new System.Drawing.Point(139, 65);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(186, 22);
+            this.txtSearch.Size = new System.Drawing.Size(186, 20);
             this.txtSearch.TabIndex = 11;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
@@ -240,15 +241,27 @@
             this.lblItemCount.AutoSize = true;
             this.lblItemCount.Location = new System.Drawing.Point(454, 378);
             this.lblItemCount.Name = "lblItemCount";
-            this.lblItemCount.Size = new System.Drawing.Size(44, 16);
+            this.lblItemCount.Size = new System.Drawing.Size(35, 13);
             this.lblItemCount.TabIndex = 13;
             this.lblItemCount.Text = "label3";
+            // 
+            // btnEditOut
+            // 
+            this.btnEditOut.BackColor = System.Drawing.Color.Orange;
+            this.btnEditOut.Location = new System.Drawing.Point(608, 414);
+            this.btnEditOut.Name = "btnEditOut";
+            this.btnEditOut.Size = new System.Drawing.Size(145, 26);
+            this.btnEditOut.TabIndex = 14;
+            this.btnEditOut.Text = "Edit Transaksi";
+            this.btnEditOut.UseVisualStyleBackColor = false;
+            this.btnEditOut.Click += new System.EventHandler(this.btnEditOut_Click);
             // 
             // DaftarTransaksiOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 500);
+            this.Controls.Add(this.btnEditOut);
             this.Controls.Add(this.lblItemCount);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtSearch);
@@ -295,5 +308,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblItemCount;
+        private System.Windows.Forms.Button btnEditOut;
     }
 }

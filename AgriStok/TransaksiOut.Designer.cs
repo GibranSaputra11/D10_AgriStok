@@ -45,6 +45,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnHapus = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numJumlah)).BeginInit();
             this.SuspendLayout();
@@ -192,11 +193,25 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "ID Transaksi";
             // 
+            // btnHapus
+            // 
+            this.btnHapus.BackColor = System.Drawing.Color.Red;
+            this.btnHapus.Enabled = false;
+            this.btnHapus.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnHapus.Location = new System.Drawing.Point(109, 360);
+            this.btnHapus.Name = "btnHapus";
+            this.btnHapus.Size = new System.Drawing.Size(174, 24);
+            this.btnHapus.TabIndex = 35;
+            this.btnHapus.Text = "Hapus Item";
+            this.btnHapus.UseVisualStyleBackColor = false;
+            this.btnHapus.Click += new System.EventHandler(this.btnHapus_Click);
+            // 
             // TransaksiOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnHapus);
             this.Controls.Add(this.btnSimpan);
             this.Controls.Add(this.btnTambah);
             this.Controls.Add(this.lblTotal);
@@ -243,5 +258,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnHapus;
     }
 }

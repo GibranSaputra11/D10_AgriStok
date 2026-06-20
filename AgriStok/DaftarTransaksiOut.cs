@@ -122,10 +122,28 @@ namespace AgriStok
             TransaksiOut transaksiOut = new TransaksiOut();
 
             transaksiOut.ShowDialog();
-
+            
             txtSearch.Clear();
 
             LoadMasterData();
+        }
+
+        private void btnEditOut_Click(object sender, EventArgs e)
+        {
+            if (dgvMaster.CurrentRow != null)
+            {
+                string idTransaksiTerpilih = dgvMaster.CurrentRow.Cells["ID Transaksi"].Value.ToString();
+
+                TransaksiOut formTransaksi = new TransaksiOut();
+                formTransaksi.BukaUntukEdit(idTransaksiTerpilih);
+                formTransaksi.ShowDialog();
+
+                LoadMasterData();
+            }
+            else
+            {
+                MessageBox.Show("Silakan pilih transaksi yang ingin diedit dari tabel terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
     }
