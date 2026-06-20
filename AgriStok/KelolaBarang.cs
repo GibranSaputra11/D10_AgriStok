@@ -15,15 +15,13 @@ namespace AgriStok
 {
     public partial class KelolaBarang : Form
     {
-        private SqlConnection conn;
-        private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+        private DAL dbLogic = new DAL();
 
         private DataTable dtBarang = new DataTable();
 
         public KelolaBarang()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void KelolaBarang_Load(object sender, EventArgs e)
@@ -46,97 +44,30 @@ namespace AgriStok
 
         private void LoadComboBoxKategori()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    string query = "SELECT Id_Kategori, Nama_Kategori FROM Kategori";
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    cmbKategori.DataSource = dt;
-                    cmbKategori.DisplayMember = "Nama_Kategori";
-                    cmbKategori.ValueMember = "Id_Kategori";
-
-                    cmbKategori.SelectedIndex = -1;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error load Kategori: " + ex.Message);
-                }
+                DataTable dt = dbLogic.GetDropdownKategori();
+                cmbKategori.DataSource = dt;
+                cmbKategori.DisplayMember = "Nama_Kategori";
+                cmbKategori.ValueMember = "Id_Kategori";
+                cmbKategori.SelectedIndex = -1;
             }
+            catch (Exception ex) { MessageBox.Show("Error load Kategori: " + ex.Message); }
         }
 
         private void LoadComboBoxSatuan()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    string query = "SELECT Id_Satuan, Nama_Satuan FROM Satuan";
+                string kategoriTerpilih = cmbKategori.SelectedIndex != -1 ? cmbKategori.Text : "";
+                DataTable dt = dbLogic.GetDropdownSatuan(kategoriTerpilih);
 
-                    string kategoriTerpilih = cmbKategori.Text.ToLower();
-
-
-                    if (kategoriTerpilih.Contains("pupuk") || kategoriTerpilih.Contains("bibit") || kategoriTerpilih.Contains("benih"))
-                    {
-                        query += " WHERE Nama_Satuan IN ('Kg', 'Gram', 'Sak', 'Karung', 'Ton', 'Pack')";
-                    }
-                    else if (kategoriTerpilih.Contains("obat") || kategoriTerpilih.Contains("pestisida") || kategoriTerpilih.Contains("herbisida"))
-                    {
-                        query += " WHERE Nama_Satuan IN ('Liter', 'Botol', 'Mililiter', 'Pack')";
-                    }
-                    else if (kategoriTerpilih.Contains("alat") || kategoriTerpilih.Contains("kemasan"))
-                    {
-                        query += " WHERE Nama_Satuan IN ('Unit', 'Pcs', 'Box', 'Buah')";
-                    }
-
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    cmbSatuan.DataSource = dt;
-                    cmbSatuan.DisplayMember = "Nama_Satuan";
-                    cmbSatuan.ValueMember = "Id_Satuan";
-
-                    cmbSatuan.SelectedIndex = -1;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal memuat satuan: " + ex.Message);
-                }
+                cmbSatuan.DataSource = dt;
+                cmbSatuan.DisplayMember = "Nama_Satuan";
+                cmbSatuan.ValueMember = "Id_Satuan";
+                cmbSatuan.SelectedIndex = -1;
             }
-        }
-
-        private string GenerateID()
-        {
-            string newID = "BR-001";
-
-            using (SqlConnection localConn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    localConn.Open();
-                    string query = "SELECT TOP 1 Id_Barang FROM Barang ORDER BY Id_Barang DESC";
-                    SqlCommand cmd = new SqlCommand(query, localConn);
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        string lastID = result.ToString(); 
-                        int number = int.Parse(lastID.Split('-')[1]);
-                        number++;
-                        newID = "BR-" + number.ToString("D3"); 
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal generate ID: " + ex.Message);
-                }
-            }
-            return newID;
+            catch (Exception ex) { MessageBox.Show("Gagal memuat satuan: " + ex.Message); }
         }
 
         private void btnSaveBarang_Click(object sender, EventArgs e)
@@ -144,7 +75,7 @@ namespace AgriStok
             if (string.IsNullOrWhiteSpace(txtBarangID.Text))
             {
                 MessageBox.Show("ID Barang tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtBarangID.Text = GenerateID();
+                txtBarangID.Text = dbLogic.GenerateIdBarang();
                 return;
             }
 
@@ -166,68 +97,39 @@ namespace AgriStok
                 return;
             }
 
-
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_InsertBarang", conn);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
-                cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
-                cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
-
-                cmd.ExecuteNonQuery();
+                dbLogic.InsertBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString());
                 MessageBox.Show("Data Barang berhasil ditambahkan!");
                 LoadDataGrid();
                 ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            finally { conn.Close(); }
         }
 
         private void ClearForm()
         {
-            //bindingSourceBarang.AddNew();
-            txtBarangID.Text = GenerateID();
-
+            txtBarangID.Text = dbLogic.GenerateIdBarang();
             txtNamaBarang.Clear();
-            cmbSatuan.SelectedIndex = -1;
             cmbKategori.SelectedIndex = -1;
-
+            cmbSatuan.SelectedIndex = -1;
             dataGridViewBarang.ClearSelection();
-
             txtNamaBarang.Focus();
-            
         }
 
         private void LoadDataGrid()
         {
             try
             {
-                string query = "SELECT * FROM vw_KelolaBarang";
+                dtBarang = dbLogic.GetKelolaBarang();
+                bindingSourceBarang.DataSource = dtBarang;
+                dataGridViewBarang.DataSource = bindingSourceBarang;
+                bindingNavigatorBarang.BindingSource = bindingSourceBarang;
 
-                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
-                {
-                    dtBarang = new DataTable();
-                    da.Fill(dtBarang); 
-
-                    bindingSourceBarang.DataSource = dtBarang;
-
-                    dataGridViewBarang.DataSource = bindingSourceBarang;
-                    bindingNavigatorBarang.BindingSource = bindingSourceBarang;
-
-                    if (dataGridViewBarang.Columns.Contains("Id_Kategori"))
-                        dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
-
-                    if (dataGridViewBarang.Columns.Contains("Id_Satuan"))
-                        dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
-
-                    //BindControls();
-                }
+                if (dataGridViewBarang.Columns.Contains("Id_Kategori"))
+                    dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
+                if (dataGridViewBarang.Columns.Contains("Id_Satuan"))
+                    dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
         }
@@ -237,13 +139,18 @@ namespace AgriStok
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridViewBarang.Rows[e.RowIndex];
+                txtBarangID.Text = row.Cells["Id_Barang"].Value?.ToString();
+                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value?.ToString();
 
-                txtBarangID.Text = row.Cells["Id_Barang"].Value.ToString();
-                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value.ToString();
+                if (row.Cells["Id_Kategori"].Value != null && row.Cells["Id_Kategori"].Value != DBNull.Value)
+                    cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
+                else
+                    cmbKategori.SelectedIndex = -1;
 
-                cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
-
-                cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
+                if (row.Cells["Id_Satuan"].Value != null && row.Cells["Id_Satuan"].Value != DBNull.Value)
+                    cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
+                else
+                    cmbSatuan.SelectedIndex = -1;
             }
         }
 
@@ -271,7 +178,7 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
 
-            if (txtBarangID.Text == GenerateID())
+            if (txtBarangID.Text == dbLogic.GenerateIdBarang())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -279,37 +186,19 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_UpdateBarang", conn);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaBarang.Text);
-                cmd.Parameters.AddWithValue("@IdSatuan", cmbSatuan.SelectedValue.ToString());
-                cmd.Parameters.AddWithValue("@IdKategori", cmbKategori.SelectedValue.ToString());
-
-                cmd.ExecuteNonQuery();
-
+                dbLogic.UpdateBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString());
                 MessageBox.Show("Data Barang berhasil diupdate!");
-
                 LoadDataGrid();
                 ClearForm();
-
             }
-            catch (Exception ex) 
-            {
-                MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally { conn.Close(); }
+            catch (Exception ex) { MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void btnDeleteBarang_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtBarangID.Text)) return;
 
-            if (txtBarangID.Text == GenerateID())
+            if (txtBarangID.Text == dbLogic.GenerateIdBarang())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -320,25 +209,12 @@ namespace AgriStok
             {
                 try
                 {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("sp_DeleteBarang", conn);
-
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Id", txtBarangID.Text);
-
-                    cmd.ExecuteNonQuery();
-
+                    dbLogic.DeleteBarang(txtBarangID.Text);
                     MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataGrid();
                     ClearForm();
                 }
-                catch (Exception ex) 
-                {
-                    MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                finally { conn.Close(); }
+                catch (Exception ex) { MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan Stok", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             }
         }
 
@@ -346,22 +222,21 @@ namespace AgriStok
         {
             AddSatuan addSatuan = new AddSatuan();
             addSatuan.ShowDialog();
+            LoadComboBoxSatuan();
         }
 
         private void addKategori_Click(object sender, EventArgs e)
         {
             AddKategori addKategori = new AddKategori();
             addKategori.ShowDialog();
+            LoadComboBoxSatuan();
         }
 
         private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbKategori.SelectedIndex != -1)
             {
-                string kategori = cmbKategori.Text.ToLower();
-
                 LoadComboBoxSatuan();
-
                 cmbSatuan.Enabled = true;
             }
             else
