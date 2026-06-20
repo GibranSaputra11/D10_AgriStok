@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 
 namespace AgriStok
@@ -153,6 +154,19 @@ namespace AgriStok
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(txtNamaBarang.Text) || txtNamaBarang.Text.Length < 3)
+            {
+                MessageBox.Show("Nama tidak boleh terlalu pendek!\nMasukkan minimal 3 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Regex.IsMatch(txtNamaBarang.Text, @"^[a-zA-Z0-9\s\.,]+$"))
+            {
+                MessageBox.Show("Nama mengandung simbol yang tidak diizinkan!\nHanya gunakan huruf, angka, spasi, titik (.), atau koma (,).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
@@ -216,11 +230,11 @@ namespace AgriStok
             cmbKategori.DataBindings.Clear();
             cmbSatuan.DataBindings.Clear();
 
-            txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
-            txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
+            //txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
+            //txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
 
-            cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
-            cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
+            //cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
+            //cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
         }
 
        
