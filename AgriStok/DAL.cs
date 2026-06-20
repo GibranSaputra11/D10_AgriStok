@@ -154,14 +154,31 @@ namespace AgriStok
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("sp_UpdateBarang", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", id);
-                cmd.Parameters.AddWithValue("@Nama", nama);
-                cmd.Parameters.AddWithValue("@IdSatuan", idSatuan);
-                cmd.Parameters.AddWithValue("@IdKategori", idKategori);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_UpdateBarang", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.Parameters.AddWithValue("@IdSatuan", idSatuan);
+                    cmd.Parameters.AddWithValue("@IdKategori", idKategori);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Update Barang [" + id + "]: " + ex.Message);
+
+                    throw ex;
+                }
             }
         }
 
