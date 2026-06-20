@@ -70,6 +70,7 @@
     <Compile Include="DaftarTransaksiIn.Designer.cs">
       <DependentUpon>DaftarTransaksiIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL.cs" />
     <Compile Include="Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
