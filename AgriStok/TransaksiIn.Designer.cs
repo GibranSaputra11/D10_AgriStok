@@ -45,6 +45,7 @@
             this.lblTotal = new System.Windows.Forms.TextBox();
             this.btnTambah = new System.Windows.Forms.Button();
             this.btnSimpan = new System.Windows.Forms.Button();
+            this.btnHapus = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numJumlah)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeranjang)).BeginInit();
             this.SuspendLayout();
@@ -155,6 +156,7 @@
             this.dgvKeranjang.Name = "dgvKeranjang";
             this.dgvKeranjang.Size = new System.Drawing.Size(424, 333);
             this.dgvKeranjang.TabIndex = 13;
+            this.dgvKeranjang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKeranjang_CellEndEdit);
             // 
             // label7
             // 
@@ -192,11 +194,25 @@
             this.btnSimpan.UseVisualStyleBackColor = true;
             this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
             // 
+            // btnHapus
+            // 
+            this.btnHapus.BackColor = System.Drawing.Color.Red;
+            this.btnHapus.Enabled = false;
+            this.btnHapus.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnHapus.Location = new System.Drawing.Point(150, 359);
+            this.btnHapus.Name = "btnHapus";
+            this.btnHapus.Size = new System.Drawing.Size(174, 24);
+            this.btnHapus.TabIndex = 18;
+            this.btnHapus.Text = "Hapus Item";
+            this.btnHapus.UseVisualStyleBackColor = false;
+            this.btnHapus.Click += new System.EventHandler(this.btnHapus_Click);
+            // 
             // TransaksiIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 450);
+            this.Controls.Add(this.btnHapus);
             this.Controls.Add(this.btnSimpan);
             this.Controls.Add(this.btnTambah);
             this.Controls.Add(this.lblTotal);
@@ -243,5 +259,6 @@
         private System.Windows.Forms.TextBox lblTotal;
         private System.Windows.Forms.Button btnTambah;
         private System.Windows.Forms.Button btnSimpan;
+        private System.Windows.Forms.Button btnHapus;
     }
 }
