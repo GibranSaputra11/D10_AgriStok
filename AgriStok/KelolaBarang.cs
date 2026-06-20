@@ -191,14 +191,17 @@ namespace AgriStok
 
         private void ClearForm()
         {
-            bindingSourceBarang.AddNew();
+            //bindingSourceBarang.AddNew();
             txtBarangID.Text = GenerateID();
 
             txtNamaBarang.Clear();
             cmbSatuan.SelectedIndex = -1;
             cmbKategori.SelectedIndex = -1;
 
+            dataGridViewBarang.ClearSelection();
+
             txtNamaBarang.Focus();
+            
         }
 
         private void LoadDataGrid()
@@ -217,10 +220,36 @@ namespace AgriStok
                     dataGridViewBarang.DataSource = bindingSourceBarang;
                     bindingNavigatorBarang.BindingSource = bindingSourceBarang;
 
-                    BindControls();
+                    if (dataGridViewBarang.Columns.Contains("Id_Kategori"))
+                        dataGridViewBarang.Columns["Id_Kategori"].Visible = false;
+
+                    if (dataGridViewBarang.Columns.Contains("Id_Satuan"))
+                        dataGridViewBarang.Columns["Id_Satuan"].Visible = false;
+
+                    //BindControls();
                 }
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
+        }
+
+        private void dataGridViewBarang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridViewBarang.Rows[e.RowIndex];
+
+                txtBarangID.Text = row.Cells["Id_Barang"].Value.ToString();
+                txtNamaBarang.Text = row.Cells["Nama_Barang"].Value.ToString();
+
+                cmbKategori.SelectedValue = row.Cells["Id_Kategori"].Value.ToString();
+
+                cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
+            }
+        }
+
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            ClearForm();
         }
 
         private void BindControls()
@@ -230,11 +259,11 @@ namespace AgriStok
             cmbKategori.DataBindings.Clear();
             cmbSatuan.DataBindings.Clear();
 
-            //txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
-            //txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
+            txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
+            txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
 
-            //cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
-            //cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
+            cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
+            cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
         }
 
        
