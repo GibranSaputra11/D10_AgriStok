@@ -159,20 +159,6 @@ namespace AgriStok
             ClearForm();
         }
 
-        private void BindControls()
-        {
-            txtBarangID.DataBindings.Clear();
-            txtNamaBarang.DataBindings.Clear();
-            cmbKategori.DataBindings.Clear();
-            cmbSatuan.DataBindings.Clear();
-
-            txtBarangID.DataBindings.Add("Text", bindingSourceBarang, "Id_Barang");
-            txtNamaBarang.DataBindings.Add("Text", bindingSourceBarang, "Nama_Barang");
-
-            cmbKategori.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Kategori");
-            cmbSatuan.DataBindings.Add("SelectedValue", bindingSourceBarang, "Id_Satuan");
-        }
-
        
         private void btnUpdateBarang_Click(object sender, EventArgs e)
         {
