@@ -36,6 +36,7 @@
             this.btnOut = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnKoneksiDB = new System.Windows.Forms.Button();
+            this.btnStatistik = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,7 +102,7 @@
             // 
             // btnKoneksiDB
             // 
-            this.btnKoneksiDB.Location = new System.Drawing.Point(372, 457);
+            this.btnKoneksiDB.Location = new System.Drawing.Point(768, 470);
             this.btnKoneksiDB.Name = "btnKoneksiDB";
             this.btnKoneksiDB.Size = new System.Drawing.Size(124, 19);
             this.btnKoneksiDB.TabIndex = 6;
@@ -109,11 +110,22 @@
             this.btnKoneksiDB.UseVisualStyleBackColor = true;
             this.btnKoneksiDB.Click += new System.EventHandler(this.btnConnect_Click);
             // 
+            // btnStatistik
+            // 
+            this.btnStatistik.Location = new System.Drawing.Point(353, 427);
+            this.btnStatistik.Name = "btnStatistik";
+            this.btnStatistik.Size = new System.Drawing.Size(164, 40);
+            this.btnStatistik.TabIndex = 7;
+            this.btnStatistik.Text = "Statistik Data Transaksi";
+            this.btnStatistik.UseVisualStyleBackColor = true;
+            this.btnStatistik.Click += new System.EventHandler(this.btnStatistik_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 501);
+            this.Controls.Add(this.btnStatistik);
             this.Controls.Add(this.btnKoneksiDB);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnOut);
@@ -139,6 +151,7 @@
         private System.Windows.Forms.Button btnOut;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnKoneksiDB;
+        private System.Windows.Forms.Button btnStatistik;
     }
 }
 

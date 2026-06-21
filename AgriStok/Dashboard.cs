@@ -70,5 +70,11 @@ namespace AgriStok
             DaftarTransaksiOut daftarTransakiOut = new DaftarTransaksiOut();
             daftarTransakiOut.ShowDialog();
         }
+
+        private void btnStatistik_Click(object sender, EventArgs e)
+        {
+            StatistikaTransakiTahunan statistikTransakiTahunan = new StatistikaTransakiTahunan();
+            statistikTransakiTahunan.ShowDialog();
+        }
     }
 }
