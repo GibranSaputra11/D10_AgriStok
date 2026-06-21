@@ -31,6 +31,7 @@ namespace AgriStok
             dgvSatuan.ReadOnly = true;
             dgvSatuan.AllowUserToAddRows = false;
             dgvSatuan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvSatuan.CellClick += dgvSatuan_CellClick; 
 
             txtSatuanID.ReadOnly = true;
             LoadDataGrid();

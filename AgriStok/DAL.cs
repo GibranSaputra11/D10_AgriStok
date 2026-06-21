@@ -423,5 +423,166 @@ namespace AgriStok
             }
         }
         #endregion
+
+        #region Form Supplier
+        public string GenerateIdSupplier()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdSupplier", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "SP-001";
+            }
+        }
+
+        public DataTable GetSupplier()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM vw_KelolaSupplier", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public void InsertSupplier(string id, string nama, string noTlp, string alamat)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_InsertSupplier", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.Parameters.AddWithValue("@NoTlp", noTlp);
+                    cmd.Parameters.AddWithValue("@Alamat", alamat);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Insert Supplier [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void UpdateSupplier(string id, string nama, string noTlp, string alamat)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_UpdateSupplier", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.Parameters.AddWithValue("@NoTlp", noTlp);
+                    cmd.Parameters.AddWithValue("@Alamat", alamat);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Update Supplier [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void DeleteSupplier(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DeleteSupplier", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Delete Supplier [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+        #region Sekenario SQL Inject
+        public void BackupSupplierData()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL DROP TABLE dbo.Supplier_Backup;
+                    SELECT * INTO dbo.Supplier_Backup FROM dbo.Supplier;";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public int SimulateSQLInjection(string inputNamaSupplier)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = "UPDATE Supplier SET Nama_Supplier = 'HACKED_BY_GIBRAN' WHERE Nama_Supplier = '" + inputNamaSupplier + "'";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void RestoreSupplierData()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL
+                    BEGIN
+                        UPDATE s 
+                        SET s.Nama_Supplier = b.Nama_Supplier
+                        FROM dbo.Supplier s
+                        INNER JOIN dbo.Supplier_Backup b ON s.Id_Supplier = b.Id_Supplier;
+                    END";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        #endregion
+        #endregion
     }
 }

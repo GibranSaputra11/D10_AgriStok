@@ -30,9 +30,9 @@ namespace AgriStok
             dgvKategori.ReadOnly = true;
             dgvKategori.AllowUserToAddRows = false;
             dgvKategori.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKategori.CellClick += dgvKategori_CellClick;
 
             txtKategoriID.ReadOnly = true;
-
             LoadDataGrid();
             ClearForm();
         }

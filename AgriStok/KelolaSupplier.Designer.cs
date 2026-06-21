@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KelolaSupplier));
             this.btnDeleteSupplier = new System.Windows.Forms.Button();
             this.btnUpdateSupplier = new System.Windows.Forms.Button();
-            this.dataGridViewSupplier = new System.Windows.Forms.DataGridView();
+            this.dgvSupplier = new System.Windows.Forms.DataGridView();
             this.btnAddSupplier = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,7 +58,7 @@
             this.btnBackup = new System.Windows.Forms.Button();
             this.btnTestCelah = new System.Windows.Forms.Button();
             this.btnRestore = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSupplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSupplier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorSupplier)).BeginInit();
             this.bindingNavigatorSupplier.SuspendLayout();
@@ -84,13 +84,14 @@
             this.btnUpdateSupplier.UseVisualStyleBackColor = true;
             this.btnUpdateSupplier.Click += new System.EventHandler(this.btnUpdateSupplier_Click);
             // 
-            // dataGridViewSupplier
+            // dgvSupplier
             // 
-            this.dataGridViewSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSupplier.Location = new System.Drawing.Point(61, 246);
-            this.dataGridViewSupplier.Name = "dataGridViewSupplier";
-            this.dataGridViewSupplier.Size = new System.Drawing.Size(502, 180);
-            this.dataGridViewSupplier.TabIndex = 22;
+            this.dgvSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSupplier.Location = new System.Drawing.Point(61, 246);
+            this.dgvSupplier.Name = "dgvSupplier";
+            this.dgvSupplier.Size = new System.Drawing.Size(502, 180);
+            this.dgvSupplier.TabIndex = 22;
+            this.dgvSupplier.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSupplier_CellClick);
             // 
             // btnAddSupplier
             // 
@@ -205,6 +206,7 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorAddNewItem.Text = "Add new";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
             // bindingNavigatorCountItem
             // 
@@ -330,7 +332,7 @@
             this.Controls.Add(this.txtAlamatSupplier);
             this.Controls.Add(this.btnDeleteSupplier);
             this.Controls.Add(this.btnUpdateSupplier);
-            this.Controls.Add(this.dataGridViewSupplier);
+            this.Controls.Add(this.dgvSupplier);
             this.Controls.Add(this.btnAddSupplier);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -341,7 +343,7 @@
             this.Name = "KelolaSupplier";
             this.Text = "KelolaSupplier";
             this.Load += new System.EventHandler(this.KelolaSupplier_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSupplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSupplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceSupplier)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorSupplier)).EndInit();
             this.bindingNavigatorSupplier.ResumeLayout(false);
@@ -355,7 +357,7 @@
 
         private System.Windows.Forms.Button btnDeleteSupplier;
         private System.Windows.Forms.Button btnUpdateSupplier;
-        private System.Windows.Forms.DataGridView dataGridViewSupplier;
+        private System.Windows.Forms.DataGridView dgvSupplier;
         private System.Windows.Forms.Button btnAddSupplier;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

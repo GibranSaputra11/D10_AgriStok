@@ -14,24 +14,23 @@ namespace AgriStok
 {
     public partial class KelolaSupplier : Form
     {
-        private SqlConnection conn;
-        private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
-
+        private DAL dbLogic = new DAL();
         private DataTable dtSupplier = new DataTable();
 
         public KelolaSupplier()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void KelolaSupplier_Load(object sender, EventArgs e)
         {
-            dataGridViewSupplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewSupplier.MultiSelect = false;
-            dataGridViewSupplier.ReadOnly = true;
-            dataGridViewSupplier.AllowUserToAddRows = false;
-            dataGridViewSupplier.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvSupplier.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSupplier.MultiSelect = false;
+            dgvSupplier.ReadOnly = true;
+            dgvSupplier.AllowUserToAddRows = false;
+            dgvSupplier.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvSupplier.CellClick += dgvSupplier_CellClick;
 
             txtSupplierID.ReadOnly = true;
 
@@ -39,39 +38,11 @@ namespace AgriStok
             ClearForm();
         }
 
-        private string GenerateID()
-        {
-            string newID = "SP-001";
-
-            using (SqlConnection localConn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    localConn.Open();
-                    string query = "SELECT TOP 1 Id_Supplier FROM Supplier ORDER BY Id_Supplier DESC";
-                    SqlCommand cmd = new SqlCommand(query, localConn);
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        string lastID = result.ToString(); 
-                        int number = int.Parse(lastID.Split('-')[1]);
-                        number++;
-                        newID = "SP-" + number.ToString("D3"); 
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal generate ID Supplier: " + ex.Message);
-                }
-            }
-            return newID;
-        }
-
+        
         private void ClearForm()
         {
             bindingSourceSupplier.AddNew();
-            txtSupplierID.Text = GenerateID();
+            txtSupplierID.Text = dbLogic.GenerateIdSupplier();
             txtNamaSupplier.Clear();
             txtAlamatSupplier.Clear();
             txtTlpSupplier.Clear();
@@ -82,36 +53,26 @@ namespace AgriStok
         {
             try
             {
-                string query = "SELECT * FROM vw_KelolaSupplier";
-
-                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
-                {
-                    dtSupplier = new DataTable();
-                    da.Fill(dtSupplier);
-
-                    bindingSourceSupplier.DataSource = dtSupplier;
-
-                    dataGridViewSupplier.DataSource = bindingSourceSupplier;
-                    bindingNavigatorSupplier.BindingSource = bindingSourceSupplier;
-
-                    BindControls();
-                }
+                dtSupplier = dbLogic.GetSupplier();
+                bindingSourceSupplier.DataSource = dtSupplier;
+                dgvSupplier.DataSource = bindingSourceSupplier;
+                bindingNavigatorSupplier.BindingSource = bindingSourceSupplier;
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
         }
 
-        private void BindControls()
+        private void dgvSupplier_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtSupplierID.DataBindings.Clear();
-            txtNamaSupplier.DataBindings.Clear();
-            txtTlpSupplier.DataBindings.Clear();
-            txtAlamatSupplier.DataBindings.Clear();
-
-            txtSupplierID.DataBindings.Add("Text", bindingSourceSupplier, "Id_Supplier");
-            txtNamaSupplier.DataBindings.Add("Text", bindingSourceSupplier, "Nama_Supplier");
-            txtTlpSupplier.DataBindings.Add("Text", bindingSourceSupplier, "NoTlp_Supplier");
-            txtAlamatSupplier.DataBindings.Add("Text", bindingSourceSupplier, "Alamat_Supplier");
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvSupplier.Rows[e.RowIndex];
+                txtSupplierID.Text = row.Cells["Id_Supplier"].Value?.ToString();
+                txtNamaSupplier.Text = row.Cells["Nama_Supplier"].Value?.ToString();
+                txtTlpSupplier.Text = row.Cells["NoTlp_Supplier"].Value?.ToString();
+                txtAlamatSupplier.Text = row.Cells["Alamat_Supplier"].Value?.ToString();
+            }
         }
+
 
         private void btnAddSupplier_Click(object sender, EventArgs e)
         {
@@ -122,8 +83,16 @@ namespace AgriStok
             if (string.IsNullOrWhiteSpace(txtSupplierID.Text))
             {
                 MessageBox.Show("ID Supplier tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSupplierID.Text = GenerateID(); 
+                txtSupplierID.Text = dbLogic.GenerateIdSupplier(); 
                 return; 
+            }
+
+            if (string.IsNullOrWhiteSpace(txtNamaSupplier.Text) ||
+                string.IsNullOrWhiteSpace(txtTlpSupplier.Text) ||
+                string.IsNullOrWhiteSpace(txtAlamatSupplier.Text))
+            {
+                MessageBox.Show("Harap isi semua kolom dengan lengkap!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
             if (string.IsNullOrWhiteSpace(nama) || nama.Length < 3)
@@ -152,27 +121,12 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_InsertSupplier", conn);
-                cmd.CommandType = CommandType.StoredProcedure; 
-
-                cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
-                cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
-                cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
-
-                cmd.ExecuteNonQuery(); 
-
+                dbLogic.InsertSupplier(txtSupplierID.Text, txtNamaSupplier.Text, txtTlpSupplier.Text, txtAlamatSupplier.Text);
                 MessageBox.Show("Data Supplier berhasil ditambahkan!");
                 LoadDataGrid();
                 ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            finally
-            {
-                conn.Close();
-            }
         }
 
         
@@ -180,7 +134,7 @@ namespace AgriStok
         {
             if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
 
-            if (txtSupplierID.Text == GenerateID())
+            if (txtSupplierID.Text == dbLogic.GenerateIdSupplier())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -188,31 +142,19 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_UpdateSupplier", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaSupplier.Text);
-                cmd.Parameters.AddWithValue("@NoTlp", txtTlpSupplier.Text);
-                cmd.Parameters.AddWithValue("@Alamat", txtAlamatSupplier.Text);
-
-                cmd.ExecuteNonQuery();
-
+                dbLogic.UpdateSupplier(txtSupplierID.Text, txtNamaSupplier.Text, txtTlpSupplier.Text, txtAlamatSupplier.Text);
                 MessageBox.Show("Data Supplier berhasil diupdate!");
                 LoadDataGrid();
                 ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            finally { conn.Close(); }
         }
 
         private void btnDeleteSupplier_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSupplierID.Text)) return;
 
-            if (txtSupplierID.Text == GenerateID())
+            if (txtSupplierID.Text == dbLogic.GenerateIdSupplier())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -223,14 +165,7 @@ namespace AgriStok
             {
                 try
                 {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("sp_DeleteSupplier", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", txtSupplierID.Text);
-
-                    cmd.ExecuteNonQuery();
-
+                    dbLogic.DeleteSupplier(txtSupplierID.Text);
                     MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataGrid();
                     ClearForm();
@@ -239,7 +174,6 @@ namespace AgriStok
                 {
                     MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                finally { conn.Close(); }
             }
         }
 
@@ -247,18 +181,7 @@ namespace AgriStok
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = @"
-                            IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL DROP TABLE dbo.Supplier_Backup;
-                            SELECT * INTO dbo.Supplier_Backup FROM dbo.Supplier;";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                dbLogic.BackupSupplierData();
                 MessageBox.Show("Backup data Supplier berhasil diamankan!", "Sistem Backup", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -271,20 +194,10 @@ namespace AgriStok
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+                int result = dbLogic.SimulateSQLInjection(txtNamaSupplier.Text);
 
-                    string query = "UPDATE Supplier SET Nama_Supplier = 'HACKED_BY_GIBRAN' WHERE Nama_Supplier = '" + txtNamaSupplier.Text + "'";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        int result = cmd.ExecuteNonQuery();
-                        MessageBox.Show(result + " baris supplier berhasil di-hack!", "Simulasi Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                        LoadDataGrid();
-                    }
-                }
+                MessageBox.Show(result + " baris supplier berhasil di-hack!", "Simulasi Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LoadDataGrid();
             }
             catch (Exception ex)
             {
@@ -296,31 +209,19 @@ namespace AgriStok
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = @"
-                        IF OBJECT_ID('dbo.Supplier_Backup') IS NOT NULL
-                        BEGIN
-                            UPDATE s 
-                            SET s.Nama_Supplier = b.Nama_Supplier
-                            FROM dbo.Supplier s
-                            INNER JOIN dbo.Supplier_Backup b ON s.Id_Supplier = b.Id_Supplier;
-                        END";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                dbLogic.RestoreSupplierData();
                 MessageBox.Show("Data berhasil di-restore ke kondisi awal!", "Recovery Instan", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                LoadDataGrid();
+                LoadDataGrid(); 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Reset gagal: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            ClearForm();
         }
     }
 }
