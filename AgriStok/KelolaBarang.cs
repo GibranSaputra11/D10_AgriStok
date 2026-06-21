@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace AgriStok
@@ -99,7 +100,8 @@ namespace AgriStok
 
             try
             {
-                dbLogic.InsertBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString());
+                byte[] imgBytes = ConvertImageToBytes(pbFoto);
+                dbLogic.InsertBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString(), imgBytes);
                 MessageBox.Show("Data Barang berhasil ditambahkan!");
                 LoadDataGrid();
                 ClearForm();
@@ -114,6 +116,7 @@ namespace AgriStok
             cmbKategori.SelectedIndex = -1;
             cmbSatuan.SelectedIndex = -1;
             dataGridViewBarang.ClearSelection();
+            pbFoto.Image = null;
             txtNamaBarang.Focus();
         }
 
@@ -151,6 +154,19 @@ namespace AgriStok
                     cmbSatuan.SelectedValue = row.Cells["Id_Satuan"].Value.ToString();
                 else
                     cmbSatuan.SelectedIndex = -1;
+
+                if (row.Cells["Foto"].Value != DBNull.Value && row.Cells["Foto"].Value != null)
+                {
+                    byte[] imgBytes = (byte[])row.Cells["Foto"].Value;
+                    using (MemoryStream ms = new MemoryStream(imgBytes))
+                    {
+                        pbFoto.Image = Image.FromStream(ms);
+                    }
+                }
+                else
+                {
+                    pbFoto.Image = null;
+                }
             }
         }
 
@@ -172,7 +188,8 @@ namespace AgriStok
 
             try
             {
-                dbLogic.UpdateBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString());
+                byte[] imgBytes = ConvertImageToBytes(pbFoto);
+                dbLogic.UpdateBarang(txtBarangID.Text, txtNamaBarang.Text, cmbSatuan.SelectedValue.ToString(), cmbKategori.SelectedValue.ToString(), imgBytes);
                 MessageBox.Show("Data Barang berhasil diupdate!");
                 LoadDataGrid();
                 ClearForm();
@@ -229,6 +246,28 @@ namespace AgriStok
             {
                 cmbSatuan.DataSource = null;
                 cmbSatuan.Enabled = false;
+            }
+        }
+
+        private void btnUploadFoto_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                pbFoto.Image = Image.FromFile(ofd.FileName);
+            }
+        }
+
+        private byte[] ConvertImageToBytes(PictureBox pb)
+        {
+            if (pb.Image == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                pb.Image.Save(ms, pb.Image.RawFormat);
+                return ms.ToArray();
             }
         }
     }

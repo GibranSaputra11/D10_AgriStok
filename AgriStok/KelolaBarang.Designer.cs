@@ -57,10 +57,13 @@
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.pbFoto = new System.Windows.Forms.PictureBox();
+            this.btnUploadFoto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBarang)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceBarang)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorBarang)).BeginInit();
             this.bindingNavigatorBarang.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFoto)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBarangID
@@ -306,11 +309,32 @@
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // pbFoto
+            // 
+            this.pbFoto.Location = new System.Drawing.Point(429, 39);
+            this.pbFoto.Name = "pbFoto";
+            this.pbFoto.Size = new System.Drawing.Size(136, 134);
+            this.pbFoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFoto.TabIndex = 16;
+            this.pbFoto.TabStop = false;
+            // 
+            // btnUploadFoto
+            // 
+            this.btnUploadFoto.Location = new System.Drawing.Point(442, 190);
+            this.btnUploadFoto.Name = "btnUploadFoto";
+            this.btnUploadFoto.Size = new System.Drawing.Size(108, 23);
+            this.btnUploadFoto.TabIndex = 17;
+            this.btnUploadFoto.Text = "Upload Foto";
+            this.btnUploadFoto.UseVisualStyleBackColor = true;
+            this.btnUploadFoto.Click += new System.EventHandler(this.btnUploadFoto_Click);
+            // 
             // KelolaBarang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 489);
+            this.Controls.Add(this.btnUploadFoto);
+            this.Controls.Add(this.pbFoto);
             this.Controls.Add(this.bindingNavigatorBarang);
             this.Controls.Add(this.addKategori);
             this.Controls.Add(this.btnAddSatuan);
@@ -334,6 +358,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorBarang)).EndInit();
             this.bindingNavigatorBarang.ResumeLayout(false);
             this.bindingNavigatorBarang.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,5 +393,7 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.PictureBox pbFoto;
+        private System.Windows.Forms.Button btnUploadFoto;
     }
 }
