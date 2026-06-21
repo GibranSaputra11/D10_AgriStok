@@ -219,5 +219,104 @@ namespace AgriStok
             }
         }
         #endregion
+        #region Form Satuan
+        public string GenerateIdSatuan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdSatuan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "ST-001";
+            }
+        }
+
+        public DataTable GetSatuan()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM vw_Satuan", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public void InsertSatuan(string id, string nama)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_InsertSatuan", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Insert Satuan [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void UpdateSatuan(string id, string nama)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_UpdateSatuan", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Update Satuan [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void DeleteSatuan(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DeleteSatuan", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Delete Satuan [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        #endregion
     }
 }
