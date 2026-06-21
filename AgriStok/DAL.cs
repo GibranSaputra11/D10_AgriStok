@@ -693,5 +693,23 @@ namespace AgriStok
             }
         }
         #endregion
+
+        #region Statistika
+        public DataTable GetStatistikaTransaksiTahunan(int tahun)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GetStatistikaTransaksiTahunan", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Tahun", tahun);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+        #endregion
     }
 }
