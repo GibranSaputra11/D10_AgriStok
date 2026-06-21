@@ -34,7 +34,7 @@
             this.txtAlamatKelompok = new System.Windows.Forms.TextBox();
             this.btnDeleteKelompok = new System.Windows.Forms.Button();
             this.btnUpdateKelompok = new System.Windows.Forms.Button();
-            this.dataGridViewKelompok = new System.Windows.Forms.DataGridView();
+            this.dgvKelompokTani = new System.Windows.Forms.DataGridView();
             this.btnAddKelompok = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,35 +42,39 @@
             this.txtNamaKelompok = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtKelompokID = new System.Windows.Forms.TextBox();
-            this.bindingNavigatorKelompok = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorKelompokTani = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingSourceKelompok = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKelompok)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorKelompok)).BeginInit();
-            this.bindingNavigatorKelompok.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceKelompok)).BeginInit();
+            this.bindingSourceKelompokTani = new System.Windows.Forms.BindingSource(this.components);
+            this.btnImpExcel = new System.Windows.Forms.Button();
+            this.btnImpDb = new System.Windows.Forms.Button();
+            this.lblNamaFile = new System.Windows.Forms.Label();
+            this.lblStatusGrid = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKelompokTani)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorKelompokTani)).BeginInit();
+            this.bindingNavigatorKelompokTani.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceKelompokTani)).BeginInit();
             this.SuspendLayout();
             // 
             // txtTlpKelompok
             // 
-            this.txtTlpKelompok.Location = new System.Drawing.Point(241, 196);
+            this.txtTlpKelompok.Location = new System.Drawing.Point(135, 197);
             this.txtTlpKelompok.Name = "txtTlpKelompok";
             this.txtTlpKelompok.Size = new System.Drawing.Size(115, 20);
             this.txtTlpKelompok.TabIndex = 38;
             // 
             // txtAlamatKelompok
             // 
-            this.txtAlamatKelompok.Location = new System.Drawing.Point(241, 122);
+            this.txtAlamatKelompok.Location = new System.Drawing.Point(135, 123);
             this.txtAlamatKelompok.Multiline = true;
             this.txtAlamatKelompok.Name = "txtAlamatKelompok";
             this.txtAlamatKelompok.Size = new System.Drawing.Size(173, 55);
@@ -78,9 +82,9 @@
             // 
             // btnDeleteKelompok
             // 
-            this.btnDeleteKelompok.Location = new System.Drawing.Point(456, 152);
+            this.btnDeleteKelompok.Location = new System.Drawing.Point(350, 153);
             this.btnDeleteKelompok.Name = "btnDeleteKelompok";
-            this.btnDeleteKelompok.Size = new System.Drawing.Size(136, 35);
+            this.btnDeleteKelompok.Size = new System.Drawing.Size(90, 35);
             this.btnDeleteKelompok.TabIndex = 36;
             this.btnDeleteKelompok.Text = "Delete Kelompok Tani";
             this.btnDeleteKelompok.UseVisualStyleBackColor = true;
@@ -88,27 +92,28 @@
             // 
             // btnUpdateKelompok
             // 
-            this.btnUpdateKelompok.Location = new System.Drawing.Point(456, 97);
+            this.btnUpdateKelompok.Location = new System.Drawing.Point(350, 98);
             this.btnUpdateKelompok.Name = "btnUpdateKelompok";
-            this.btnUpdateKelompok.Size = new System.Drawing.Size(136, 39);
+            this.btnUpdateKelompok.Size = new System.Drawing.Size(90, 39);
             this.btnUpdateKelompok.TabIndex = 35;
             this.btnUpdateKelompok.Text = "Update Kelompok Tani";
             this.btnUpdateKelompok.UseVisualStyleBackColor = true;
             this.btnUpdateKelompok.Click += new System.EventHandler(this.btnUpdateKelompok_Click);
             // 
-            // dataGridViewKelompok
+            // dgvKelompokTani
             // 
-            this.dataGridViewKelompok.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewKelompok.Location = new System.Drawing.Point(129, 243);
-            this.dataGridViewKelompok.Name = "dataGridViewKelompok";
-            this.dataGridViewKelompok.Size = new System.Drawing.Size(502, 180);
-            this.dataGridViewKelompok.TabIndex = 34;
+            this.dgvKelompokTani.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvKelompokTani.Location = new System.Drawing.Point(23, 244);
+            this.dgvKelompokTani.Name = "dgvKelompokTani";
+            this.dgvKelompokTani.Size = new System.Drawing.Size(634, 180);
+            this.dgvKelompokTani.TabIndex = 34;
+            this.dgvKelompokTani.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKelompokTani_CellClick);
             // 
             // btnAddKelompok
             // 
-            this.btnAddKelompok.Location = new System.Drawing.Point(456, 45);
+            this.btnAddKelompok.Location = new System.Drawing.Point(350, 46);
             this.btnAddKelompok.Name = "btnAddKelompok";
-            this.btnAddKelompok.Size = new System.Drawing.Size(136, 39);
+            this.btnAddKelompok.Size = new System.Drawing.Size(90, 39);
             this.btnAddKelompok.TabIndex = 33;
             this.btnAddKelompok.Text = "Add Kelompok Tani";
             this.btnAddKelompok.UseVisualStyleBackColor = true;
@@ -117,7 +122,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(126, 196);
+            this.label4.Location = new System.Drawing.Point(20, 197);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 32;
@@ -126,7 +131,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(126, 125);
+            this.label3.Location = new System.Drawing.Point(20, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 31;
@@ -135,7 +140,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(126, 71);
+            this.label2.Location = new System.Drawing.Point(20, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 13);
             this.label2.TabIndex = 30;
@@ -143,7 +148,7 @@
             // 
             // txtNamaKelompok
             // 
-            this.txtNamaKelompok.Location = new System.Drawing.Point(241, 68);
+            this.txtNamaKelompok.Location = new System.Drawing.Point(135, 69);
             this.txtNamaKelompok.Multiline = true;
             this.txtNamaKelompok.Name = "txtNamaKelompok";
             this.txtNamaKelompok.Size = new System.Drawing.Size(173, 40);
@@ -152,7 +157,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(126, 33);
+            this.label1.Location = new System.Drawing.Point(20, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 28;
@@ -160,17 +165,17 @@
             // 
             // txtKelompokID
             // 
-            this.txtKelompokID.Location = new System.Drawing.Point(241, 30);
+            this.txtKelompokID.Location = new System.Drawing.Point(135, 31);
             this.txtKelompokID.Name = "txtKelompokID";
             this.txtKelompokID.Size = new System.Drawing.Size(115, 20);
             this.txtKelompokID.TabIndex = 27;
             // 
-            // bindingNavigatorKelompok
+            // bindingNavigatorKelompokTani
             // 
-            this.bindingNavigatorKelompok.AddNewItem = this.bindingNavigatorAddNewItem;
-            this.bindingNavigatorKelompok.CountItem = this.bindingNavigatorCountItem;
-            this.bindingNavigatorKelompok.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.bindingNavigatorKelompok.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorKelompokTani.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.bindingNavigatorKelompokTani.CountItem = this.bindingNavigatorCountItem;
+            this.bindingNavigatorKelompokTani.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNavigatorKelompokTani.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
             this.bindingNavigatorSeparator,
@@ -182,16 +187,42 @@
             this.bindingNavigatorSeparator2,
             this.bindingNavigatorAddNewItem,
             this.bindingNavigatorDeleteItem});
-            this.bindingNavigatorKelompok.Location = new System.Drawing.Point(0, 0);
-            this.bindingNavigatorKelompok.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.bindingNavigatorKelompok.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.bindingNavigatorKelompok.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.bindingNavigatorKelompok.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.bindingNavigatorKelompok.Name = "bindingNavigatorKelompok";
-            this.bindingNavigatorKelompok.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigatorKelompok.Size = new System.Drawing.Size(800, 25);
-            this.bindingNavigatorKelompok.TabIndex = 39;
-            this.bindingNavigatorKelompok.Text = "bindingNavigatorKelompok";
+            this.bindingNavigatorKelompokTani.Location = new System.Drawing.Point(0, 0);
+            this.bindingNavigatorKelompokTani.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.bindingNavigatorKelompokTani.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.bindingNavigatorKelompokTani.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.bindingNavigatorKelompokTani.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.bindingNavigatorKelompokTani.Name = "bindingNavigatorKelompokTani";
+            this.bindingNavigatorKelompokTani.PositionItem = this.bindingNavigatorPositionItem;
+            this.bindingNavigatorKelompokTani.Size = new System.Drawing.Size(800, 25);
+            this.bindingNavigatorKelompokTani.TabIndex = 39;
+            this.bindingNavigatorKelompokTani.Text = "bindingNavigatorKelompokTani";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -226,16 +257,9 @@
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -258,38 +282,63 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // bindingNavigatorAddNewItem
+            // btnImpExcel
             // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
+            this.btnImpExcel.Location = new System.Drawing.Point(483, 80);
+            this.btnImpExcel.Name = "btnImpExcel";
+            this.btnImpExcel.Size = new System.Drawing.Size(126, 29);
+            this.btnImpExcel.TabIndex = 40;
+            this.btnImpExcel.Text = "Pilih Excel";
+            this.btnImpExcel.UseVisualStyleBackColor = true;
+            this.btnImpExcel.Click += new System.EventHandler(this.btnImpExcel_Click);
             // 
-            // bindingNavigatorDeleteItem
+            // btnImpDb
             // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
+            this.btnImpDb.Enabled = false;
+            this.btnImpDb.Location = new System.Drawing.Point(483, 126);
+            this.btnImpDb.Name = "btnImpDb";
+            this.btnImpDb.Size = new System.Drawing.Size(126, 29);
+            this.btnImpDb.TabIndex = 41;
+            this.btnImpDb.Text = "Simpan ke Database";
+            this.btnImpDb.UseVisualStyleBackColor = true;
+            this.btnImpDb.Click += new System.EventHandler(this.btnImpDb_Click);
+            // 
+            // lblNamaFile
+            // 
+            this.lblNamaFile.AutoSize = true;
+            this.lblNamaFile.Location = new System.Drawing.Point(625, 88);
+            this.lblNamaFile.Name = "lblNamaFile";
+            this.lblNamaFile.Size = new System.Drawing.Size(54, 13);
+            this.lblNamaFile.TabIndex = 42;
+            this.lblNamaFile.Text = "Nama File";
+            // 
+            // lblStatusGrid
+            // 
+            this.lblStatusGrid.AutoSize = true;
+            this.lblStatusGrid.Location = new System.Drawing.Point(353, 216);
+            this.lblStatusGrid.Name = "lblStatusGrid";
+            this.lblStatusGrid.Size = new System.Drawing.Size(304, 13);
+            this.lblStatusGrid.TabIndex = 43;
+            this.lblStatusGrid.Text = "MODE PREVIEW: Data Excel (Belum Tersimpan ke Database)";
             // 
             // KelolaKelompokTani
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.bindingNavigatorKelompok);
+            this.Controls.Add(this.lblStatusGrid);
+            this.Controls.Add(this.lblNamaFile);
+            this.Controls.Add(this.btnImpDb);
+            this.Controls.Add(this.btnImpExcel);
+            this.Controls.Add(this.bindingNavigatorKelompokTani);
             this.Controls.Add(this.txtTlpKelompok);
             this.Controls.Add(this.txtAlamatKelompok);
             this.Controls.Add(this.btnDeleteKelompok);
             this.Controls.Add(this.btnUpdateKelompok);
-            this.Controls.Add(this.dataGridViewKelompok);
+            this.Controls.Add(this.dgvKelompokTani);
             this.Controls.Add(this.btnAddKelompok);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -300,11 +349,11 @@
             this.Name = "KelolaKelompokTani";
             this.Text = "KelolaKelompokTani";
             this.Load += new System.EventHandler(this.KelolaKelompokTani_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKelompok)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorKelompok)).EndInit();
-            this.bindingNavigatorKelompok.ResumeLayout(false);
-            this.bindingNavigatorKelompok.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceKelompok)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKelompokTani)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorKelompokTani)).EndInit();
+            this.bindingNavigatorKelompokTani.ResumeLayout(false);
+            this.bindingNavigatorKelompokTani.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceKelompokTani)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -316,7 +365,7 @@
         private System.Windows.Forms.TextBox txtAlamatKelompok;
         private System.Windows.Forms.Button btnDeleteKelompok;
         private System.Windows.Forms.Button btnUpdateKelompok;
-        private System.Windows.Forms.DataGridView dataGridViewKelompok;
+        private System.Windows.Forms.DataGridView dgvKelompokTani;
         private System.Windows.Forms.Button btnAddKelompok;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -324,7 +373,7 @@
         private System.Windows.Forms.TextBox txtNamaKelompok;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtKelompokID;
-        private System.Windows.Forms.BindingNavigator bindingNavigatorKelompok;
+        private System.Windows.Forms.BindingNavigator bindingNavigatorKelompokTani;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
@@ -336,6 +385,10 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.BindingSource bindingSourceKelompok;
+        private System.Windows.Forms.BindingSource bindingSourceKelompokTani;
+        private System.Windows.Forms.Button btnImpExcel;
+        private System.Windows.Forms.Button btnImpDb;
+        private System.Windows.Forms.Label lblNamaFile;
+        private System.Windows.Forms.Label lblStatusGrid;
     }
 }

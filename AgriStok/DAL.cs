@@ -584,5 +584,114 @@ namespace AgriStok
         }
         #endregion
         #endregion
+
+        #region Form Kelompok Tani
+        public string GenerateIdKelompokTani()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdKelompok", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "KTN-001";
+            }
+        }
+
+        public DataTable GetKelompokTani()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM vw_KelolaKelompokTani", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public void InsertKelompokTani(string id, string nama, string noTlp, string alamat)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_InsertKelompokTani", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.Parameters.AddWithValue("@NoTlp", noTlp);
+                    cmd.Parameters.AddWithValue("@Alamat", alamat);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Insert Kelompok Tani [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void UpdateKelompokTani(string id, string nama, string noTlp, string alamat)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_UpdateKelompokTani", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+                    cmd.Parameters.AddWithValue("@NoTlp", noTlp);
+                    cmd.Parameters.AddWithValue("@Alamat", alamat);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Update Kelompok Tani [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void DeleteKelompokTani(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DeleteKelompokTani", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Delete Kelompok Tani [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+        #endregion
     }
 }

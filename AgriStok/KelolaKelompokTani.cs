@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ExcelDataReader;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,64 +16,34 @@ namespace AgriStok
 {
     public partial class KelolaKelompokTani : Form
     {
-        private SqlConnection conn;
-        private string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
-
+        private DAL dbLogic = new DAL();
         private DataTable dtKelompok = new DataTable();
 
         public KelolaKelompokTani()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void KelolaKelompokTani_Load(object sender, EventArgs e)
         {
-            dataGridViewKelompok.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewKelompok.MultiSelect = false;
-            dataGridViewKelompok.ReadOnly = true;
-            dataGridViewKelompok.AllowUserToAddRows = false;
-            dataGridViewKelompok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKelompokTani.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvKelompokTani.MultiSelect = false;
+            dgvKelompokTani.ReadOnly = true;
+            dgvKelompokTani.AllowUserToAddRows = false;
+            dgvKelompokTani.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKelompokTani.CellClick += dgvKelompokTani_CellClick;
 
+            lblNamaFile.Visible = false;
+            lblStatusGrid.Visible = false;
             txtKelompokID.ReadOnly = true;
-
             LoadDataGrid();
             ClearForm();
         }
 
-        private string GenerateID()
-        {
-            string newID = "KL-001"; 
-
-            using (SqlConnection localConn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    localConn.Open();
-                    string query = "SELECT TOP 1 Id_Kelompok FROM KelompokTani ORDER BY Id_Kelompok DESC";
-                    SqlCommand cmd = new SqlCommand(query, localConn);
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        string lastID = result.ToString(); 
-                        int number = int.Parse(lastID.Split('-')[1]);
-                        number++;
-                        newID = "KL-" + number.ToString("D3"); 
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Gagal generate ID Kelompok Tani: " + ex.Message);
-                }
-            }
-            return newID;
-        }
-
         private void ClearForm()
         {
-            bindingSourceKelompok.AddNew();
-            txtKelompokID.Text = GenerateID();
+            bindingSourceKelompokTani.AddNew();
+            txtKelompokID.Text = dbLogic.GenerateIdKelompokTani();
             txtNamaKelompok.Clear();
             txtAlamatKelompok.Clear();
             txtTlpKelompok.Clear();
@@ -82,36 +54,26 @@ namespace AgriStok
         {
             try
             {
-                string query = "SELECT * FROM vw_KelolaKelompokTani";
-
-                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
-                {
-                    dtKelompok = new DataTable();
-                    da.Fill(dtKelompok);
-
-                    bindingSourceKelompok.DataSource = dtKelompok;
-
-                    dataGridViewKelompok.DataSource = bindingSourceKelompok;
-                    bindingNavigatorKelompok.BindingSource = bindingSourceKelompok;
-
-                    BindControls();
-                }
+                dtKelompok = dbLogic.GetKelompokTani();
+                bindingSourceKelompokTani.DataSource = dtKelompok;
+                dgvKelompokTani.DataSource = bindingSourceKelompokTani;
+                bindingNavigatorKelompokTani.BindingSource = bindingSourceKelompokTani;
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
         }
 
-        private void BindControls()
+        private void dgvKelompokTani_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtKelompokID.DataBindings.Clear();
-            txtNamaKelompok.DataBindings.Clear();
-            txtTlpKelompok.DataBindings.Clear();
-            txtAlamatKelompok.DataBindings.Clear();
-
-            txtKelompokID.DataBindings.Add("Text", bindingSourceKelompok, "Id_Kelompok");
-            txtNamaKelompok.DataBindings.Add("Text", bindingSourceKelompok, "Nama_Kelompok");
-            txtTlpKelompok.DataBindings.Add("Text", bindingSourceKelompok, "NoTlp_Kelompok");
-            txtAlamatKelompok.DataBindings.Add("Text", bindingSourceKelompok, "Alamat_Kelompok");
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvKelompokTani.Rows[e.RowIndex];
+                txtKelompokID.Text = row.Cells["Id_Kelompok"].Value?.ToString();
+                txtNamaKelompok.Text = row.Cells["Nama_Kelompok"].Value?.ToString();
+                txtTlpKelompok.Text = row.Cells["NoTlp_Kelompok"].Value?.ToString();
+                txtAlamatKelompok.Text = row.Cells["Alamat_Kelompok"].Value?.ToString();
+            }
         }
+
                
         private void btnAddKelompok_Click(object sender, EventArgs e)
         {
@@ -122,7 +84,7 @@ namespace AgriStok
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text))
             {
                 MessageBox.Show("ID Kelompok tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtKelompokID.Text = GenerateID();
+                txtKelompokID.Text = dbLogic.GenerateIdKelompokTani();
                 return;
             }
 
@@ -152,31 +114,19 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_InsertKelompokTani", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
-                cmd.Parameters.AddWithValue("@Nama", nama);
-                cmd.Parameters.AddWithValue("@NoTlp", noTelp);
-                cmd.Parameters.AddWithValue("@Alamat", alamat);
-
-                cmd.ExecuteNonQuery();
-
+                dbLogic.InsertKelompokTani(txtKelompokID.Text, txtNamaKelompok.Text, txtTlpKelompok.Text, txtAlamatKelompok.Text);
                 MessageBox.Show("Data Kelompok Tani berhasil ditambahkan!");
                 LoadDataGrid();
                 ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            finally { conn.Close(); }
         }
 
         private void btnUpdateKelompok_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
 
-            if (txtKelompokID.Text == GenerateID())
+            if (txtKelompokID.Text == dbLogic.GenerateIdKelompokTani())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -184,31 +134,19 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_UpdateKelompokTani", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaKelompok.Text);
-                cmd.Parameters.AddWithValue("@NoTlp", txtTlpKelompok.Text);
-                cmd.Parameters.AddWithValue("@Alamat", txtAlamatKelompok.Text);
-
-                cmd.ExecuteNonQuery();
-
+                dbLogic.UpdateKelompokTani(txtKelompokID.Text, txtNamaKelompok.Text, txtTlpKelompok.Text, txtAlamatKelompok.Text);
                 MessageBox.Show("Data Kelompok Tani berhasil diupdate!");
                 LoadDataGrid();
                 ClearForm();
             }
             catch (Exception ex) { MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            finally { conn.Close(); }
         }
 
         private void btnDeleteKelompok_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtKelompokID.Text)) return;
 
-            if (txtKelompokID.Text == GenerateID())
+            if (txtKelompokID.Text == dbLogic.GenerateIdKelompokTani())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -219,20 +157,120 @@ namespace AgriStok
             {
                 try
                 {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("sp_DeleteKelompokTani", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", txtKelompokID.Text);
-
-                    cmd.ExecuteNonQuery();
-
+                    dbLogic.DeleteKelompokTani(txtKelompokID.Text);
                     MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataGrid();
                     ClearForm();
                 }
                 catch (Exception ex) { MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
-                finally { conn.Close(); }
+            }
+        }
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
+
+        private void btnImpExcel_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx" })
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (var stream = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                        {
+                            using (var reader = ExcelReaderFactory.CreateReader(stream))
+                            {
+                                var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                                {
+                                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration() { UseHeaderRow = true }
+                                });
+
+                                DataTable dtExcel = result.Tables[0];
+
+                                dgvKelompokTani.DataSource = null;
+                                dgvKelompokTani.DataSource = dtExcel;
+
+                                lblStatusGrid.Text = "MODE PREVIEW: Data Excel (Belum Tersimpan ke Database)";
+                                lblStatusGrid.ForeColor = System.Drawing.Color.DarkOrange;
+                                lblStatusGrid.Visible = true; 
+
+                                lblNamaFile.Text = "File siap: " + Path.GetFileName(openFileDialog.FileName);
+                                lblNamaFile.ForeColor = System.Drawing.Color.Green;
+                                lblNamaFile.Visible = true;
+
+
+                                btnImpDb.Enabled = true;     
+                                btnAddKelompok.Enabled = false;  
+                                btnUpdateKelompok.Enabled = false;
+                                btnDeleteKelompok.Enabled = false;
+                            }
+                        }
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show("File Excel sedang terbuka di aplikasi lain! Tolong tutup dahulu.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Gagal membaca Excel: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnImpDb_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = dgvKelompokTani.DataSource as DataTable;
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Tidak ada data untuk diimport. Pilih file Excel terlebih dahulu!");
+                    return;
+                }
+
+                int sukses = 0;
+                int gagal = 0;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    try
+                    {
+                        string nama = row["Nama"].ToString().Trim();
+                        string noTlp = row["NoTlp"].ToString().Trim();
+                        string alamat = row["Alamat"].ToString().Trim();
+
+                        if (string.IsNullOrWhiteSpace(nama)) continue;
+
+                        string idBaru = dbLogic.GenerateIdKelompokTani();
+                        dbLogic.InsertKelompokTani(idBaru, nama, noTlp, alamat);
+
+                        sukses++;
+                    }
+                    catch
+                    {
+                        gagal++; 
+                    }
+                }
+
+                MessageBox.Show($"Import selesai!\nBerhasil masuk database: {sukses} baris\nGagal/Dilewati: {gagal} baris", "Status Laporan", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                lblNamaFile.Visible = false; 
+                lblStatusGrid.Visible = false;
+                btnImpDb.Enabled = false;    
+                btnAddKelompok.Enabled = true;   
+                btnUpdateKelompok.Enabled = true;
+                btnDeleteKelompok.Enabled = true;
+
+                LoadDataGrid();
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saat memproses data: " + ex.Message, "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
