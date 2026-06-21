@@ -118,7 +118,7 @@ namespace AgriStok
                 return dt;
             }
         }
-        public void InsertBarang(string id, string nama, string idSatuan, string idKategori)
+        public void InsertBarang(string id, string nama, string idSatuan, string idKategori, byte[] foto)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -135,6 +135,11 @@ namespace AgriStok
                     cmd.Parameters.AddWithValue("@Nama", nama);
                     cmd.Parameters.AddWithValue("@IdSatuan", idSatuan);
                     cmd.Parameters.AddWithValue("@IdKategori", idKategori);
+
+                    if (foto != null)
+                        cmd.Parameters.AddWithValue("@Foto", foto);
+                    else
+                        cmd.Parameters.Add("@Foto", SqlDbType.VarBinary).Value = DBNull.Value;
 
                     cmd.ExecuteNonQuery();
                     trans.Commit();
