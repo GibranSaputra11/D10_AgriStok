@@ -155,7 +155,7 @@ namespace AgriStok
             }
         }
 
-        public void UpdateBarang(string id, string nama, string idSatuan, string idKategori)
+        public void UpdateBarang(string id, string nama, string idSatuan, string idKategori, byte[] foto)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -173,15 +173,18 @@ namespace AgriStok
                     cmd.Parameters.AddWithValue("@IdSatuan", idSatuan);
                     cmd.Parameters.AddWithValue("@IdKategori", idKategori);
 
+                    if (foto != null)
+                        cmd.Parameters.AddWithValue("@Foto", foto);
+                    else
+                        cmd.Parameters.Add("@Foto", SqlDbType.VarBinary).Value = DBNull.Value;
+
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-
                     InsertLogError("Gagal Update Barang [" + id + "]: " + ex.Message);
-
                     throw ex;
                 }
             }
