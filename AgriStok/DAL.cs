@@ -219,6 +219,7 @@ namespace AgriStok
             }
         }
         #endregion
+
         #region Form Satuan
         public string GenerateIdSatuan()
         {
@@ -316,7 +317,111 @@ namespace AgriStok
                 }
             }
         }
+        #endregion
 
+        #region Form Kategori
+        public string GenerateIdKategori()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "KT-001";
+            }
+        }
+
+        public DataTable GetKategori()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM vw_Kategori", conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public void InsertKategori(string id, string nama)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Insert Kategori [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void UpdateKategori(string id, string nama)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Nama", nama);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Update Kategori [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
+
+        public void DeleteKategori(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    InsertLogError("Gagal Delete Kategori [" + id + "]: " + ex.Message);
+                    throw ex;
+                }
+            }
+        }
         #endregion
     }
 }

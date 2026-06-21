@@ -15,15 +15,12 @@ namespace AgriStok
 {
     public partial class AddKategori : Form
     {
-        private SqlConnection conn;
-        private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
-
+        private DAL dbLogic = new DAL();
         private DataTable dtKategori = new DataTable();
 
         public AddKategori()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void AddKategori_Load(object sender, EventArgs e)
@@ -40,63 +37,33 @@ namespace AgriStok
             ClearForm();
         }
 
-        private string GenerateID()
-        {
-            string newID = "KT-001";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "SELECT TOP 1 Id_Kategori FROM Kategori ORDER BY Id_Kategori DESC";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
-                    {
-                        int number = int.Parse(result.ToString().Split('-')[1]);
-                        newID = "KT-" + (number + 1).ToString("D3");
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("Gagal Generate ID: " + ex.Message); }
-            }
-            return newID;
-        }
-
         private void ClearForm()
         {
-            bindingSourceKategori.AddNew();
-            txtKategoriID.Text = GenerateID();
+            txtKategoriID.Text = dbLogic.GenerateIdKategori();
             txtNamaKategori.Clear();
             txtNamaKategori.Focus();
+        }
+
+        private void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < dgvKategori.Rows.Count)
+            {
+                DataGridViewRow row = dgvKategori.Rows[e.RowIndex];
+                txtKategoriID.Text = row.Cells["Id_Kategori"].Value.ToString();
+                txtNamaKategori.Text = row.Cells["Nama_Kategori"].Value.ToString();
+            }
         }
 
         private void LoadDataGrid()
         {
             try
             {
-                string query = "SELECT * FROM vw_Kategori";
-                using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
-                {
-                    dtKategori = new DataTable();
-                    da.Fill(dtKategori);
-
-                    bindingSourceKategori.DataSource = dtKategori;
-                    dgvKategori.DataSource = bindingSourceKategori;
-                    bindingNavigatorKategori.BindingSource = bindingSourceKategori;
-
-                    BindControls();
-                }
+                dtKategori = dbLogic.GetKategori(); 
+                bindingSourceKategori.DataSource = dtKategori;
+                dgvKategori.DataSource = bindingSourceKategori;
+                bindingNavigatorKategori.BindingSource = bindingSourceKategori;
             }
             catch (Exception ex) { MessageBox.Show("Gagal Menampilkan Data: " + ex.Message); }
-        }
-
-        private void BindControls()
-        {
-            txtKategoriID.DataBindings.Clear();
-            txtNamaKategori.DataBindings.Clear();
-
-            txtKategoriID.DataBindings.Add("Text", bindingSourceKategori, "Id_Kategori");
-            txtNamaKategori.DataBindings.Add("Text", bindingSourceKategori, "Nama_Kategori");
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
@@ -106,7 +73,7 @@ namespace AgriStok
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text))
             {
                 MessageBox.Show("ID Kategori tidak valid atau kosong! Sistem akan membuat ulang ID.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtKategoriID.Text = GenerateID();
+                txtKategoriID.Text = dbLogic.GenerateIdKategori();
                 return;
             }
 
@@ -152,14 +119,7 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-
-                cmd.ExecuteNonQuery();
+                dbLogic.InsertKategori(txtKategoriID.Text, txtNamaKategori.Text);
                 MessageBox.Show("Data Kategori berhasil ditambahkan!");
                 LoadDataGrid();
                 ClearForm();
@@ -168,17 +128,13 @@ namespace AgriStok
             { 
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
             }
-            finally 
-            { 
-                conn.Close(); 
-            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
-            if (txtKategoriID.Text == GenerateID())
+            if (txtKategoriID.Text == dbLogic.GenerateIdKategori())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -186,14 +142,7 @@ namespace AgriStok
 
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-                cmd.Parameters.AddWithValue("@Nama", txtNamaKategori.Text);
-
-                cmd.ExecuteNonQuery();
+                dbLogic.UpdateKategori(txtKategoriID.Text, txtNamaKategori.Text);
                 MessageBox.Show("Data Kategori berhasil diupdate!");
                 LoadDataGrid();
                 ClearForm();
@@ -202,17 +151,13 @@ namespace AgriStok
             { 
                 MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
             }
-            finally 
-            { 
-                conn.Close(); 
-            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
-            if (txtKategoriID.Text == GenerateID())
+            if (txtKategoriID.Text == dbLogic.GenerateIdKategori())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -223,12 +168,7 @@ namespace AgriStok
             {
                 try
                 {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
-                    SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", txtKategoriID.Text);
-
-                    cmd.ExecuteNonQuery();
+                    dbLogic.DeleteKategori(txtKategoriID.Text);
                     MessageBox.Show("Data berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataGrid();
                     ClearForm();
@@ -237,12 +177,11 @@ namespace AgriStok
                 { 
                     MessageBox.Show("Sistem Menolak:\n\n" + ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
                 }
-                finally 
-                { 
-                    conn.Close(); 
-                }
             }
         }
-            
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
     }
 }
