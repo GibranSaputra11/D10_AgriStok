@@ -81,6 +81,12 @@
       <DependentUpon>CrystalReportIn.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CrystalReportOut.cs">
+      <DependentUpon>CrystalReportOut.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="DaftarTransaksiOut.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,7 @@
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="DataNotaIn.cs" />
+    <Compile Include="DataNotaOut.cs" />
     <Compile Include="KelolaBarang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +133,12 @@
     </Compile>
     <Compile Include="ReportIn.Designer.cs">
       <DependentUpon>ReportIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportOut.Designer.cs">
+      <DependentUpon>ReportOut.cs</DependentUpon>
     </Compile>
     <Compile Include="StatistikaTransakiTahunan.cs">
       <SubType>Form</SubType>
@@ -154,6 +167,10 @@
     <EmbeddedResource Include="CrystalReportIn.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReportIn.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReportOut.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReportOut.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="DaftarTransaksiOut.resx">
       <DependentUpon>DaftarTransaksiOut.cs</DependentUpon>
@@ -185,6 +202,9 @@
     </Compile>
     <EmbeddedResource Include="ReportIn.resx">
       <DependentUpon>ReportIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportOut.resx">
+      <DependentUpon>ReportOut.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatistikaTransakiTahunan.resx">
       <DependentUpon>StatistikaTransakiTahunan.cs</DependentUpon>

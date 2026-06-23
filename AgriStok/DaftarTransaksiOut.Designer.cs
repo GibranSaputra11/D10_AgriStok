@@ -52,6 +52,7 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblItemCount = new System.Windows.Forms.Label();
             this.btnEditOut = new System.Windows.Forms.Button();
+            this.btnPrintNota = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMaster)).BeginInit();
@@ -61,9 +62,10 @@
             // 
             // btnAddOut
             // 
-            this.btnAddOut.Location = new System.Drawing.Point(457, 414);
+            this.btnAddOut.Location = new System.Drawing.Point(609, 510);
+            this.btnAddOut.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddOut.Name = "btnAddOut";
-            this.btnAddOut.Size = new System.Drawing.Size(145, 26);
+            this.btnAddOut.Size = new System.Drawing.Size(193, 32);
             this.btnAddOut.TabIndex = 9;
             this.btnAddOut.Text = "Tambah Transaksi Keluar";
             this.btnAddOut.UseVisualStyleBackColor = true;
@@ -73,7 +75,8 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(454, 37);
+            this.label2.Location = new System.Drawing.Point(605, 46);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(167, 17);
             this.label2.TabIndex = 8;
@@ -82,24 +85,27 @@
             // dgvDetail
             // 
             this.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetail.Location = new System.Drawing.Point(457, 93);
+            this.dgvDetail.Location = new System.Drawing.Point(609, 114);
+            this.dgvDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvDetail.Name = "dgvDetail";
-            this.dgvDetail.Size = new System.Drawing.Size(281, 266);
+            this.dgvDetail.Size = new System.Drawing.Size(395, 327);
             this.dgvDetail.TabIndex = 7;
             // 
             // dgvMaster
             // 
             this.dgvMaster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMaster.Location = new System.Drawing.Point(66, 93);
+            this.dgvMaster.Location = new System.Drawing.Point(88, 114);
+            this.dgvMaster.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvMaster.Name = "dgvMaster";
-            this.dgvMaster.Size = new System.Drawing.Size(342, 347);
+            this.dgvMaster.Size = new System.Drawing.Size(456, 427);
             this.dgvMaster.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(63, 37);
+            this.label1.Location = new System.Drawing.Point(84, 46);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(170, 17);
             this.label1.TabIndex = 5;
@@ -129,7 +135,7 @@
             this.bindingNavigatorMaster.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigatorMaster.Name = "bindingNavigatorMaster";
             this.bindingNavigatorMaster.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigatorMaster.Size = new System.Drawing.Size(800, 25);
+            this.bindingNavigatorMaster.Size = new System.Drawing.Size(1067, 25);
             this.bindingNavigatorMaster.TabIndex = 10;
             this.bindingNavigatorMaster.Text = "bindingNavigatorMaster";
             // 
@@ -187,7 +193,7 @@
             this.bindingNavigatorPositionItem.AutoSize = false;
             this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(65, 23);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
@@ -222,45 +228,61 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(62, 68);
+            this.label3.Location = new System.Drawing.Point(83, 84);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(71, 16);
             this.label3.TabIndex = 12;
             this.label3.Text = "Pencarian:";
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(139, 65);
+            this.txtSearch.Location = new System.Drawing.Point(185, 80);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(186, 20);
+            this.txtSearch.Size = new System.Drawing.Size(247, 22);
             this.txtSearch.TabIndex = 11;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // lblItemCount
             // 
             this.lblItemCount.AutoSize = true;
-            this.lblItemCount.Location = new System.Drawing.Point(454, 378);
+            this.lblItemCount.Location = new System.Drawing.Point(605, 465);
+            this.lblItemCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblItemCount.Name = "lblItemCount";
-            this.lblItemCount.Size = new System.Drawing.Size(35, 13);
+            this.lblItemCount.Size = new System.Drawing.Size(44, 16);
             this.lblItemCount.TabIndex = 13;
             this.lblItemCount.Text = "label3";
             // 
             // btnEditOut
             // 
             this.btnEditOut.BackColor = System.Drawing.Color.Orange;
-            this.btnEditOut.Location = new System.Drawing.Point(608, 414);
+            this.btnEditOut.Location = new System.Drawing.Point(811, 510);
+            this.btnEditOut.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnEditOut.Name = "btnEditOut";
-            this.btnEditOut.Size = new System.Drawing.Size(145, 26);
+            this.btnEditOut.Size = new System.Drawing.Size(193, 32);
             this.btnEditOut.TabIndex = 14;
             this.btnEditOut.Text = "Edit Transaksi";
             this.btnEditOut.UseVisualStyleBackColor = false;
             this.btnEditOut.Click += new System.EventHandler(this.btnEditOut_Click);
             // 
+            // btnPrintNota
+            // 
+            this.btnPrintNota.Location = new System.Drawing.Point(811, 470);
+            this.btnPrintNota.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPrintNota.Name = "btnPrintNota";
+            this.btnPrintNota.Size = new System.Drawing.Size(193, 32);
+            this.btnPrintNota.TabIndex = 15;
+            this.btnPrintNota.Text = "Cetak Nota";
+            this.btnPrintNota.UseVisualStyleBackColor = true;
+            this.btnPrintNota.Click += new System.EventHandler(this.btnPrintNota_Click);
+            // 
             // DaftarTransaksiOut
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 500);
+            this.ClientSize = new System.Drawing.Size(1067, 615);
+            this.Controls.Add(this.btnPrintNota);
             this.Controls.Add(this.btnEditOut);
             this.Controls.Add(this.lblItemCount);
             this.Controls.Add(this.label3);
@@ -271,6 +293,7 @@
             this.Controls.Add(this.dgvDetail);
             this.Controls.Add(this.dgvMaster);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "DaftarTransaksiOut";
             this.Text = "DaftarTransaksiOut";
             this.Load += new System.EventHandler(this.DaftarTransakiOut_Load);
@@ -309,5 +332,6 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblItemCount;
         private System.Windows.Forms.Button btnEditOut;
+        private System.Windows.Forms.Button btnPrintNota;
     }
 }

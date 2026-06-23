@@ -712,7 +712,7 @@ namespace AgriStok
         }
         #endregion
 
-        #region Transaksi Masuk
+        #region Daftar Transaksi Masuk
         public DataTable GetDaftarTransaksiIn()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -746,6 +746,50 @@ namespace AgriStok
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@IdIn", idTransaksi);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+        #endregion
+
+        #region Daftar Transaksi Keluar
+        public DataTable GetDaftarTransaksiOut()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM vw_DaftarTransaksiOut ORDER BY [Tanggal Keluar] DESC, [ID Transaksi] DESC";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public DataTable GetDetailTransaksiOut(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT [ID Barang], [Nama Barang], [Jumlah Keluar] FROM vw_DetailTransaksiOut WHERE [ID Transaksi] = @Id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", idTransaksi);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public DataTable GetNotaTransaksiOut(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_CetakNotaOut", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IdOut", idTransaksi);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

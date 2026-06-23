@@ -13,7 +13,7 @@ namespace AgriStok
 {
     public partial class DaftarTransaksiOut : Form
     {
-        private readonly string connectionString = "Data Source=gibran-laptop;Initial Catalog=GudangPertanianDB;Integrated Security=True";
+        private DAL dbLogic = new DAL();
 
         public DaftarTransaksiOut()
         {
@@ -32,76 +32,65 @@ namespace AgriStok
             dgvDetail.ReadOnly = true;
             dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            bindingSourceMaster.PositionChanged += BindingSourceMaster_PositionChanged;
-
             lblItemCount.Text = "Total Jenis Barang: 0";
+
+            dgvMaster.CellClick += dgvMaster_CellClick;
 
             LoadMasterData();
         }
 
         private void LoadMasterData()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
+                bindingSourceMaster.Filter = "";
+
+                DataTable dt = dbLogic.GetDaftarTransaksiOut();
+
+                bindingSourceMaster.DataSource = dt;
+                dgvMaster.DataSource = bindingSourceMaster;
+
+                if (bindingNavigatorMaster != null)
                 {
-                    bindingSourceMaster.Filter = "";
-
-                    string query = "SELECT * FROM vw_DaftarTransaksiOut ORDER BY [Tanggal Keluar] DESC, [ID Transaksi] DESC";
-
-                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    bindingSourceMaster.DataSource = dt;
-                    dgvMaster.DataSource = bindingSourceMaster;
-
-                    if (bindingNavigatorMaster != null)
-                    {
-                        bindingNavigatorMaster.BindingSource = bindingSourceMaster;
-                    }
-
-                    BindingSourceMaster_PositionChanged(null, null);
+                    bindingNavigatorMaster.BindingSource = bindingSourceMaster;
                 }
-                catch (Exception ex) { MessageBox.Show("Gagal memuat data Master: " + ex.Message); }
+
+                dgvMaster.ClearSelection();
+                dgvDetail.DataSource = null;
+                lblItemCount.Text = "Total Jenis Barang: 0";
+
+                if (btnPrintNota != null) btnPrintNota.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat data Master: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void LoadDetailData(string idTransaksi)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
-                {
-                    string query = "SELECT [ID Barang], [Nama Barang], [Jumlah Keluar] FROM vw_DetailTransaksiOut WHERE [ID Transaksi] = @Id";
+                DataTable dt = dbLogic.GetDetailTransaksiOut(idTransaksi);
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", idTransaksi);
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    dgvDetail.DataSource = dt;
-
-                    lblItemCount.Text = $"Total Jenis Barang: {dt.Rows.Count}";
-                }
-                catch (Exception ex) { MessageBox.Show("Gagal memuat detail barang: " + ex.Message); }
+                dgvDetail.DataSource = dt;
+                lblItemCount.Text = $"Total Jenis Barang: {dt.Rows.Count}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal memuat detail barang: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void BindingSourceMaster_PositionChanged(object sender, EventArgs e)
+        private void dgvMaster_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (bindingSourceMaster.Current != null)
+            if (e.RowIndex >= 0)
             {
-                DataRowView currentRow = (DataRowView)bindingSourceMaster.Current;
-                string idTransaksi = currentRow["ID Transaksi"].ToString();
+                string idTransaksi = dgvMaster.Rows[e.RowIndex].Cells["ID Transaksi"].Value.ToString();
 
                 LoadDetailData(idTransaksi);
-            }
-            else
-            {
-                dgvDetail.DataSource = null;
+
+                if (btnPrintNota != null) btnPrintNota.Enabled = true;
             }
         }
 
@@ -110,11 +99,13 @@ namespace AgriStok
             try
             {
                 bindingSourceMaster.Filter = string.Format("[ID Transaksi] LIKE '%{0}%' OR [Nama Kelompok] LIKE '%{0}%'", txtSearch.Text);
+
+                dgvMaster.ClearSelection();
+                dgvDetail.DataSource = null;
+                lblItemCount.Text = "Total Jenis Barang: 0";
+                if (btnPrintNota != null) btnPrintNota.Enabled = false;
             }
-            catch (Exception)
-            {
-                bindingSourceMaster.Filter = "";
-            }
+            catch (Exception) { bindingSourceMaster.Filter = ""; }
         }
 
         private void btnAddOut_Click(object sender, EventArgs e)
@@ -130,7 +121,7 @@ namespace AgriStok
 
         private void btnEditOut_Click(object sender, EventArgs e)
         {
-            if (dgvMaster.CurrentRow != null)
+            if (dgvMaster.CurrentRow != null && dgvMaster.SelectedRows.Count > 0)
             {
                 string idTransaksiTerpilih = dgvMaster.CurrentRow.Cells["ID Transaksi"].Value.ToString();
 
@@ -146,5 +137,15 @@ namespace AgriStok
             }
         }
 
+        private void btnPrintNota_Click(object sender, EventArgs e)
+        {
+            if (dgvMaster.CurrentRow != null && dgvMaster.SelectedRows.Count > 0)
+            {
+                string idTransaksiTerpilih = dgvMaster.CurrentRow.Cells["ID Transaksi"].Value.ToString();
+
+                ReportOut frmCetak = new ReportOut(idTransaksiTerpilih);
+                frmCetak.ShowDialog();
+            }
+        }
     }
 }
