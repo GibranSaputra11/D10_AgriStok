@@ -711,5 +711,48 @@ namespace AgriStok
             }
         }
         #endregion
+
+        #region Transaksi Masuk
+        public DataTable GetDaftarTransaksiIn()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM vw_DaftarTransaksiIn ORDER BY [Tanggal Masuk] DESC, [ID Transaksi] DESC";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+        public DataTable GetDetailTransaksiIn(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT [ID Barang], [Nama Barang], [Jumlah Masuk] FROM vw_DetailTransaksiIn WHERE [ID Transaksi] = @Id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", idTransaksi);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+        public DataTable GetNotaTransaksiIn(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_CetakNotaIn", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdIn", idTransaksi);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+        #endregion
     }
 }

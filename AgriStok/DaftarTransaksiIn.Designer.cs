@@ -37,7 +37,6 @@
             this.btnAddIn = new System.Windows.Forms.Button();
             this.bindingSourceMaster = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigatorMaster = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -52,6 +51,8 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnEditIn = new System.Windows.Forms.Button();
+            this.btnPrintNota = new System.Windows.Forms.Button();
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaster)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceMaster)).BeginInit();
@@ -82,7 +83,7 @@
             this.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetail.Location = new System.Drawing.Point(428, 97);
             this.dgvDetail.Name = "dgvDetail";
-            this.dgvDetail.Size = new System.Drawing.Size(281, 266);
+            this.dgvDetail.Size = new System.Drawing.Size(306, 266);
             this.dgvDetail.TabIndex = 2;
             // 
             // label2
@@ -133,15 +134,6 @@
             this.bindingNavigatorMaster.TabIndex = 5;
             this.bindingNavigatorMaster.Text = "bindingNavigatorMaster";
             // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
@@ -152,6 +144,7 @@
             // bindingNavigatorDeleteItem
             // 
             this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Enabled = false;
             this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
             this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
             this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
@@ -256,11 +249,32 @@
             this.btnEditIn.UseVisualStyleBackColor = false;
             this.btnEditIn.Click += new System.EventHandler(this.btnEditIn_Click);
             // 
+            // btnPrintNota
+            // 
+            this.btnPrintNota.Location = new System.Drawing.Point(589, 386);
+            this.btnPrintNota.Name = "btnPrintNota";
+            this.btnPrintNota.Size = new System.Drawing.Size(145, 26);
+            this.btnPrintNota.TabIndex = 10;
+            this.btnPrintNota.Text = "Cetak Transaksi";
+            this.btnPrintNota.UseVisualStyleBackColor = true;
+            this.btnPrintNota.Click += new System.EventHandler(this.btnPrintNota_Click);
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Enabled = false;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
             // DaftarTransaksiIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 474);
+            this.Controls.Add(this.btnPrintNota);
             this.Controls.Add(this.btnEditIn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtSearch);
@@ -294,7 +308,6 @@
         private System.Windows.Forms.Button btnAddIn;
         private System.Windows.Forms.BindingSource bindingSourceMaster;
         private System.Windows.Forms.BindingNavigator bindingNavigatorMaster;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
@@ -309,5 +322,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnEditIn;
+        private System.Windows.Forms.Button btnPrintNota;
+        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
     }
 }
