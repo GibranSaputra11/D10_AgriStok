@@ -942,5 +942,123 @@ namespace AgriStok
             }
         }
         #endregion
+
+        #region Transaksi Keluar
+        public DataTable GetDropdownKelompokTani()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Kelompok, Nama_Kelompok FROM vw_DropdownKelompokTani", conn);
+                DataTable dt = new DataTable(); da.Fill(dt); return dt;
+            }
+        }
+
+        public string GenerateIdTransaksiOut()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdOut", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "TR-001";
+            }
+        }
+
+        public string CekTransaksiKembarOut(string idKelompok, DateTime tanggal)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id_Out FROM vw_MasterTransaksiOut WHERE Id_Kelompok = @IdKelompok AND Tgl_Out = @Tgl", conn);
+                cmd.Parameters.AddWithValue("@IdKelompok", idKelompok);
+                cmd.Parameters.AddWithValue("@Tgl", tanggal.Date);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "";
+            }
+        }
+
+        public DataTable GetMasterTransaksiOut(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id_Kelompok, Tgl_Out FROM vw_MasterTransaksiOut WHERE Id_Out = @Id", conn);
+                cmd.Parameters.AddWithValue("@Id", idTransaksi);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable(); da.Fill(dt); return dt;
+            }
+        }
+
+        public void InsertTransaksiOut(string id, string idKelompok, DateTime tgl, int total, DataTable keranjang)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmdMaster = new SqlCommand("sp_InsertTransaksiOut", conn, trans);
+                    cmdMaster.CommandType = CommandType.StoredProcedure;
+                    cmdMaster.Parameters.AddWithValue("@Id", id);
+                    cmdMaster.Parameters.AddWithValue("@IdKelompok", idKelompok);
+                    cmdMaster.Parameters.AddWithValue("@Tgl", tgl);
+                    cmdMaster.Parameters.AddWithValue("@Total", total);
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (DataRow row in keranjang.Rows)
+                    {
+                        SqlCommand cmdDetail = new SqlCommand("sp_InsertDetailOut", conn, trans);
+                        cmdDetail.CommandType = CommandType.StoredProcedure;
+                        cmdDetail.Parameters.AddWithValue("@IdOut", id);
+                        cmdDetail.Parameters.AddWithValue("@IdBarang", row["Id_Barang"]);
+                        cmdDetail.Parameters.AddWithValue("@Qty", row["Qty"]);
+                        cmdDetail.ExecuteNonQuery();
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex) { trans.Rollback(); throw ex; }
+            }
+        }
+
+        public void UpdateTransaksiOut(string id, string idKelompok, DateTime tgl, int total, DataTable keranjang, List<string> listHapus)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmdMaster = new SqlCommand("sp_UpdateTransaksiOut", conn, trans);
+                    cmdMaster.CommandType = CommandType.StoredProcedure;
+                    cmdMaster.Parameters.AddWithValue("@Id", id);
+                    cmdMaster.Parameters.AddWithValue("@IdKelompok", idKelompok);
+                    cmdMaster.Parameters.AddWithValue("@Tgl", tgl);
+                    cmdMaster.Parameters.AddWithValue("@Total", total);
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (string idHapus in listHapus)
+                    {
+                        SqlCommand cmdHapus = new SqlCommand("sp_DeleteDetailOutItem", conn, trans);
+                        cmdHapus.CommandType = CommandType.StoredProcedure;
+                        cmdHapus.Parameters.AddWithValue("@IdOut", id);
+                        cmdHapus.Parameters.AddWithValue("@IdBarang", idHapus);
+                        cmdHapus.ExecuteNonQuery();
+                    }
+
+                    foreach (DataRow row in keranjang.Rows)
+                    {
+                        SqlCommand cmdDetail = new SqlCommand("sp_UpdateDetailOut", conn, trans);
+                        cmdDetail.CommandType = CommandType.StoredProcedure;
+                        cmdDetail.Parameters.AddWithValue("@IdOut", id);
+                        cmdDetail.Parameters.AddWithValue("@IdBarang", row["Id_Barang"]);
+                        cmdDetail.Parameters.AddWithValue("@QtyBaru", row["Qty"]);
+                        cmdDetail.ExecuteNonQuery();
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex) { trans.Rollback(); throw ex; }
+            }
+        }
+        #endregion
     }
 }
