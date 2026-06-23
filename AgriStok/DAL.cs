@@ -798,5 +798,149 @@ namespace AgriStok
             }
         }
         #endregion
+
+        #region Transaksi Masuk
+        public DataTable GetDropdownSupplier()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Supplier, Nama_Supplier FROM vw_DropdownSupplier", conn);
+                DataTable dt = new DataTable(); da.Fill(dt); return dt;
+            }
+        }
+
+        public DataTable GetDropdownBarang()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Id_Barang, Nama_Barang FROM vw_DropdownBarang", conn);
+                DataTable dt = new DataTable(); da.Fill(dt); return dt;
+            }
+        }
+
+        public string GenerateIdTransaksiIn()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_GenerateIdIn", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "TR-001";
+            }
+        }
+
+        public int GetStokBarang(string idBarang)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Stok_Barang FROM vw_DropdownBarang WHERE Id_Barang = @Id", conn);
+                cmd.Parameters.AddWithValue("@Id", idBarang);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+        }
+
+        public string CekTransaksiKembarIn(string idSupplier, DateTime tanggal)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id_In FROM vw_MasterTransaksiIn WHERE Id_Supplier = @IdSupplier AND Tgl_In = @Tgl", conn);
+                cmd.Parameters.AddWithValue("@IdSupplier", idSupplier);
+                cmd.Parameters.AddWithValue("@Tgl", tanggal.Date);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                return result != null ? result.ToString() : "";
+            }
+        }
+
+        public DataTable GetMasterTransaksiIn(string idTransaksi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id_Supplier, Tgl_In FROM vw_MasterTransaksiIn WHERE Id_In = @Id", conn);
+                cmd.Parameters.AddWithValue("@Id", idTransaksi);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public void InsertTransaksiIn(string id, string idSupplier, DateTime tgl, int total, DataTable keranjang)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmdMaster = new SqlCommand("sp_InsertTransaksiIn", conn, trans);
+                    cmdMaster.CommandType = CommandType.StoredProcedure;
+                    cmdMaster.Parameters.AddWithValue("@Id", id);
+                    cmdMaster.Parameters.AddWithValue("@IdSupplier", idSupplier);
+                    cmdMaster.Parameters.AddWithValue("@Tgl", tgl);
+                    cmdMaster.Parameters.AddWithValue("@Total", total);
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (DataRow row in keranjang.Rows)
+                    {
+                        SqlCommand cmdDetail = new SqlCommand("sp_InsertDetailIn", conn, trans);
+                        cmdDetail.CommandType = CommandType.StoredProcedure;
+                        cmdDetail.Parameters.AddWithValue("@IdIn", id);
+                        cmdDetail.Parameters.AddWithValue("@IdBarang", row["Id_Barang"]);
+                        cmdDetail.Parameters.AddWithValue("@Qty", row["Qty"]);
+                        cmdDetail.ExecuteNonQuery();
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex) { trans.Rollback(); throw ex; }
+            }
+        }
+
+        public void UpdateTransaksiIn(string id, string idSupplier, DateTime tgl, int total, DataTable keranjang, List<string> listHapus)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+                try
+                {
+                    SqlCommand cmdMaster = new SqlCommand("sp_UpdateTransaksiIn", conn, trans);
+                    cmdMaster.CommandType = CommandType.StoredProcedure;
+                    cmdMaster.Parameters.AddWithValue("@Id", id);
+                    cmdMaster.Parameters.AddWithValue("@IdSupplier", idSupplier);
+                    cmdMaster.Parameters.AddWithValue("@Tgl", tgl);
+                    cmdMaster.Parameters.AddWithValue("@Total", total);
+                    cmdMaster.ExecuteNonQuery();
+
+                    foreach (string idHapus in listHapus)
+                    {
+                        SqlCommand cmdHapus = new SqlCommand("sp_DeleteDetailInItem", conn, trans);
+                        cmdHapus.CommandType = CommandType.StoredProcedure;
+                        cmdHapus.Parameters.AddWithValue("@IdIn", id);
+                        cmdHapus.Parameters.AddWithValue("@IdBarang", idHapus);
+                        cmdHapus.ExecuteNonQuery();
+                    }
+
+                    foreach (DataRow row in keranjang.Rows)
+                    {
+                        SqlCommand cmdDetail = new SqlCommand("sp_UpdateDetailIn", conn, trans);
+                        cmdDetail.CommandType = CommandType.StoredProcedure;
+                        cmdDetail.Parameters.AddWithValue("@IdIn", id);
+                        cmdDetail.Parameters.AddWithValue("@IdBarang", row["Id_Barang"]);
+                        cmdDetail.Parameters.AddWithValue("@QtyBaru", row["Qty"]);
+                        cmdDetail.ExecuteNonQuery();
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex) { trans.Rollback(); throw ex; }
+            }
+        }
+        #endregion
     }
 }
