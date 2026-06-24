@@ -94,22 +94,26 @@ namespace AgriStok
                 return;
             }
 
-            string[] kataTerlarang = { 
-                "pupuk", "bibit", "alat", "pestisida", "herbisida", "obat", "benih", "kemasan",
-        
-                "hektar", "hek", "meter", "cm", "km", "mil", "are",
-        
-                "jam", "hari", "bulan", "tahun", "minggu", "detik",
-        
-                "test", "testing", "coba", "admin", "user", "dummy", "asdf"
+            string[] satuanValid =
+            {
+                "kg", "kilogram", "g", "gram", "kuintal", "kwintal", "ton", "ons", "pon",
+
+                "l", "liter", "ml", "mililiter", "cc", "jerigen", "dirigen", "drum", "galon", "tangki", "vial", "ampul",
+
+                "sak", "karung", "pcs", "pieces", "botol", "pack", "pak", "bungkus", "bks", "sachet", "saset",
+                "dus", "kardus", "carton", "karton", "box", "boks", "kaleng", "peti", "palet", "pallet", "bal", "roll", "rol",
+
+                "buah", "biji", "ikat", "tandan", "sisir", "keranjang", "polybag", "polibag", "tray", "lembar"
             };
 
-            if (kataTerlarang.Any(kata => input.ToLower().Contains(kata)))
+            string inputSatuan = txtNamaSatuan.Text.Trim().ToLower();
+
+            if (!satuanValid.Contains(inputSatuan))
             {
-                MessageBox.Show("Input mengandung kata terlarang! Mohon masukkan kategori yang valid.",
+                MessageBox.Show("Satuan tidak dikenali! Mohon gunakan standar penamaan satuan gudang (contoh: kg, liter, sak, karung, pcs).",
                                 "Validasi Gagal",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                                MessageBoxIcon.Warning);
                 return;
             }
 
