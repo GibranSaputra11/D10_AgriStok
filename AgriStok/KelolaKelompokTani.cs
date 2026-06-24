@@ -239,9 +239,9 @@ namespace AgriStok
                 {
                     try
                     {
-                        string nama = row["Nama"].ToString().Trim();
-                        string noTlp = row["NoTlp"].ToString().Trim();
-                        string alamat = row["Alamat"].ToString().Trim();
+                        string nama = row["Nama_Kelompok"].ToString().Trim();
+                        string noTlp = row["NoTlp_Kelompok"].ToString().Trim();
+                        string alamat = row["Alamat_Kelompok"].ToString().Trim();
 
                         if (string.IsNullOrWhiteSpace(nama)) continue;
 
