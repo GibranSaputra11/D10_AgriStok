@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,6 +47,7 @@
       <HintPath>..\packages\ExcelDataReader.DataSet.3.9.0\lib\net462\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -111,6 +112,12 @@
     </Compile>
     <Compile Include="DataNotaIn.cs" />
     <Compile Include="DataNotaOut.cs" />
+    <Compile Include="FormKonfigurasiDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormKonfigurasiDB.Designer.cs">
+      <DependentUpon>FormKonfigurasiDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="KelolaBarang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormKonfigurasiDB.resx">
+      <DependentUpon>FormKonfigurasiDB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KelolaBarang.resx">
       <DependentUpon>KelolaBarang.cs</DependentUpon>
