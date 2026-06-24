@@ -140,6 +140,35 @@ namespace AgriStok
                 return;
             }
 
+            string nama = txtNamaSupplier.Text.Trim();
+            string noTelp = txtTlpSupplier.Text.Trim();
+            string alamat = txtAlamatSupplier.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(nama) || nama.Length < 3)
+            {
+                MessageBox.Show("Nama tidak boleh kosong atau terlalu pendek!\nMasukkan minimal 3 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Regex.IsMatch(nama, @"^[a-zA-Z0-9\s\.,]+$"))
+            {
+                MessageBox.Show("Nama mengandung simbol yang tidak diizinkan!\nHanya gunakan huruf, angka, spasi, titik (.), atau koma (,).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^[0-9]{10,13}$"))
+            {
+                MessageBox.Show("Nomor Telepon tidak valid!\nPastikan hanya berisi angka dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(alamat) || alamat.Length < 5)
+            {
+                MessageBox.Show("Alamat harus diisi dengan jelas!\nMasukkan detail alamat minimal 5 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
             try
             {
                 dbLogic.UpdateSupplier(txtSupplierID.Text, txtNamaSupplier.Text, txtTlpSupplier.Text, txtAlamatSupplier.Text);
