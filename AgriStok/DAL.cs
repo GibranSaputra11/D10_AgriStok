@@ -118,13 +118,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
                     trans.Rollback(); 
 
                     InsertLogError("Gagal Insert Barang [" + id + "]: " + ex.Message);
 
-                    throw ex; 
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal menyimpan! Barang dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("System Error Insert Barang [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -155,11 +170,24 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    InsertLogError("Gagal Update Barang [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal mengupdate! Barang dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Update Barang [" + id + "]: " + ex.Message);
-                    throw ex;
+                    InsertLogError("System Error Gagal Update Barang [" + id + "]: " + ex.Message);
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -234,11 +262,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Insert Satuan [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal menyimpan! Satuan dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Insert Satuan [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Insert Satuan [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -259,11 +304,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Update Satuan [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal update! Satuan dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal update ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Update Satuan [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Update Satuan [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -335,11 +397,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Insert Kategori [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal menyimpan! Kategori dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Insert Kategori [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Insert Kategori [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -362,11 +441,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Update Kategori [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal update! Kategori dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal update ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Update Kategori [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Update Kategori [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -442,11 +538,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Insert Supplier [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal menyimpan! Supplier dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Insert Supplier [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Insert Supplier [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -471,11 +584,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Update Supplier [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal mengupdate! Supplier dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Update Supplier [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Update Supplier [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -603,11 +733,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Insert Kelompok Tani [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal menyimpan! Kelompok Tani dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Insert Kelompok Tani [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Insert Kelompok Tani [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
@@ -632,11 +779,28 @@ namespace AgriStok
                     cmd.ExecuteNonQuery();
                     trans.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    trans.Rollback();
+
+                    InsertLogError("Gagal Update Kelompok Tani [" + id + "]: " + ex.Message);
+
+                    if (ex.Number == 2627 || ex.Number == 2601)
+                    {
+                        throw new Exception($"Gagal mengupdate! Kelompok Tani dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                    }
+                    else
+                    {
+                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                    }
+                }
                 catch (Exception ex)
                 {
                     trans.Rollback();
-                    InsertLogError("Gagal Update Kelompok Tani [" + id + "]: " + ex.Message);
-                    throw ex;
+
+                    InsertLogError("System Error Update Kelompok Tani [" + id + "]: " + ex.Message);
+
+                    throw new Exception("Terjadi kesalahan sistem: " + ex.Message);
                 }
             }
         }
