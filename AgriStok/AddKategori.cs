@@ -95,25 +95,30 @@ namespace AgriStok
                 return;
             }
 
-            string[] kataTerlarang = {
-                    "hektar", "hek", "meter", "kilo", "kilogram", "kg", "liter", "ton", "gram",
-                    "kuintal", "lusin", "kodi", "pcs", "box", "sak", "karung", "botol", "ons",
-
-                    "baju", "celana", "sepatu", "elektronik", "laptop", "hp", "handphone",
-                    "meja", "kursi", "motor", "mobil", "kendaraan", "skincare", "kosmetik",
-                    "makanan", "minuman", "snack",
-
-                    "jam", "hari", "bulan", "tahun", "minggu", "detik", "km", "cm", "mil",
-
-                    "test", "testing", "coba", "admin", "user", "dummy", "asdf", "qwer"
-                };
-
-            if (kataTerlarang.Any(kata => input.ToLower().Contains(kata)))
+            string[] kategoriValid =
             {
-                MessageBox.Show("Input mengandung kata terlarang! Mohon masukkan kategori yang valid.",
+                "pupuk", "bibit", "benih", "pestisida", "alat", "kemasan", "mesin", "hasil panen",
+
+                "pupuk organik", "pupuk kimia", "pupuk cair", "pupuk daun", "kompos",
+    
+                "insektisida", "herbisida", "fungisida", "bakterisida",
+    
+                "benih sayuran", "benih buah", "bibit kultur jaringan",
+    
+                "alat manual", "suku cadang", "alat irigasi",
+    
+                "media tanam", "mulsa", "polybag", "zpt"
+            };
+
+            string inputKategori = txtNamaKategori.Text.Trim().ToLower();
+
+            if (!kategoriValid.Contains(inputKategori))
+            {
+                MessageBox.Show("Kategori tidak valid atau tidak dikenali dalam sistem pergudangan pertanian!\n" +
+                                "Mohon gunakan kategori standar (contoh: 'pupuk organik', 'benih sayuran', 'alat tani manual').",
                                 "Validasi Gagal",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                                MessageBoxIcon.Warning);
                 return;
             }
 
