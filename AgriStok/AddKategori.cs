@@ -137,11 +137,58 @@ namespace AgriStok
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            string input = txtNamaKategori.Text.Trim();
+
             if (string.IsNullOrWhiteSpace(txtKategoriID.Text)) return;
 
             if (txtKategoriID.Text == dbLogic.GenerateIdKategori())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                MessageBox.Show("Nama Kategori tidak boleh kosong!");
+                return;
+            }
+
+            if (input.Length < 2)
+            {
+                MessageBox.Show("Input terlalu pendek! Masukkan minimal 2 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Regex.IsMatch(input, @"^[a-zA-Z\s]+$"))
+            {
+                MessageBox.Show("Input tidak valid! Hanya boleh menggunakan huruf, tanpa simbol (@, #, dll) atau angka.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string[] kategoriValid =
+            {
+                "pupuk", "bibit", "benih", "pestisida", "alat", "kemasan", "mesin", "hasil panen",
+
+                "pupuk organik", "pupuk kimia", "pupuk cair", "pupuk daun", "kompos",
+
+                "insektisida", "herbisida", "fungisida", "bakterisida",
+
+                "benih sayuran", "benih buah", "bibit kultur jaringan",
+
+                "alat manual", "suku cadang", "alat irigasi",
+
+                "media tanam", "mulsa", "polybag", "zpt"
+            };
+
+            string inputKategori = txtNamaKategori.Text.Trim().ToLower();
+
+            if (!kategoriValid.Contains(inputKategori))
+            {
+                MessageBox.Show("Kategori tidak valid atau tidak dikenali dalam sistem pergudangan pertanian!\n" +
+                                "Mohon gunakan kategori standar (contoh: 'pupuk organik', 'benih sayuran', 'alat tani manual').",
+                                "Validasi Gagal",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 return;
             }
 
