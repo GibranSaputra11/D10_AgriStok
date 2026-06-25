@@ -119,7 +119,7 @@ namespace AgriStok
                 LoadDataGrid();
                 ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void btnUpdateKelompok_Click(object sender, EventArgs e)
@@ -167,7 +167,7 @@ namespace AgriStok
                 LoadDataGrid();
                 ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Gagal update: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void btnDeleteKelompok_Click(object sender, EventArgs e)

@@ -176,7 +176,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal mengupdate! Barang dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal mengupdate! Barang dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -270,7 +270,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal menyimpan! Satuan dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal menyimpan! Satuan dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -312,7 +312,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal update! Satuan dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal update! Satuan dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -405,7 +405,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal menyimpan! Kategori dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal menyimpan! Kategori dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -449,7 +449,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal update! Kategori dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal update! Kategori dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -546,7 +546,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal menyimpan! Supplier dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal menyimpan! Supplier dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
@@ -592,7 +592,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal mengupdate! Supplier dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal mengupdate! Supplier dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
