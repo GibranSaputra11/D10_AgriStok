@@ -79,7 +79,7 @@ namespace AgriStok
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                MessageBox.Show("Nama Kategori tidak boleh kosong!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nama Kategori tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace AgriStok
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                MessageBox.Show("Nama Kategori tidak boleh kosong!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nama Kategori tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
