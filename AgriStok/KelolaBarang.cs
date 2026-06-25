@@ -106,7 +106,7 @@ namespace AgriStok
                 LoadDataGrid();
                 ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi Kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void ClearForm()
@@ -194,7 +194,7 @@ namespace AgriStok
                 LoadDataGrid();
                 ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Gagal memperbarui data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void btnDeleteBarang_Click(object sender, EventArgs e)

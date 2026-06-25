@@ -126,7 +126,7 @@ namespace AgriStok
 
                     if (ex.Number == 2627 || ex.Number == 2601)
                     {
-                        throw new Exception($"Gagal menyimpan! Barang dengan nama '{nama}' (atau ID '{id}') sudah terdaftar.");
+                        throw new Exception($"Gagal menyimpan! Barang dengan nama '{nama}' sudah terdaftar.");
                     }
                     else
                     {
