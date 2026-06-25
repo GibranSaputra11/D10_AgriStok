@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "AgriStok"
-#define MyAppVersion "1.12"
+#define MyAppVersion "1.13"
 #define MyAppPublisher "Kelompok D10"
 #define MyAppURL "https://github.com/GibranSaputra11"
 #define MyAppExeName "AgriStok.exe"
