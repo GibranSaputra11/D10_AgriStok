@@ -132,11 +132,48 @@ namespace AgriStok
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            string input = txtNamaSatuan.Text.Trim();
+
             if (string.IsNullOrWhiteSpace(txtSatuanID.Text)) return;
 
             if (txtSatuanID.Text == dbLogic.GenerateIdSatuan())
             {
                 MessageBox.Show("Pilih data yang sudah ada di tabel terlebih dahulu untuk diubah!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (input.Length < 2)
+            {
+                MessageBox.Show("Input terlalu pendek! Masukkan minimal 2 karakter.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Regex.IsMatch(input, @"^[a-zA-Z\s]+$"))
+            {
+                MessageBox.Show("Input tidak valid! Hanya boleh menggunakan huruf, tanpa simbol (@, #, dll) atau angka.", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string[] satuanValid =
+            {
+                "kg", "kilogram", "g", "gram", "kuintal", "kwintal", "ton", "ons", "pon",
+
+                "l", "liter", "ml", "mililiter", "cc", "jerigen", "dirigen", "drum", "galon", "tangki", "vial", "ampul",
+
+                "sak", "karung", "pcs", "pieces", "botol", "pack", "pak", "bungkus", "bks", "sachet", "saset",
+                "dus", "kardus", "carton", "karton", "box", "boks", "kaleng", "peti", "palet", "pallet", "bal", "roll", "rol",
+
+                "buah", "biji", "ikat", "tandan", "sisir", "keranjang", "polybag", "polibag", "tray", "lembar"
+            };
+
+            string inputSatuan = txtNamaSatuan.Text.Trim().ToLower();
+
+            if (!satuanValid.Contains(inputSatuan))
+            {
+                MessageBox.Show("Satuan tidak dikenali! Mohon gunakan standar penamaan satuan gudang (contoh: kg, liter, sak, karung, pcs).",
+                                "Validasi Gagal",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 return;
             }
 
