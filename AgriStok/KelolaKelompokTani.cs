@@ -100,9 +100,10 @@ namespace AgriStok
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^[0-9]{10,13}$"))
+            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^08[0-9]{8,11}$"))
             {
-                MessageBox.Show("Nomor Telepon tidak valid!\nPastikan hanya berisi angka dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nomor Telepon tidak valid!\n\nPastikan nomor diawali dengan '08', hanya berisi angka, dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).",
+                                "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -148,9 +149,10 @@ namespace AgriStok
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^[0-9]{10,13}$"))
+            if (string.IsNullOrWhiteSpace(noTelp) || !Regex.IsMatch(noTelp, @"^08[0-9]{8,11}$"))
             {
-                MessageBox.Show("Nomor Telepon tidak valid!\nPastikan hanya berisi angka dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).", "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nomor Telepon tidak valid!\n\nPastikan nomor diawali dengan '08', hanya berisi angka, dan berjumlah 10 hingga 13 digit (Contoh: 081234567890).",
+                                "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
