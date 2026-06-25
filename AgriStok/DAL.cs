@@ -130,7 +130,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -180,7 +180,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -274,7 +274,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -316,7 +316,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal update ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -409,7 +409,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -453,7 +453,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal update ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -550,7 +550,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -596,7 +596,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -745,7 +745,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal menyimpan ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
@@ -791,7 +791,7 @@ namespace AgriStok
                     }
                     else
                     {
-                        throw new Exception("Gagal mengupdate ke database. Detail: " + ex.Message);
+                        throw new Exception("Error database. Detail: " + ex.Message);
                     }
                 }
                 catch (Exception ex)
